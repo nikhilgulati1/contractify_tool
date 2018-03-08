@@ -9,8 +9,7 @@ include("db.php");
 					"this is my","data"
 					]*/
     // Step 1 : Get the records from DB using SQL, I am just hard coding some data for this tutorial.
-    $data_from_db = "SELECT `contract_name`, `contract_abc` FROM dd_contract_main WHERE contract_id = ".$value."";
-
+    $data_from_db = "SELECT `contract_name`, `contract_id` FROM dd_contract_main WHERE contract_id = ".$value;
     $result = mysqli_query($conn,$data_from_db);
 
 

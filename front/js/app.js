@@ -7,7 +7,7 @@ $(document).ready(function () {
     // Step 1 : Send a HTTP - GET request to the server or API to fetch all the record
     // Use Jquery's AJAX method, to send GET request
     $.ajax({
-        url: "http://localhost/contractify_tool/back/api/contract/read_all.php",  // The URL of our API
+        url: "./../back/api/contract/read_all.php",  // The URL of our API
         type: "get",                                                            // The type of the request - GET/POST
         data: {},                                                               // Any data that we want to send as parameter along with the request, empty right now
         success: function (data) {                                              // The callback, this will be called, when we will recieve response from server
@@ -20,7 +20,7 @@ $(document).ready(function () {
                 console.log(element.contract_name);
 
                 // Step 3 : Use JQuery's append function, to dynamically insert the <li> in HTML inside the <ul> placeholder
-                $("#list-placeholder").append("<li>" + element.contract_name + "<a href='view_detail.html?id="+element.contract_id+"'>ReadMore</a></li>");
+                $("#list-placeholder").append("<li>" + element.contract_name + "<a href='view_detail.html?id=" + element.contract_id + "'>ReadMore</a></li>");
 
             });
         }
