@@ -13,6 +13,7 @@ include("db.php");
     while ($row = mysqli_fetch_assoc($result)) {
     	array_push($final_array, $row);
     }
+    //print_r($final_array);
 
     // Step 2 : json_encode them               
     $data_after_json_encoding = json_encode($final_array);

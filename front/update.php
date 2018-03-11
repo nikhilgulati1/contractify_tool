@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 
 	<link href="css/style.css" />
@@ -44,9 +43,14 @@
 </head>
 
 <body>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="js/update.js"></script>
+
+	<!-- Include our app.js file, this will contain the logic on frontend -->
+	
 	<div class="container">
 
-		<form id="create_contract">
+		<form id="update_contract">
 
 			<h3>Client Details</h3>
 
@@ -84,25 +88,23 @@
 
 			<input type="checkbox" id="scope1" value="service_1">This is service one.
 			<br>
-			<input type="checkbox" ="scope2" value="service_2">This is service two.
+			<input type="checkbox" id="scope2" value="service_2">This is service two.
 
 			<!-- checked="checked" -->
 
 			<br>
 			<br>
 
-			<input type="submit" id ="submit" value="Create">
+			<input type="submit" id ="update" value="Update">
 
 			<br>
 
 		</form>
 	</div>
 
-	<!-- Include JQuery - A JS library to make life easier -->
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
-	<!-- Include our app.js file, this will contain the logic on frontend -->
-	<script src="js/app_create.js"></script>
+	<!-- Include JQuery - A JS library to make life easier -->
+	
 
 </body>
 

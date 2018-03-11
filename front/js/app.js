@@ -20,7 +20,7 @@ $(document).ready(function () {
                 console.log(element.contract_name);
 
                 // Step 3 : Use JQuery's append function, to dynamically insert the <li> in HTML inside the <ul> placeholder
-                $("#list-placeholder").append("<li>" + element.contract_name + "<a href='view_detail.html?id=" + element.contract_id + "'>ReadMore</a></li>");
+                $("#list-placeholder").append("<li>" + element.contract_name + "<a href='view_detail.html?id=" + element.contract_id + "'>ReadMore</a><a  id = 'update' href = 'update.html?id=" + element.contract_id + "'> Update</a></li>");
 
             });
         }

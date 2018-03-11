@@ -4,16 +4,42 @@
 <head>
     <title>Contractify</title>
     <link href="css/style.css" />
+    <style>
+        #list {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+           }
+
+        #new {
+            float: right;
+           }
+
+      #new a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            }
+
+ #new a:hover {
+            background-color: #111;
+            }
+    </style>
 </head>
 
 <body>
+    <ul id = "list">
+    
+        <li id ="new"><a id ="link_1" href="create.html">New Contract</a></li>
+    </ul>
 
     <center>
         <h1>Welcome to Contractify</h1>
     </center>
-    <div id = "link_1" >
-        <a href="create.html">New Contract</a>
-    </div>
     <!-- Our placeholder that will be filled by items dynamically by JS -->
     <ul id="list-placeholder">
         

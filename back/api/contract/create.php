@@ -1,6 +1,7 @@
 <?php
-    
+
     include("db.php");
+    include('fpdf/fpdf.php');
     //print_r($_POST);
     
     $data_from_db_1 = "INSERT INTO `dd_client` (  `client_id`, 
@@ -19,11 +20,53 @@
     $result_1 = mysqli_query($conn,$data_from_db_1);
     $result_2 = mysqli_query($conn,$data_from_db_2);
 
-    if($result_1 == 1 && $result_2 == 1) {
-        echo "Successfully Inserted";
+    if(!empty($_POST)) { 
+    
+        $client_name = $_POST['client_name'];
+        $client_add = $_POST['client_address'];
+        $contract_name = $_POST['contract_name'];
+        $contract_duration = $_POST['contract_duration'];
+        $contract_description = $_POST['contract_description'];
+        //$service_1 = $_POST['scope1'];
+        //$service_2 = $_POST['scope1'];
+        
+        $pdf = new FPDF();
+
+        $pdf -> AddPage();
+        $pdf -> SetFont('Arial','B', 12);
+        $pdf -> Cell(150,10,"Dignitas Digital",1,1,'C');
+        //$pdf -> InsertText(\n);
+        $pdf-> Cell(150,10,"Client Name: ".$client_name,1,1);
+        $pdf-> Cell(150,10,"Client Address: ".$client_add,1,1);
+        $pdf-> Cell(150,10,"Contract Name: ".$contract_name,1,1);
+        $pdf-> Cell(150,10,"Contract Duration: ".$contract_duration,1,1);
+        $pdf-> Cell(150,10,"Contract Description: ".$contract_description,1,1);
+        $pdf-> Cell(150,10,"Scopes",1,1);
+       // $pdf-> Cell(50,10,$service_1,1,1);
+       // $pdf-> Cell(50,10,$service_2,1,1);
+        //$pdf ->MultiCell(50,10,$service_1,0,'L');
+        $filename= $contract_name.".pdf"; 
+
+        //$filelocation = "./generated/contracts";//windows
+
+        $fileNL = $filename;//Windows
+
+        $pdf->Output($fileNL,'F');
+
+        if($result_1 == 1 && $result_2 == 1) {
+            echo "Contract Created";
+        } else {
+            echo "Error Occured";
+        }
+
     } else {
-        echo "Error Occured";
+
+        echo "POST parameter are empty";
+
     }
+
+
+    
 
     
 
