@@ -1,73 +1,79 @@
 <?php
 
-    include("db.php");
-    include('fpdf/fpdf.php');
-    //print_r($_POST);
+    include("../common/db.php");
+    include("../common/fpdf/fpdf.php");
     
-    $data_from_db_1 = "INSERT INTO `dd_client` (  `client_id`, 
-                                                `client_name`, 
-                                                `client_address`, 
-                                                `client_contact_no`, 
-                                                `client_pan`, 
-                                                `client_gstin`, 
-                                                `client_billing_address`, 
-                                                `client_payment_terms`, 
-                                                `client_fromdate`
-                                ) VALUES (NULL, '".$_POST['client_name']."', '".$_POST['client_address']."', '123456789', 'ASFA1625G', '1626362781262', 'Some Awesome City', 'NEFT', '2018-03-09');";
+    if(empty($_POST))
+    die("Invalid Argumanets");
 
-    $data_from_db_2 = "INSERT INTO `dd_contract_main` (`contract_id`, `client_id`, `scope_id`, `contract_name`, `contract_duration`, `contract_desription`, `asdsa`, `fsasd`, `fsdfs`) VALUES (NULL, '67', '67', '".$_POST['contract_name']."', '2018-03-08', 'asas', '12', '12', '12');";
+    print_r($_POST);
 
-    $result_1 = mysqli_query($conn,$data_from_db_1);
-    $result_2 = mysqli_query($conn,$data_from_db_2);
+    $client_address = filter_var($_POST['client_address'], FILTER_SANITIZE_STRING);
+    $client_billing_address = filter_var($_POST['client_billing_address'], FILTER_SANITIZE_EMAIL);
+    $client_contact_no = filter_var($_POST['client_contact_no'], FILTER_SANITIZE_STRING);
+    $client_gstn = filter_var($_POST['client_gstn'], FILTER_SANITIZE_STRING);
+    $client_name = filter_var($_POST['client_name'], FILTER_SANITIZE_STRING);
+    $client_pan = filter_var($_POST['client_pan'], FILTER_SANITIZE_STRING);
+    $client_payment_terms = filter_var($_POST['client_payment_terms'], FILTER_SANITIZE_STRING);
+    $client_spoc = filter_var($_POST['client_spoc'], FILTER_SANITIZE_STRING);
+    $contract_description = filter_var($_POST['contract_description'], FILTER_SANITIZE_STRING);
+    $contract_end_date = filter_var($_POST['contract_end_date'], FILTER_SANITIZE_STRING);
+    $contract_name = filter_var($_POST['contract_name'], FILTER_SANITIZE_STRING);
+    $contract_start_date = filter_var($_POST['contract_start_date'], FILTER_SANITIZE_STRING);
+    $contract_type = filter_var($_POST['contract_type'], FILTER_SANITIZE_STRING);
 
-    if(!empty($_POST)) { 
+    $client_id = null;
     
-        $client_name = $_POST['client_name'];
-        $client_add = $_POST['client_address'];
-        $contract_name = $_POST['contract_name'];
-        $contract_duration = $_POST['contract_duration'];
-        $contract_description = $_POST['contract_description'];
-        //$service_1 = $_POST['scope1'];
-        //$service_2 = $_POST['scope1'];
+
+    if(!empty($_POST['client_id'])) {
+        $client_id = $_POST['client_id'];
+    } else {
+        
+        $query = "INSERT INTO `dd_client` ( `client_id`, `client_name`, `client_spoc`, `client_address`, `client_contact_no`, `client_pan`, `client_gstn`, `client_billing_address`,`client_payment_terms`, `client_recurring` ) VALUES (NULL, '".$client_name."', '".$client_spoc."', '".$client_address."', '".$client_contact_no."', '".$client_pan."', '".$client_gstn."', '".$client_billing_address."', '".$client_payment_terms."','0');";
+
+        $result_1 = mysqli_query($conn,$query);
+        
+        if($result_1 == 1) {
+            $client_id = mysqli_insert_id($conn);
+        } else {
+            die("Error in inserting client.");
+        }
+    }
+
+    $query_2 = "INSERT INTO `dd_contract_main` (`contract_id`, `client_id`, `contract_name`, `contract_start_date`, `contract_end_date`, `contract_desription`, `contract_type`, `service_mapping_id`) VALUES (NULL, '".$client_id."', '".$contract_name."', '".$contract_start_date."', '".$contract_end_date."', '".$contract_description."', '".$contract_type."', '0');";
+
+    $result_2 = mysqli_query($conn,$query_2);
+
+    $contract_id = null;
+
+    if($result_2 == 1) {
+        $contract_id = mysqli_insert_id($conn);
         
         $pdf = new FPDF();
 
         $pdf -> AddPage();
         $pdf -> SetFont('Arial','B', 12);
         $pdf -> Cell(150,10,"Dignitas Digital",1,1,'C');
-        //$pdf -> InsertText(\n);
+        
         $pdf-> Cell(150,10,"Client Name: ".$client_name,1,1);
-        $pdf-> Cell(150,10,"Client Address: ".$client_add,1,1);
-        $pdf-> Cell(150,10,"Contract Name: ".$contract_name,1,1);
-        $pdf-> Cell(150,10,"Contract Duration: ".$contract_duration,1,1);
-        $pdf-> Cell(150,10,"Contract Description: ".$contract_description,1,1);
-        $pdf-> Cell(150,10,"Scopes",1,1);
-       // $pdf-> Cell(50,10,$service_1,1,1);
-       // $pdf-> Cell(50,10,$service_2,1,1);
-        //$pdf ->MultiCell(50,10,$service_1,0,'L');
-        $filename= $contract_name.".pdf"; 
+        $pdf-> Cell(150,10,"Client SPOC: ".$client_spoc,1,1);
+        $pdf-> Cell(150,10,"Contract Type: ".$contract_type,1,1);
+        $pdf-> Cell(150,10,"Contract Start date: ".$contract_start_date,1,1);
 
-        //$filelocation = "./generated/contracts";//windows
+        $filename= "dd_c".$contract_id.".pdf"; 
 
-        $fileNL = $filename;//Windows
+        $filelocation = "../../generated/contracts/";
+
+        $fileNL = $filelocation.$filename;
 
         $pdf->Output($fileNL,'F');
 
-        if($result_1 == 1 && $result_2 == 1) {
-            echo "Contract Created";
-        } else {
-            echo "Error Occured";
-        }
+        echo "Contract Created: ".$filename;
 
     } else {
-
-        echo "POST parameter are empty";
-
+        die("Error in inserting client.");
     }
-
-
     
-
-    
+    die();
 
 ?>

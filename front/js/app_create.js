@@ -1,42 +1,106 @@
-// Jquery's syntax, this will tell this file to run only after our HTML is loaded
+var clientList = null;
+var subServiceList = null;
+
 $(document).ready(function () {
 
-    // HTML is now loaded, we can start our work.
+    $('.form_datetime').datetimepicker({
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        format: 'yyyy-mm-dd hh:ii'
+    });
 
-    // Step 0-: Add a listener to form click or more specificallly when form gets submitted
+    var isOpen_1 = false;
+    $('#contract_start_date').click(function () {
+        if (isOpen_1) {
+            $('#contract_start_date').blur();
+        }
+        isOpen_1 = !isOpen_1;
+    });
+    var isOpen_2 = false;
+    $('#contract_end_date').click(function () {
+        if (isOpen_2) {
+            $('#contract_end_date').blur();
+        }
+        isOpen_2 = !isOpen_2;
+    });
+
+    $.ajax({
+        url: "./../back/api/client/get.php",
+        type: "get",
+        data: {},
+        success: function (data) {
+            clientList = JSON.parse(data);
+            clientList.forEach(client => {
+                $("#existing_client_list").append('<li class="nav-item client-pill" onclick="updateExistingClient(' + client.client_id + ')" data-client-id="' + client.client_id + '">' + client.client_name + '</li>');
+            });
+        }
+    });
+
+    var tempArray = [];
+    $.ajax({
+        url: "./../back/api/service/get.php",
+        type: "get",
+        data: {},
+        success: function (data) {
+            subServiceList = JSON.parse(data);
+            subServiceList.forEach(subService => {
+
+                if (tempArray.indexOf(subService.master_id) < 0) {
+                    tempArray.push(subService.master_id);
+                    $("#scope_list").append('<li><label for="master_' + subService.master_id + '"> ' + subService.master_service_name + '</label><ul id="sub_list_' + subService.master_id + '"></ul></li >');
+                }
+
+                $("#sub_list_" + subService.master_id).append('<li><label><input type="checkbox" class="subOption">' + subService.scope_name + '</label></li>');
+
+            });
+        }
+    });
+
     $("#create_contract").submit(function (event) {
 
-        // Since this is the func called, when form submit, we need to add this.
         event.preventDefault();
 
-        // This will be called when the forms get submitted, so we will move our AJAX res insied this func
-
-        // But first, lets get the data from the form here.
-        console.log(objectifyForm($("#create_contract").serializeArray()));
-        // instead of readin each field manuall, we used this func, that will create an array of all the field. We just consoled this. Let see what we get.
-
         var dataFromForm = objectifyForm($("#create_contract").serializeArray());
-
-        // Step 1 : Send a HTTP - POST request to the server or API to create the record
-        // Use Jquery's AJAX method, to send POST request
+        //console.log(dataFromForm);
         $.ajax({
-            url: "./../back/api/contract/create.php",  // The URL of our API
-            type: "post",                                                            // The type of the request - GET/POST
-            data: dataFromForm,                                                               // Any data that we want to send as parameter along with the request, empty right now
-            success: function (data) {                                              // The callback, this will be called, when we will recieve response from server
-                alert(data);                                           // Print the response after parsing the JSON
+            url: "./../back/api/contract/create.php",
+            type: "post",
+            data: dataFromForm,
+            success: function (data) {
+                console.log(data);
             }
         });
 
     });
 
-    function objectifyForm(formArray) {//serialize data function
-
-        var returnArray = {};
-        for (var i = 0; i < formArray.length; i++) {
-            returnArray[formArray[i]['name']] = formArray[i]['value'];
-        }
-        return returnArray;
-    }
-
 });
+
+function updateExistingClient(client_id) {
+    clientList.forEach(client => {
+        if (parseInt(client.client_id) === client_id) {
+            populateClientFields(client);
+        }
+    });
+};
+
+function populateClientFields(client_object) {
+    $("#client_name").val(client_object.client_name);
+    $("#client_spoc").val(client_object.client_spoc);
+    $("#client_contact_no").val(client_object.client_contact_no);
+    $("#client_pan").val(client_object.client_pan);
+    $("#client_gstn").val(client_object.client_gstn);
+    $("#client_billing_address").val(client_object.client_billing_address);
+    $("#client_payment_terms").val(client_object.client_payment_terms);
+    $("#client_address").val(client_object.client_address);
+    $("#client_id").val(client_object.client_id);
+}
+
+function objectifyForm(formArray) {
+    var returnArray = {};
+    for (var i = 0; i < formArray.length; i++) {
+        returnArray[formArray[i]['name']] = formArray[i]['value'];
+    }
+    return returnArray;
+}

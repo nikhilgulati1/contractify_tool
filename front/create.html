@@ -3,103 +3,110 @@
 
 <head>
 
-	<link href="css/style.css" />
-	<style>
-		body {
-			font-family: Arial, Helvetica, sans-serif;
-		}
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	 crossorigin="anonymous">
+	<link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+	<link href="css/style.css" rel="stylesheet" type="text/css" />
 
-		input[type=text],
-		select,
-		textarea {
-			width: 100%;
-			padding: 12px;
-			border: 1px solid #ccc;
-			border-radius: 4px;
-			box-sizing: border-box;
-			margin-top: 6px;
-			margin-bottom: 16px;
-			resize: vertical;
-		}
-
-		input[type=submit] {
-			background-color: #4CAF50;
-			color: white;
-			padding: 12px 20px;
-			border: none;
-			border-radius: 4px;
-			cursor: pointer;
-		}
-
-		input[type=submit]:hover {
-			background-color: #45a049;
-		}
-
-		.container {
-			border-radius: 5px;
-			background-color: #f2f2f2;
-			padding: 20px;
-		}
-	</style>
 </head>
 
 <body>
 	<div class="container">
 
-		<form id="create_contract">
+		<div class="row heading">
+			<div class="col-sm-12">
+				<center>
+					<h3>Create a new Contract</h3>
+				</center>
+			</div>
+		</div>
 
-			<h3>Client Details</h3>
+		<div class="row">
+			<div class="col-sm-12">
+				<form id="create_contract">
 
-			<label for="client_name">Client Name</label>
-			<input type="text" id="client_name" name="client_name">
+					<h3>Client Details</h3>
+					<br />
 
-			<br>
+					<p>Choose from Existing Client: </p>
+					<ul id="existing_client_list" class="nav nav-pills">
+					</ul>
+					<br />
 
+					<p>or add new: </p>
+					<label for="client_name">Client Name</label>
+					<input type="text" id="client_name" name="client_name">
+					<br>
+					<label for="client_spoc">Client SPOC</label>
+					<input type="text" id="client_spoc" name="client_spoc">
+					<br>
+					<label for="client_contact_no">Client Contact </label>
+					<input type="text" id="client_contact_no" name="client_contact_no">
+					<br>
+					<label for="client_pan">Client PAN</label>
+					<input type="text" id="client_pan" name="client_pan">
+					<br>
+					<label for="client_gstn">Client GSTN</label>
+					<input type="text" id="client_gstn" name="client_gstn">
+					<br>
+					<label for="client_billing_address">Client Billing Address</label>
+					<input type="text" id="client_billing_address" name="client_billing_address">
+					<br>
+					<label for="client_payment_terms">Client Payment Terms</label>
+					<input type="text" id="client_payment_terms" name="client_payment_terms">
+					<br>
+					<label for="client_address">Client Address</label>
+					<input type="text" id="client_address" name="client_address">
 
-			<label for="client_address">Contract Address</label>
-			<input type="text" id="client_address" name="client_address">
+					<input type="hidden" id="client_id" name="client_id" value="">
+					<br>
+					<br>
 
-			<br>
-			<br>
+					<h3>Contract Details</h3>
+					<label for="contract_name">Contract Name</label>
+					<input type="text" id="contract_name" name="contract_name">
+					<br>
+					<label for="contract_start_date">Contract Start Date</label>
+					<input readonly size="16" type="text" data-date="" data-link-format="yyyy-mm-dd hh:ii" class="form_datetime control" required
+					 name="contract_start_date" id="contract_start_date">
+					<br>
+					<label for="contract_end_date">Contract End Date</label>
+					<input readonly size="16" type="text" data-date="" data-link-format="yyyy-mm-dd hh:ii" class="form_datetime control" required
+					 name="contract_end_date" id="contract_end_date">
+					<br>
+					<label for="contract_description">Contract Description</label>
+					<input type="text" id="contract_description" name="contract_description">
+					<br>
+					<label for="contract_type">Contract Type</label>
+					<select id="contract_type" name="contract_type">
+						<option value="1">Digital Marketing</option>
+						<option value="2">Techincal</option>
+						<option value="3">Both</option>
+					</select>
+					<br>
+					<br>
+					<h3>Scope Details</h3>
 
-			<h3>Contract Details</h3>
+					<ul id="scope_list" name="contract_scope"></ul>
 
-			<label for="contract_name">Contract Name</label>
-			<input type="text" id="contract_name" name="contract_name">
+					<br>
+					<input type="submit" id="submit" value="Create">
+					<br>
+				</form>
+			</div>
+		</div>
 
-			<br>
-
-			<label for="contract_duration">Contract Duration</label>
-			<input type="text" id="contract_duration" name="contract_duration">
-
-			<br>
-
-			<label for="contract_description">Contract Description</label>
-			<input type="text" id="contract_description" name="contract_description">
-
-			<br>
-			<br>
-
-			<h3>Scope Details</h3>
-
-			<input type="checkbox" id="scope1" value="service_1">This is service one.
-			<br>
-			<input type="checkbox" ="scope2" value="service_2">This is service two.
-
-			<!-- checked="checked" -->
-
-			<br>
-			<br>
-
-			<input type="submit" id ="submit" value="Create">
-
-			<br>
-
-		</form>
 	</div>
 
 	<!-- Include JQuery - A JS library to make life easier -->
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	 crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+	 crossorigin="anonymous"></script>
+
+	<script type="text/javascript" src="js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
 
 	<!-- Include our app.js file, this will contain the logic on frontend -->
 	<script src="js/app_create.js"></script>
