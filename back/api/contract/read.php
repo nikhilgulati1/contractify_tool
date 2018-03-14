@@ -1,5 +1,5 @@
 <?php 
-include("db.php");
+include("../common/db.php");
    $value = $_GET['id'];
    //print_r($_GET);
    // print_r($_REQUEST);

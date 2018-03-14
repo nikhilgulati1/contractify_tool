@@ -1,4 +1,9 @@
 $(document).ready(function() {
+
+
+
+
+  
     $('#update').click(function(){
         $('#client_name').val("dfsl");
         //$("#client_name").val()
@@ -18,7 +23,7 @@ $('#update_contract').submit(function(event) {
 
   $.ajax({
       url: "./../back/api/contract/update_contract_info.php",
-      data: {dataFroomForm,'id': id},
+      data: {dataFromForm,'id': id},
       type: "post",
       success: function(data) {         
           console.log(data);

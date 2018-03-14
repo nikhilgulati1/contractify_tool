@@ -1,29 +1,60 @@
-// Jquery's syntax, this will tell this file to run only after our HTML is loaded
 $(document).ready(function () {
 
-    // HTML is now loaded, we can start our work.
+    google.charts.load('current', {'packages':['table']});
+    google.charts.setOnLoadCallback(loadTableSchema);
 
+    var gridData = null;
 
-    // Step 1 : Send a HTTP - GET request to the server or API to fetch all the record
-    // Use Jquery's AJAX method, to send GET request
-    $.ajax({
-        url: "./../back/api/contract/read_all.php",  // The URL of our API
-        type: "get",                                                            // The type of the request - GET/POST
-        data: {},                                                               // Any data that we want to send as parameter along with the request, empty right now
-        success: function (data) {                                              // The callback, this will be called, when we will recieve response from server
-            var parsed_data = JSON.parse(data);
-            console.log(parsed_data);                                           // Print the response after parsing the JSON
+    function startWork() {
+         $.ajax({
+            url: "./../back/api/contract/read_all.php",  
+            type: "get",                                                           
+            data: {},                                                               
+            success: function (data) {   
+                var con_type = null;
+                var parsed_data = JSON.parse(data);
+                parsed_data.forEach(element => {
+                    if(element.contract_type==1){
+                         con_type = "Digital Marketing";
+                    }
+                    else if(element.contract_type == 2){
+                         con_type = "Technical;"
+                    }
+                    else{
+                        con_type = "Digital Marketing and Technical"
+                    }
+                    console.log(typeof element.contract_type);
+                    gridData.addRow([element.contract_name,
+                        con_type,
+                        element.contract_start_date,
+                        element.contract_end_date,
+                        element.client_email_address
+                    ]);    
+                });
+                drawTable();
+            }
+        });
+    }
 
-            // Step 2 : loop through the parsed data to dispaly each data on the HTML page
-            parsed_data.forEach(element => {
+    function loadTableSchema() {
 
-                console.log(element.contract_name);
+        gridData = new google.visualization.DataTable();
+        gridData.addColumn('string', 'Contract Name');
+        gridData.addColumn('string', 'Contract Type');
+        gridData.addColumn('string', 'Start Date');
+        gridData.addColumn('string', 'End Date');
+        gridData.addColumn('string', 'Contact email');
+        startWork();
 
-                // Step 3 : Use JQuery's append function, to dynamically insert the <li> in HTML inside the <ul> placeholder
-                $("#list-placeholder").append("<li>" + element.contract_name + "<a href='view_detail.html?id=" + element.contract_id + "'>ReadMore</a><a  id = 'update' href = 'update.html?id=" + element.contract_id + "'> Update</a></li>");
+    }
 
-            });
-        }
-    });
+    function drawTable() {
+
+        var table = new google.visualization.Table(document.getElementById('table_div'));
+        table.draw(gridData, {showRowNumber: true, width: '100%', height: '100%'});
+
+    };
 
 });
+
+

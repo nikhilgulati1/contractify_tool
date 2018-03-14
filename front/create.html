@@ -23,7 +23,7 @@
 
 		<div class="row">
 			<div class="col-sm-12">
-				<form id="create_contract">
+				<form id="create_contract" enctype="multipart/form-data">
 
 					<h3>Client Details</h3>
 					<br />
@@ -45,9 +45,8 @@
 					<br>
 					<label for="client_pan">Client PAN</label>
 					<input type="text" id="client_pan" name="client_pan">
-					<br>
-					<label for="client_gstn">Client GSTN</label>
-					<input type="text" id="client_gstn" name="client_gstn">
+					
+					
 					<br>
 					<label for="client_billing_address">Client Billing Address</label>
 					<input type="text" id="client_billing_address" name="client_billing_address">
@@ -55,9 +54,12 @@
 					<label for="client_payment_terms">Client Payment Terms</label>
 					<input type="text" id="client_payment_terms" name="client_payment_terms">
 					<br>
-					<label for="client_address">Client Address</label>
-					<input type="text" id="client_address" name="client_address">
-
+					<label for="client_email_address">Client Email id</label>
+					<input type="text" id="client_email_address" name="client_email_address">
+					<br>
+					<label for="client_gstn">Client GSTN</label>
+					<input type="file" name="fileToUpload" id="client_gstn">
+    				
 					<input type="hidden" id="client_id" name="client_id" value="">
 					<br>
 					<br>

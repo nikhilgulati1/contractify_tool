@@ -1,5 +1,6 @@
 var clientList = null;
 var subServiceList = null;
+var contractList = null;
 
 $(document).ready(function () {
 
@@ -37,6 +38,22 @@ $(document).ready(function () {
             });
         }
     });
+    /*('#upload').on('click', function() {
+        
+        alert(form_data);                             
+            $.ajax({
+                    url: './../back/api/service/upload.php', // point to server-side PHP script 
+                    //dataType: 'text',  // what to expect back from the PHP script, if anything
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: form_data,                         
+                    type: 'post',
+                    success: function(){
+                        alert("file uploaded"); // display response from the PHP script, if any
+                    }
+                 });
+    });*/
 
     var tempArray = [];
     $.ajax({
@@ -52,7 +69,7 @@ $(document).ready(function () {
                     $("#scope_list").append('<li><label for="master_' + subService.master_id + '"> ' + subService.master_service_name + '</label><ul id="sub_list_' + subService.master_id + '"></ul></li >');
                 }
 
-                $("#sub_list_" + subService.master_id).append('<li><label><input type="checkbox" class="subOption">' + subService.scope_name + '</label></li>');
+                $("#sub_list_" + subService.master_id).append('<li><label><input type="checkbox" class="subOption" data-master-id="'+subService.master_id+'" value="'+subService.sub_service_id+'" name="master_' + subService.master_id + '">' + subService.scope_name + '</label></li>');
 
             });
         }
@@ -62,14 +79,36 @@ $(document).ready(function () {
 
         event.preventDefault();
 
+        var file_data = $('#client_gstn').prop('files')[0];//82-85 line is for upload client_gstn file , i cant figure out a way for send it in the 
+        console.log(file_data);//data of ajax methood...plz look into that
+        var form_data = new FormData();                  
+        var form = form_data.append('client_gstn', file_data)                     
+        
         var dataFromForm = objectifyForm($("#create_contract").serializeArray());
-        //console.log(dataFromForm);
+        var myCheckboxes = [];
+        tempArray.forEach(masterServiceID => {
+            $.each($("input[name='master_"+masterServiceID+"']:checked"), function(){  
+                var t = {
+                    'master_id' : $(this).attr('data-master-id'),
+                    'sub_service_id' : $(this).val()
+                };        
+                myCheckboxes.push(t);
+            });
+        });
+        
+        var q = "scope";
+        dataFromForm[q] = myCheckboxes;
+
+
+        console.log(dataFromForm);
+        
         $.ajax({
             url: "./../back/api/contract/create.php",
             type: "post",
-            data: dataFromForm,
+            data: {dataFromForm, form},
             success: function (data) {
                 console.log(data);
+                //$(#mcd).append()
             }
         });
 
@@ -83,20 +122,45 @@ function updateExistingClient(client_id) {
             populateClientFields(client);
         }
     });
-};
+}
+function updateExistingContract(contract_id) {                     // To update a contract
+    contractList.forEach(contract => {
+        if (parseInt(contract.contract_id) === contract_id) {
+            populateContractFields(contract);
+        }
+    });
+}
 
-function populateClientFields(client_object) {
+
+function populateClientFields(client_object) {                      
     $("#client_name").val(client_object.client_name);
     $("#client_spoc").val(client_object.client_spoc);
     $("#client_contact_no").val(client_object.client_contact_no);
     $("#client_pan").val(client_object.client_pan);
-    $("#client_gstn").val(client_object.client_gstn);
     $("#client_billing_address").val(client_object.client_billing_address);
     $("#client_payment_terms").val(client_object.client_payment_terms);
-    $("#client_address").val(client_object.client_address);
+    $("#client_email_address").val(client_object.client_email_address);
     $("#client_id").val(client_object.client_id);
+    $("#client_gstn").val(client_object.client_gstn);
 }
 
+function populateContractFields(contract_object) {                          // To populate contract data...scopes also need to be added
+    $("#client_name").val(contract_object.client_name);
+    $("#client_spoc").val(contract_object.client_spoc);
+    $("#client_contact_no").val(contract_object.client_contact_no);
+    $("#client_pan").val(contract_object.client_pan);
+    $("#client_billing_address").val(contract_object.client_billing_address);
+    $("#client_payment_terms").val(contract_object.client_payment_terms);
+    $("#client_email_address").val(contract_object.client_email_address);
+    $("#client_id").val(contract_object.client_id);
+    $("#client_gstn").val(contract_object.client_gstn);
+    $("#contract_name").val(contract_object.contract_name);
+    $("#contract_start_date").val(contract_object.contract_start_date);
+    $("#contract_end_date").val(contract_object.contract_end_date);
+    $("#contract_description").val(contract_object.contract_description);
+    $("#contract_type").val(contract_object.contract_type);
+
+}
 function objectifyForm(formArray) {
     var returnArray = {};
     for (var i = 0; i < formArray.length; i++) {
