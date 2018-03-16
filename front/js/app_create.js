@@ -4,6 +4,8 @@ var contractList = null;
 
 $(document).ready(function () {
 
+    $('.success-alert').hide();
+
     $('.form_datetime').datetimepicker({
         weekStart: 1,
         todayBtn: 1,
@@ -38,22 +40,6 @@ $(document).ready(function () {
             });
         }
     });
-    /*('#upload').on('click', function() {
-        
-        alert(form_data);                             
-            $.ajax({
-                    url: './../back/api/service/upload.php', // point to server-side PHP script 
-                    //dataType: 'text',  // what to expect back from the PHP script, if anything
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    data: form_data,                         
-                    type: 'post',
-                    success: function(){
-                        alert("file uploaded"); // display response from the PHP script, if any
-                    }
-                 });
-    });*/
 
     var tempArray = [];
     $.ajax({
@@ -69,7 +55,7 @@ $(document).ready(function () {
                     $("#scope_list").append('<li><label for="master_' + subService.master_id + '"> ' + subService.master_service_name + '</label><ul id="sub_list_' + subService.master_id + '"></ul></li >');
                 }
 
-                $("#sub_list_" + subService.master_id).append('<li><label><input type="checkbox" class="subOption" data-master-id="'+subService.master_id+'" value="'+subService.sub_service_id+'" name="master_' + subService.master_id + '">' + subService.scope_name + '</label></li>');
+                $("#sub_list_" + subService.master_id).append('<li><label><input type="checkbox" class="subOption" data-master-id="' + subService.master_id + '" value="' + subService.sub_service_id + '" name="master_' + subService.master_id + '">' + subService.scope_name + '</label></li>');
 
             });
         }
@@ -79,36 +65,29 @@ $(document).ready(function () {
 
         event.preventDefault();
 
-        var file_data = $('#client_gstn').prop('files')[0];//82-85 line is for upload client_gstn file , i cant figure out a way for send it in the 
-        console.log(file_data);//data of ajax methood...plz look into that
-        var form_data = new FormData();                  
-        var form = form_data.append('client_gstn', file_data)                     
-        
         var dataFromForm = objectifyForm($("#create_contract").serializeArray());
         var myCheckboxes = [];
         tempArray.forEach(masterServiceID => {
-            $.each($("input[name='master_"+masterServiceID+"']:checked"), function(){  
+            $.each($("input[name='master_" + masterServiceID + "']:checked"), function () {
                 var t = {
-                    'master_id' : $(this).attr('data-master-id'),
-                    'sub_service_id' : $(this).val()
-                };        
+                    'master_id': $(this).attr('data-master-id'),
+                    'sub_service_id': $(this).val()
+                };
                 myCheckboxes.push(t);
             });
         });
-        
+
         var q = "scope";
         dataFromForm[q] = myCheckboxes;
 
-
-        console.log(dataFromForm);
-        
         $.ajax({
             url: "./../back/api/contract/create.php",
             type: "post",
-            data: {dataFromForm, form},
+            data: dataFromForm,
             success: function (data) {
-                console.log(data);
-                //$(#mcd).append()
+                $("#downpdf_link").attr("href", "http://localhost/contractify/back/generated/contracts/" + data);
+                $('.success-alert').show();
+                $("html, body").animate({ scrollTop: 0 }, "slow");
             }
         });
 
@@ -132,7 +111,7 @@ function updateExistingContract(contract_id) {                     // To update 
 }
 
 
-function populateClientFields(client_object) {                      
+function populateClientFields(client_object) {
     $("#client_name").val(client_object.client_name);
     $("#client_spoc").val(client_object.client_spoc);
     $("#client_contact_no").val(client_object.client_contact_no);

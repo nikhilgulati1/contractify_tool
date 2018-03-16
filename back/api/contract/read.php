@@ -1,30 +1,25 @@
 <?php 
-include("../common/db.php");
-   $value = $_GET['id'];
-   //print_r($_GET);
-   // print_r($_REQUEST);
-   // print_r($_SERVER);
+
+    include("../common/db.php");
+    $id = $_GET['id'];
+    $query1 = "SELECT * FROM `dd_contract_main` INNER JOIN `dd_client` ON dd_contract_main.client_id = dd_client.client_id WHERE dd_contract_main.contract_id=".$id;
     
-	/*$data_from_db= [
-					"this is my","data"
-					]*/
-    // Step 1 : Get the records from DB using SQL, I am just hard coding some data for this tutorial.
-    $data_from_db = "SELECT `contract_name`, `contract_id` FROM dd_contract_main WHERE contract_id = ".$value;
-    $result = mysqli_query($conn,$data_from_db);
+    $final_object = mysqli_fetch_assoc(mysqli_query($conn,$query1));
 
+    // $query2 = "SELECT * FROM `dd_contract_service` INNER JOIN `dd_master_service` ON dd_contract_service.master_id =dd_master_service.master_service_id WHERE `con_id` = '".$id."'";
+    // $result2 = mysqli_fetch_assoc(mysqli_query($conn,$query2));
 
+    $query3 =  "SELECT `sub_service_id` FROM `dd_contract_scope` INNER JOIN `dd_sub_service` ON dd_contract_scope.sub_services_id = dd_sub_service.sub_service_id INNER JOIN `dd_master_service` ON dd_sub_service.master_id =dd_master_service.master_service_id WHERE `contract_id` = '".$id."'";
+    $result3 = mysqli_query($conn,$query3);
 
-    $final_array = array();
-    while ($row = mysqli_fetch_assoc($result)) {
-        array_push($final_array, $row);
+    $sub_services = array();
+    while ($row = mysqli_fetch_assoc($result3)){
+        array_push($sub_services, $row['sub_service_id']);
     }
-    	
 
-    // Step 2 : json_encode them                
-    $data_after_json_encoding = json_encode($final_array);
-    //print_r($data_after_json_encoding);
+    $final_object['sub_services'] = $sub_services;
 
-    // Step 3 : echo the JSON object. 
+    $data_after_json_encoding = json_encode($final_object);
     echo $data_after_json_encoding;
 
 ?>

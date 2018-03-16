@@ -5,12 +5,10 @@
     
     if(empty($_POST))
     die("Invalid Argumanets");
-
     
     $client_email_address = filter_var($_POST['client_email_address'], FILTER_SANITIZE_STRING);
     $client_billing_address = filter_var($_POST['client_billing_address'], FILTER_SANITIZE_EMAIL);
     $client_contact_no = filter_var($_POST['client_contact_no'], FILTER_SANITIZE_STRING);
-    //$client_gstn = filter_var($_POST['client_gstn'], FILTER_SANITIZE_STRING);
     $client_name = filter_var($_POST['client_name'], FILTER_SANITIZE_STRING);
     $client_pan = filter_var($_POST['client_pan'], FILTER_SANITIZE_STRING);
     $client_payment_terms = filter_var($_POST['client_payment_terms'], FILTER_SANITIZE_STRING);
@@ -21,8 +19,7 @@
     $contract_start_date = filter_var($_POST['contract_start_date'], FILTER_SANITIZE_STRING);
     $contract_type = filter_var($_POST['contract_type'], FILTER_SANITIZE_STRING);
     $contract_scope = ($_POST['scope']);
-    //$contract_doc = ($_POST['doc']);
-
+    
     $client_id = null;
 
     if(!empty($_POST['client_id'])) {

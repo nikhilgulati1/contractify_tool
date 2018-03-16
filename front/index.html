@@ -3,62 +3,37 @@
 
 <head>
     <title>Contractify</title>
-    <link href="css/style.css" />
-    <style>
-        #list {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #F9BA6F;
-           }
-
-        #new {
-            float: right;
-           }
-
-      #new a {
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-            }
-
- #new a:hover {
-            background-color: #111;
-            }
-    </style>
-    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
-    
-    <ul id = "list">
-    
-        <li id ="new"><a id ="link_1" href="create.html">New Contract</a></li>
-    </ul>
 
-    <center>
-        <h1>Welcome to Contractify</h1>
-    </center>
-
-    <!-- Our placeholder that will be filled by items dynamically by JS -->
-    <!--<ul id="list-placeholder">
-        
-        <!-- Right now this is empty --> 
-    <div id="table_div">
-        
+    <div class="container-fluid">
+        <div class="row heading">
+            <div class="col-sm-10">
+                <h1>Welcome to Contractify</h1>
+            </div>
+            <div class="col-sm-2 ">
+                <a id="link_1" href="create.html" class="btn btn-primary pull-right align-middle" role="button" aria-pressed="true">New Contract</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="table_div"></div>
+            </div>
+        </div>
     </div>
 
-    <!-- Include JQuery - A JS library to make life easier -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-    <!-- Include our app.js file, this will contain the logic on frontend -->
     <script src="js/app.js"></script>
-    
-
 
 </body>
 
