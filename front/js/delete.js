@@ -1,14 +1,13 @@
 $(document).ready(function () {
 
-
     google.charts.load('current', { 'packages': ['table'] });
     google.charts.setOnLoadCallback(loadTableSchema);
+
     var gridData = null;
 
     function startWork() {
-        
         $.ajax({
-            url: "./../back/api/contract/read_all.php",
+            url: "./../back/api/contract/delete.php",
             type: "get",
             data: {},
             success: function (data) {
@@ -23,7 +22,6 @@ $(document).ready(function () {
                     } else {
                         con_type = "Digital Marketing and Technical"
                     }
-
                     gridData.addRow(
                         [
                             element.contract_name,
@@ -33,17 +31,18 @@ $(document).ready(function () {
                             element.client_email_address,
                             element.contract_status,
 
-                            "<a class='' href='./view_detail.html?id=" + element.contract_id + "'>Update Details</a><a href = './read.html?id=" + element.contract_id + "'> View </a>s<a class='' href='./../back/generated/contracts/dd_c" + element.contract_id + ".pdf'>   Download PDF</a><a class ='del' href ='#' onClick='recp("+element.contract_id+")'> DELETE</a>"
+                            "<a class='' href='./view_detail.html?id=" + element.contract_id + "'>Update Details</a><a class='' href='./../back/generated/contracts/dd_c" + element.contract_id + ".pdf'>   Download PDF</a><a href='#'> DELETE</a>"
                         ]
                     );
-
+                    gridData.removeRow(
+                        [
+            ])
                 });
                 drawTable();
             }
         });
-     
     }
-   
+
     function loadTableSchema() {
         gridData = new google.visualization.DataTable();
         gridData.addColumn('string', 'Contract Name');
@@ -55,7 +54,6 @@ $(document).ready(function () {
         gridData.addColumn('string', 'Action');
 
         startWork();
-
     }
 
     function drawTable() {
@@ -65,17 +63,4 @@ $(document).ready(function () {
 
 });
 
-function recp(id){
-        $.ajax({
-        url: "./../back/api/contract/delete.php",
-            type: "post",
-            data: {id:id},
-            success: function (data) {
-                $('.del').click(function() {
-                    window.location.reload(true);
-                });
-            }
-        });    
-    
-    }
 

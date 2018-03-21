@@ -134,7 +134,10 @@ input[type=text], select, textarea {
 }
 
 #scope_list {
-    padding: 0;
+   
+    margin: 0 auto;
+    border: 1px solid #999;
+    padding: 15px;
 }
 
 #scope_list li {
@@ -158,3 +161,11 @@ input[type=text], select, textarea {
     width: 75%;
     text-align: center;
 }
+
+
+/************************/
+/*#scope_list>li>label {
+    float: left;
+    margin-right: 15px;
+}*/
+

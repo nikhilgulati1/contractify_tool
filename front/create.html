@@ -42,16 +42,15 @@
 		</div>
 		<form id="create_contract" enctype="multipart/form-data">
 			<div class="row">
-
-				<div class="col-sm-4">
+				<div class="col-sm-12">
 					<div class="form-sec">
 
 						<h3>Enter the Client Details</h3>
 						<br />
 
 						<p>Choose from Existing Client: </p>
-						<ul id="existing_client_list" class="nav nav-pills">
-						</ul>
+						<select id="existing_client_list" class="nav nav-pills">
+						</select>
 						<br />
 
 						<p>or add new: </p>
@@ -85,7 +84,9 @@
 					</div>
 
 				</div>
-				<div class="col-sm-4">
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
 
 					<div class="form-sec">
 
@@ -117,11 +118,13 @@
 
 					</div>
 				</div>
-				<div class="col-sm-4">
+			</div>
+			<div class="row"><div class="col-sm-12">
 
 					<div class="form-sec">
 
 						<h3>Scope Details</h3>
+						<!-- <p style="text-align: right; width:50%; display: inline-block;">Price</p> -->
 						<br />
 
 						<ul id="scope_list" name="contract_scope"></ul>
@@ -133,6 +136,11 @@
 					<br>
 
 				</div>
+			</div>
+
+				
+				
+				
 
 			</div>
 		</form>

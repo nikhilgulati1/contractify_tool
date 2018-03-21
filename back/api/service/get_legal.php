@@ -1,8 +1,8 @@
-<?php
+<?php 
 
     include("../common/db.php");
     
-    $query = "SELECT * FROM dd_service_list";
+    $query = "SELECT * FROM dd_legal";
    
 	$query_res = mysqli_query($conn,$query);
 
@@ -15,5 +15,6 @@
     $ret_array = json_encode($ret_array);
     
     echo $ret_array;
+
 
 ?>
