@@ -48,11 +48,12 @@ $(document).ready(function () {
         $( "#contract_end_date" ).datetimepicker( "option", "maxDate", selectedDate );
         }
     });
+
     $('#existing_client_list').on('change',function(){
         var selected = $('#existing_client_list').find(":selected").attr('data-client-id');
         updateExistingClient(selected);
     });
-    
+
     $.ajax({
         url: get_client,
         type: "get",
@@ -75,11 +76,11 @@ $(document).ready(function () {
         success: function (data) {
             serviceList = JSON.parse(data);
             serviceList.forEach(service => {
-                if(service.parent_id === null || service.parent_id === "" || service.parent_id === 'NULL') {
+                if (service.parent_id === null || service.parent_id === "" || service.parent_id === 'NULL') {
                     if (tempArrayids.indexOf(service.id) < 0) {
                         tempArrayids.push(service.id);
                         tempArrayObjects.push(service);
-                    }    
+                    }
                 } else {
                     subServiceList.push(service);
                 }
@@ -92,7 +93,7 @@ $(document).ready(function () {
 
             subServiceList.forEach(subService => {
 
-                $("#sub_list_" + subService.parent_id).append('<li><div class = "check"><input type="checkbox" class="subOption" data-master-id="' + subService.parent_id + '" value="' + subService.id + '" name="sub_' + subService.parent_id + '"/><label>'+subService.service_name+'</label>&nbsp;</div>&nbsp;&nbsp;&nbsp;&nbsp;<div class = "price"><input id ="price_'+subService.id+'" type="number" value="'+subService.service_price+'"/></div>&nbsp;&nbsp;&nbsp;&nbsp;<div class = "comm"><textarea id = "comment_'+subService.id+'" type="text" placeholder="Enter Comments"/></textarea></div></li>');
+                $("#sub_list_" + subService.parent_id).append('<li><div class = "check"><input type="checkbox" class="subOption" data-master-id="' + subService.parent_id + '" value="' + subService.id + '" name="sub_' + subService.parent_id + '"/><label>' + subService.service_name + '</label>&nbsp;</div>&nbsp;&nbsp;&nbsp;&nbsp;<div class = "price"><input id ="price_' + subService.id + '" type="number" value="' + subService.service_price + '"/></div>&nbsp;&nbsp;&nbsp;&nbsp;<div class = "comm"><textarea id = "comment_' + subService.id + '" type="text" placeholder="Enter Comments"/></textarea></div></li>');
 
                 //console.log(subService);
             });
@@ -108,7 +109,7 @@ $(document).ready(function () {
             legalList.forEach(legal => {
 
                 //console.log(legal);
-                $("#legal").append('<li><input type="checkbox" checked legal-id="'+legal.id+'" name="legal" /> '+legal.name+' </li>');
+                $("#legal").append('<li><input type="checkbox" checked legal-id="' + legal.id + '" name="legal" /> ' + legal.name + ' </li>');
                 //console.log(masterService);
             });
 
@@ -139,16 +140,17 @@ $(document).ready(function () {
                 var t = {
                     'parent_id': $(this).attr('data-master-id'),
                     'id': $(this).val(),
-                    'price': $('#price_'+ $(this).val() +'').val(),
-                    'comment': $('#comment_'+ $(this).val() +'').val()
+                    'price': $('#price_' + $(this).val() + '').val(),
+                    'comment': $('#comment_' + $(this).val() + '').val()
                 };
                 myCheckboxes_scope.push(t);
             });
         });
 
-        $.each($("input[name ='legal']:checked"), function() {
-            var s ={
-                'id': $(this).attr('legal-id')};
+        $.each($("input[name ='legal']:checked"), function () {
+            var s = {
+                'id': $(this).attr('legal-id')
+            };
             myCheckboxes_legal.push(s);
         });
 
@@ -169,7 +171,7 @@ $(document).ready(function () {
             type: "post",
             data: dataFromForm,
             success: function (data) {
-                
+
                 $("#downpdf_link").attr("href", "http://localhost/contractify/back/generated/contracts/" + data);
                 $('.success-alert').show();
                 $("html, body").animate({ scrollTop: 0 }, "slow");
@@ -182,7 +184,7 @@ $(document).ready(function () {
 });
 
 function updateExistingClient(client_id) {
-    
+
     clientList.forEach(client => {
         if (parseInt(client.client_id) == client_id) {
             populateClientFields(client);
@@ -191,7 +193,7 @@ function updateExistingClient(client_id) {
 }
 
 function populateClientFields(client_object) {
-    
+
     $("#client_name").val(client_object.client_name);
     $("#client_spoc").val(client_object.client_spoc);
     $("#client_contact_no").val(client_object.client_contact_no);
