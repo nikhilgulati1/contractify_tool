@@ -83,27 +83,14 @@ $(document).ready(function () {
         type: "get",
         data: {},
         success: function (data) {
-            serviceList = JSON.parse(data);
-            serviceList.forEach(service => {
-                if(service.parent_id === null || service.parent_id === "" || service.parent_id === 'NULL') {
-                    if (tempArrayids.indexOf(service.id) < 0) {
-                        tempArrayids.push(service.id);
-                        tempArrayObjects.push(service);
-                    }    
-                } else {
-                    subServiceList.push(service);
-                }
-            });
+            legalList = JSON.parse(data);
+            legalList.forEach(legal => {
 
-            tempArrayObjects.forEach(masterService => {
-                $("#scope_list").append('<li><label for="master_' + masterService.id + '"> ' + masterService.service_name + '</label><br /><ul id="sub_list_' + masterService.id + '"></ul></li >');
+                //console.log(legal);
+                $("#legal").append('<li><input type="checkbox" checked legal-id="'+legal.id+'" name="legal" /> '+legal.name+' </li>');
                 //console.log(masterService);
             });
 
-            subServiceList.forEach(subService => {
-                $("#sub_list_" + subService.parent_id).append('<li><input type="checkbox" class="subOption" data-master-id="' + subService.parent_id + '" value="' + subService.id + '" name="sub_' + subService.parent_id + '">&nbsp;<label>'+subService.service_name+'</label>&nbsp;&nbsp;&nbsp;&nbsp;<input id ="price_'+subService.id+'" type="number" value="'+subService.service_price+'"/>&nbsp;&nbsp;&nbsp;&nbsp;<input id = "comment_'+subService.id+'" type="text" placeholder="Enter Comments"/></li>');
-                //console.log(subService);
-            });
         }
     });
 
@@ -113,7 +100,8 @@ $(document).ready(function () {
         event.preventDefault();
 
         var dataFromForm = objectifyForm($("#create_contract").serializeArray());
-        var myCheckboxes = [];
+        var myCheckboxes_scope = [];
+        var myCheckboxes_legal = [];
 
         tempArrayids.forEach(masterServiceID => {
             $.each($("input[name='sub_" + masterServiceID + "']:checked"), function () {
@@ -123,12 +111,24 @@ $(document).ready(function () {
                     'price': $('#price_'+ $(this).val() +'').val(),
                     'comment': $('#comment_'+ $(this).val() +'').val()
                 };
-                myCheckboxes.push(t);
+                myCheckboxes_scope.push(t);
             });
         });
 
+        $.each($("input[name ='legal']:checked"), function() {
+            var s ={
+                'id': $(this).attr('legal-id')};
+            myCheckboxes_legal.push(s);
+        });
+
+
         var q = "scope";
-        dataFromForm[q] = myCheckboxes;
+        dataFromForm[q] = myCheckboxes_scope;
+
+        var t = "legal";
+        dataFromForm[t] = myCheckboxes_legal;
+
+        //console.log(dataFromForm);
 
         $.ajax({
             url: "./../back/api/contract/create.php",
@@ -139,7 +139,7 @@ $(document).ready(function () {
                 $("#downpdf_link").attr("href", "http://localhost/contractify/back/generated/contracts/" + data);
                 $('.success-alert').show();
                 $("html, body").animate({ scrollTop: 0 }, "slow");
-                console.log(data);
+                //console.log(data);
             }
         });
 

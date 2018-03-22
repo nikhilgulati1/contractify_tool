@@ -1,4 +1,4 @@
-var contractDetail = null;
+ar contractDetail = null;
 var subServiceList = null;
 var contractList = null;
 
