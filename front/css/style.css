@@ -80,17 +80,17 @@ input[type=submit]:hover {
 
 .heading {
     padding: 1% 0%;
-    background-color: #37123C;
+    background-color: #A10A63;
 }
 
 .heading h1 {
-    color: #A99F96;
+    color: #fff;
 }
 
 #link_1.btn-primary {
-    color: #000;
-    background-color: #A99F96;
-    border-color: #A99F96;
+    color: #A10A63;
+    background-color: #fff;
+    border-color: #A10A63;
 }
 
 .sub-heading {
@@ -134,7 +134,10 @@ input[type=text], select, textarea {
 }
 
 #scope_list {
-    padding: 0;
+   
+    margin: 0 auto;
+    border: 1px solid #999;
+    padding: 15px;
 }
 
 #scope_list li {
@@ -158,3 +161,16 @@ input[type=text], select, textarea {
     width: 75%;
     text-align: center;
 }
+
+
+/************************/
+/*#scope_list>li>label {
+    float: left;
+    margin-right: 15px;
+}*/
+
+#table_div table thead tr{background-color:#ccc; height:40px;} 
+.nopad{padding:0;}
+#table_div table{text-align:center;}
+#table_div table tbody tr td{padding-top:10px; padding-bottom:10px;}
+#table_div table tbody tr td:first-child{font-weight:bold;}

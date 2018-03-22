@@ -21,12 +21,12 @@
                 <a id="link_1" href="index.html" class="btn btn-primary pull-right" role="button" aria-pressed="true">View All</a>
             </div>
         </div>
-        <div class="row sub-heading">
+        <!-- <div class="row sub-heading">
             <div class="col-sm-12">
                 <h2 class="contract_name_head">Create a new Contract</h2>
-            </div>
-        </div>
-        <div class="row success-alert">
+            </div> -->
+    </div>
+          <!-- <div class="row success-alert">
             <div class="col-sm-10">
                 <div class="alert alert-success" role="alert">
                     <h4 class="alert-heading">Well done!</h4>
@@ -36,43 +36,45 @@
                         <a id="downpdf_link" target="_blank" href="">Click here</a> to download the PDF.</p>
                 </div>
             </div>
-            <div class="col-sm-2">
-                <img class="img-fluid" src="images/tick.png" />
-            </div>
+        </div> -->  
+        <div class="col-sm-12">
+                <h2 class="contract_name_head"></h2>
         </div>
-        <form id="create_contract1" enctype="multipart/form-data">
+
+        
+        <form  enctype="multipart/form-data">
             <div class="col">
 
                 <div class="row-sm-4">
                     <div class="form-sec">
 
-                        <h3>Enter the Client Details</h3>
+                        <h3>Client Details</h3>
                         <br />
                    
                         <label for="client_name">Client Name</label>
-                        <input type="text" id="client_name" name="client_name">
+                        <input type="text" id="client_name" name="client_name" readonly>
                         <br>
                         <label for="client_spoc">Client SPOC</label>
-                        <input type="text" id="client_spoc" name="client_spoc">
+                        <input type="text" id="client_spoc" name="client_spoc" readonly>
                         <br>
                         <label for="client_contact_no">Client Contact </label>
-                        <input type="text" id="client_contact_no" name="client_contact_no">
+                        <input type="text" id="client_contact_no" name="client_contact_no" readonly>
                         <br>
                         <label for="client_pan">Client PAN</label>
-                        <input type="text" id="client_pan" name="client_pan">
+                        <input type="text" id="client_pan" name="client_pan" readonly>
                         <br>
                         <label for="client_billing_address">Client Billing Address</label>
-                        <input type="text" id="client_billing_address" name="client_billing_address">
+                        <input type="text" id="client_billing_address" name="client_billing_address" readonly>
                         <br>
                         <label for="client_payment_terms">Client Payment Terms</label>
-                        <input type="text" id="client_payment_terms" name="client_payment_terms">
+                        <input type="text" id="client_payment_terms" name="client_payment_terms" readonly>
                         <br>
                         <label for="client_email_address">Client Email id</label>
-                        <input type="text" id="client_email_address" name="client_email_address">
+                        <input type="text" id="client_email_address" name="client_email_address" readonly>
                         <br>
                         <!-- <label for="client_gstn">Client GSTN</label>
-						<input type="file" name="fileToUpload" id="client_gstn"> -->
-                        <input type="hidden" id="client_id" name="client_id" value="">
+						<input type="file" name="fileToUpload" id="client_gstn"> 
+                        <input type="hidden" id="client_id" name="client_id" value="">-->
                         <br>
                         <br>
 
@@ -87,25 +89,20 @@
                         <br />
 
                         <label for="contract_name">Contract Name</label>
-                        <input type="text" id="contract_name" name="contract_name">
+                        <input type="text" id="contract_name" name="contract_name" readonly>
                         <br>
                         <label for="contract_start_date">Contract Start Date</label>
-                        <input readonly size="16" type="text" data-date="" data-link-format="yyyy-mm-dd hh:ii" class="form_datetime control" required
-                            name="contract_start_date" id="contract_start_date">
+                        <input type = "text" name="contract_start_date" id="contract_start_date" readonly>
                         <br>
                         <label for="contract_end_date">Contract End Date</label>
-                        <input readonly size="16" type="text" data-date="" data-link-format="yyyy-mm-dd hh:ii" class="form_datetime control" required
-                            name="contract_end_date" id="contract_end_date">
+                        <input type ="text"  name = "contract_end_date" id="contract_end_date" readonly>
                         <br>
                         <label for="contract_description">Contract Description</label>
-                        <input type="text" id="contract_description" name="contract_description">
+                        <input type="text" id="contract_description" name="contract_description" readonly>
                         <br>
                         <label for="contract_type">Contract Type</label>
-                        <select id="contract_type" name="contract_type">
-                            <option value="1">Digital Marketing</option>
-                            <option value="2">Techincal</option>
-                            <option value="3">Both</option>
-                        </select>
+                        <input type="text" id="contract_type" name="contract_type" readonly>
+                    
                         <br>
                         <br>
 
@@ -118,13 +115,9 @@
                         <h3>Scope Details</h3>
                         <br />
 
-                        <ul id="scope_list" name="contract_scope"></ul>
+                        <ul id="scope_list" name="contract_scope" readonly></ul>
 
                     </div>
-
-                    <br>
-                    <input type="submit" id="submit" value="Update" class="btn btn-primary">
-                    <br>
 
                 </div>
 
@@ -148,7 +141,7 @@
     <script type="text/javascript" src="js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
 
     <!-- Include our app.js file, this will contain the logic on frontend -->
-    <script src="js/app_detail.js"></script>
+    <script src="js/read.js"></script>
 
 </body>
 

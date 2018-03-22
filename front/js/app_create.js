@@ -1,6 +1,6 @@
 var clientList = null;
-var subServiceList = null;
-var contractList = null;
+var serviceList = null;
+//var contractList = null;
 
 $(document).ready(function () {
 
@@ -29,37 +29,56 @@ $(document).ready(function () {
         isOpen_2 = !isOpen_2;
     });
 
+    $('#existing_client_list').on('change',function(){
+        var selected = $('#existing_client_list').find(":selected").attr('data-client-id');
+        updateExistingClient(selected);
+    });
+    
     $.ajax({
-        url: "./../back/api/client/get.php",
+        url: "../back/api/client/get.php",
         type: "get",
         data: {},
         success: function (data) {
             clientList = JSON.parse(data);
             clientList.forEach(client => {
-                $("#existing_client_list").append('<li class="nav-item client-pill" onclick="updateExistingClient(' + client.client_id + ')" data-client-id="' + client.client_id + '">' + client.client_name + '</li>');
+                $("#existing_client_list").append('<option class="nav-item client-pill"  data-client-id="' + client.client_id + '">' + client.client_name + '</option>');
             });
         }
     });
 
-    var tempArray = [];
+    var tempArrayObjects = [];
+    var tempArrayids = [];
+    var subServiceList = [];
     $.ajax({
-        url: "./../back/api/service/get.php",
+        url: "../back/api/service/get.php",
         type: "get",
         data: {},
         success: function (data) {
-            subServiceList = JSON.parse(data);
-            subServiceList.forEach(subService => {
-
-                if (tempArray.indexOf(subService.master_id) < 0) {
-                    tempArray.push(subService.master_id);
-                    $("#scope_list").append('<li><label for="master_' + subService.master_id + '"> ' + subService.master_service_name + '</label><ul id="sub_list_' + subService.master_id + '"></ul></li >');
+            serviceList = JSON.parse(data);
+            serviceList.forEach(service => {
+                if(service.parent_id === null || service.parent_id === "" || service.parent_id === 'NULL') {
+                    if (tempArrayids.indexOf(service.id) < 0) {
+                        tempArrayids.push(service.id);
+                        tempArrayObjects.push(service);
+                    }    
+                } else {
+                    subServiceList.push(service);
                 }
+            });
 
-                $("#sub_list_" + subService.master_id).append('<li><label><input type="checkbox" class="subOption" data-master-id="' + subService.master_id + '" value="' + subService.sub_service_id + '" name="master_' + subService.master_id + '">' + subService.scope_name + '</label></li>');
+            tempArrayObjects.forEach(masterService => {
+                $("#scope_list").append('<li><label for="master_' + masterService.id + '"> ' + masterService.service_name + '</label><br /><ul id="sub_list_' + masterService.id + '"></ul></li >');
+                //console.log(masterService);
+            });
 
+            subServiceList.forEach(subService => {
+                $("#sub_list_" + subService.parent_id).append('<li><input type="checkbox" class="subOption" data-master-id="' + subService.parent_id + '" value="' + subService.id + '" name="sub_' + subService.parent_id + '">&nbsp;<label>'+subService.service_name+'</label>&nbsp;&nbsp;&nbsp;&nbsp;<input id ="price_'+subService.id+'" type="number" value="'+subService.service_price+'"/>&nbsp;&nbsp;&nbsp;&nbsp;<input id = "comment_'+subService.id+'" type="text" placeholder="Enter Comments"/></li>');
+                //console.log(subService);
             });
         }
     });
+
+
 
     $("#create_contract").submit(function (event) {
 
@@ -67,11 +86,14 @@ $(document).ready(function () {
 
         var dataFromForm = objectifyForm($("#create_contract").serializeArray());
         var myCheckboxes = [];
-        tempArray.forEach(masterServiceID => {
-            $.each($("input[name='master_" + masterServiceID + "']:checked"), function () {
+
+        tempArrayids.forEach(masterServiceID => {
+            $.each($("input[name='sub_" + masterServiceID + "']:checked"), function () {
                 var t = {
-                    'master_id': $(this).attr('data-master-id'),
-                    'sub_service_id': $(this).val()
+                    'parent_id': $(this).attr('data-master-id'),
+                    'id': $(this).val(),
+                    'price': $('#price_'+ $(this).val() +'').val(),
+                    'comment': $('#comment_'+ $(this).val() +'').val()
                 };
                 myCheckboxes.push(t);
             });
@@ -81,13 +103,15 @@ $(document).ready(function () {
         dataFromForm[q] = myCheckboxes;
 
         $.ajax({
-            url: "./../back/api/contract/create.php",
+            url: "../back/api/contract/create.php",
             type: "post",
             data: dataFromForm,
             success: function (data) {
+                
                 $("#downpdf_link").attr("href", "http://localhost/contractify/back/generated/contracts/" + data);
                 $('.success-alert').show();
                 $("html, body").animate({ scrollTop: 0 }, "slow");
+                console.log(data);
             }
         });
 
@@ -96,22 +120,16 @@ $(document).ready(function () {
 });
 
 function updateExistingClient(client_id) {
+    
     clientList.forEach(client => {
-        if (parseInt(client.client_id) === client_id) {
+        if (parseInt(client.client_id) == client_id) {
             populateClientFields(client);
         }
     });
 }
-function updateExistingContract(contract_id) {                     // To update a contract
-    contractList.forEach(contract => {
-        if (parseInt(contract.contract_id) === contract_id) {
-            populateContractFields(contract);
-        }
-    });
-}
-
 
 function populateClientFields(client_object) {
+    
     $("#client_name").val(client_object.client_name);
     $("#client_spoc").val(client_object.client_spoc);
     $("#client_contact_no").val(client_object.client_contact_no);
@@ -123,23 +141,6 @@ function populateClientFields(client_object) {
     $("#client_gstn").val(client_object.client_gstn);
 }
 
-function populateContractFields(contract_object) {                          // To populate contract data...scopes also need to be added
-    $("#client_name").val(contract_object.client_name);
-    $("#client_spoc").val(contract_object.client_spoc);
-    $("#client_contact_no").val(contract_object.client_contact_no);
-    $("#client_pan").val(contract_object.client_pan);
-    $("#client_billing_address").val(contract_object.client_billing_address);
-    $("#client_payment_terms").val(contract_object.client_payment_terms);
-    $("#client_email_address").val(contract_object.client_email_address);
-    $("#client_id").val(contract_object.client_id);
-    $("#client_gstn").val(contract_object.client_gstn);
-    $("#contract_name").val(contract_object.contract_name);
-    $("#contract_start_date").val(contract_object.contract_start_date);
-    $("#contract_end_date").val(contract_object.contract_end_date);
-    $("#contract_description").val(contract_object.contract_description);
-    $("#contract_type").val(contract_object.contract_type);
-
-}
 function objectifyForm(formArray) {
     var returnArray = {};
     for (var i = 0; i < formArray.length; i++) {

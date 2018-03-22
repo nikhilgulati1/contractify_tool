@@ -19,39 +19,39 @@
     $contract_start_date = filter_var($_POST['contract_start_date'], FILTER_SANITIZE_STRING);
     $contract_type = filter_var($_POST['contract_type'], FILTER_SANITIZE_STRING);
     $contract_scope = ($_POST['scope']);
-    
-    $client_id = null;
+    $client_id = filter_var($_POST['client_id'], FILTER_SANITIZE_STRING);
+    $contract_id = filter_var($_POST['contract_id'], FILTER_SANITIZE_STRING);
 
-    if(!empty($_POST['client_id'])) {
-        $client_id = $_POST['client_id'];
-    } else {
-        
-    $query = "INSERT INTO `dd_client` ( `client_id`, `client_name`, `client_spoc`, `client_email_address`, `client_contact_no`, `client_pan`, `client_gstn`, `client_billing_address`,`client_payment_terms`, `client_recurring` ) VALUES (NULL, '".$client_name."', '".$client_spoc."', '".$client_email_address."', '".$client_contact_no."', '".$client_pan."', '".$client_gstn."', '".$client_billing_address."', '".$client_payment_terms."','0');";
+   
 
-        $result_1 = mysqli_query($conn,$query);
+    $query = "UPDATE `dd_client` SET  `client_name` = '".$client_name."', `client_spoc` = '".$client_spoc."', `client_email_address` = '".$client_email_address."', `client_contact_no` = '".$client_contact_no."', `client_pan` = '".$client_pan."', `client_billing_address` = '".$client_billing_address."',`client_payment_terms` = '".$client_payment_terms."', `client_recurring` = '0'  WHERE `client_id` = ".$client_id;
+
+    $result_1 = mysqli_query($conn,$query);
         
-        if($result_1 == 1) {
-            $client_id = mysqli_insert_id($conn);
-        } else {
-            die("Error in inserting client.");
-        }
+    if($result_1 != 1) {
+        die("Error in updating client.");
     }
 
-    $query_2 = "INSERT INTO `dd_contract_main` (`contract_id`, `client_id`, `contract_name`, `contract_start_date`, `contract_end_date`, `contract_description`, `contract_type`) VALUES (NULL, '".$client_id."', '".$contract_name."', '".$contract_start_date."', '".$contract_end_date."', '".$contract_description."', '".$contract_type."');";
-
+    $query_2 = "UPDATE `dd_contract_main` SET  `client_id` = '".$client_id."', `contract_name` = '".$contract_name."', `contract_start_date` = '".$contract_start_date."', `contract_end_date` = '".$contract_end_date."', `contract_description` = '".$contract_description."', `contract_type`= '".$contract_type."' WHERE `contract_id` = ".$contract_id;
+    
     $result_2 = mysqli_query($conn,$query_2);
+    if($result_2 != 1) {
+        die("Error in updating client.");
+    }
 
-    $contract_id = null;
-
-    if($result_2 == 1) {
-          $contract_id = mysqli_insert_id($conn);
-
+    else {
           $size = count($contract_scope);
           $arr = array();
+
+          mysqli_query($conn,"DELETE FROM `dd_contract_scope` WHERE `contract_id` = ".$contract_id);
+          mysqli_query($conn,"DELETE FROM `dd_contract_service` WHERE `con_id` = ".$contract_id);
+
           for($i=0;$i<$size;$i++) {
-        // print_r($scope);
+
+                
                 $query3 = "INSERT INTO `dd_contract_scope` (`scope_id`,`contract_id`, `sub_services_id`) VALUES (NULL ,'".$contract_id."','".$contract_scope[$i]['sub_service_id']."');";
                 $result = mysqli_query($conn,$query3);
+                
                     if(! in_array($contract_scope[$i]['master_id'], $arr)) {
 
                         array_push($arr,$contract_scope[$i]['master_id']);
@@ -62,21 +62,14 @@
                 
 
            }
+        } 
 
-           $query4 = "SELECT  `master_service_price`, `master_service_name`  FROM `dd_contract_service` INNER JOIN `dd_master_service` ON dd_contract_service.master_id =dd_master_service.master_service_id WHERE `con_id` = '".$contract_id."'";
+        $query4 = "SELECT  `master_service_price`, `master_service_name`  FROM `dd_contract_service` INNER JOIN `dd_master_service` ON dd_contract_service.master_id =dd_master_service.master_service_id WHERE `con_id` = '".$contract_id."'";
            $value = mysqli_query($conn,$query4);
               
             
            $query5 =  "SELECT dd_sub_service.scope_name FROM `dd_contract_scope` INNER JOIN `dd_sub_service` ON dd_contract_scope.sub_services_id = dd_sub_service.sub_service_id INNER JOIN `dd_master_service` ON dd_sub_service.master_id =dd_master_service.master_service_id WHERE `contract_id` = '".$contract_id."'";
            $value1 = mysqli_query($conn,$query5);
-
-        //    if ( 0 < $_FILES['file']['error'] ) {
-        //         echo 'Error: ' . $_FILES['file']['error'] . '<br>';
-        //     }
-        //    else {
-        //         move_uploaded_file($_FILES['file']['tmp_name'], '../../uploads/' . $_FILES['file']['name']);
-        //     }
-           
     
 
         $pdf = new FPDF();
@@ -138,10 +131,7 @@
 
         echo $filename;
 
-    } else {
-        die("Error in inserting client.");
-    }
     
-    die();
+    
 
 ?>

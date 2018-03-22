@@ -3,6 +3,8 @@ var subServiceList = null;
 var contractList = null;
 
 $(document).ready(function () {
+    $(".scope_list").attr('readonly', 'readonly');
+    
 
     $('.success-alert').hide();
 
@@ -32,7 +34,6 @@ $(document).ready(function () {
     var tempArray = [];
 
     var queryStringObject = getUrlVars();
-
     $.ajax({
         url: "../back/api/contract/read.php?id=" + queryStringObject['id'],
         type: "get",
@@ -49,6 +50,7 @@ $(document).ready(function () {
 
                         if (tempArray.indexOf(subService.master_id) < 0) {
                             tempArray.push(subService.master_id);
+
                             $("#scope_list").append('<li><label for="master_' + subService.master_id + '"> ' + subService.master_service_name + '</label><ul id="sub_list_' + subService.master_id + '"></ul></li >');
                         }
 
@@ -57,10 +59,10 @@ $(document).ready(function () {
                             isChecked = "checked";
                         }
 
-                        $("#sub_list_" + subService.master_id).append('<li><label><input type="checkbox" ' + isChecked + ' class="subOption" data-master-id="' + subService.master_id + '" value="' + subService.sub_service_id + '" name="master_' + subService.master_id + '">' + subService.scope_name + '</label></li>');
-                            
+                        $("#sub_list_" + subService.master_id).append('<li><label><input' + isChecked + ' class="subOption" data-master-id="' + subService.master_id + '" value="' + subService.sub_service_id + '" name="master_' + subService.master_id + '">' + subService.scope_name + '</label></li>');
+
                     });
-                    $('.contract_name_head').html('Update - ' + contractDetail.contract_name);
+                    $('.contract_name_head').html(contractDetail.contract_name);
                     populateClientFields(contractDetail);
                     populateContractFields(contractDetail);
                 }
@@ -79,57 +81,7 @@ $(document).ready(function () {
         return vars;
     }
 
-    $("#create_contract1").submit(function (event) {
-
-        event.preventDefault();
-
-        var dataFromForm = objectifyForm($("#create_contract1").serializeArray());
-        var myCheckboxes = [];
-        tempArray.forEach(masterServiceID => {
-            $.each($("input[name='master_" + masterServiceID + "']:checked"), function () {
-                var t = {
-                    'master_id': $(this).attr('data-master-id'),
-                    'sub_service_id': $(this).val()
-                };
-                myCheckboxes.push(t);
-            });
-        });
-
-        var q = "scope";
-        var s = "contract_id";
-        dataFromForm[q] = myCheckboxes;
-        dataFromForm[s] =getUrlVars()['id'];
-
-        $.ajax({
-            url: "../back/api/contract/update.php",
-            type: "post",
-            data: dataFromForm,
-            success: function (data) {
-                $("#downpdf_link").attr("href", "http://localhost/contractify_tool/back/generated/contracts/" + data);
-                $('.success-alert').show();
-                $("html, body").animate({ scrollTop: 0 }, "slow");
-                console.log(data);
-            }
-        });
-
-    });
-
 });
-
-function updateExistingClient(client_id) {
-    contractDetail.forEach(client => {
-        if (parseInt(client.client_id) === client_id) {
-            populateClientFields(client);
-        }
-    });
-}
-function updateExistingContract(contract_id) {                     // To update a contract
-    contractList.forEach(contract => {
-        if (parseInt(contract.contract_id) === contract_id) {
-            populateContractFields(contract);
-        }
-    });
-}
 
 
 function populateClientFields(client_object) {
@@ -158,8 +110,16 @@ function populateContractFields(contract_object) {                          // T
     $("#contract_start_date").val(contract_object.contract_start_date);
     $("#contract_end_date").val(contract_object.contract_end_date);
     $("#contract_description").val(contract_object.contract_description);
-    $("#contract_type").val(contract_object.contract_type);
+    if(contract_object.contract_type ==1){
+        $("#contract_type").val("Digital Marketing");
+    }
+    else if(contract_object.contract_type ==2){
+    $("#contract_type").val("Technical");
+    }
+    else
+    $("#contract_type").val("Both");
 
+   
 }
 function objectifyForm(formArray) {
     var returnArray = {};
