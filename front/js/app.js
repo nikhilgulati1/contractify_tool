@@ -25,16 +25,19 @@ $(document).ready(function () {
                     }
 
                     gridData.addRow(
-                        [
+
+                        [   
                             element.contract_id,
-							element.contract_name,
+                            element.contract_name,
                             con_type,
                             element.contract_start_date,
                             element.contract_end_date,
                             element.client_email_address,
                             element.contract_status,
 
-                            "<a class= 'update' href='./view_detail.html?id=" + element.contract_id + "'>Update Details</a><a class = 'view' href = './read.html?id=" + element.contract_id + "'> View </a><a class='download' href='./../back/generated/contracts/dd_c" + element.contract_id + ".pdf'>   Download PDF</a><a class ='del' href ='#' onClick='recp("+element.contract_id+")'> DELETE</a>"
+
+                            "<img src= './images/udate-icon.png' class ='update' href='./view_detail.html?id=" + element.contract_id + "'/><img src= './images/view.png' class = 'view' href = './read.html?id=" + element.contract_id + "'/><img src= './images/pdf-download.png' class='download' href='./../back/generated/contracts/dd_c" + element.contract_id + ".pdf'/><img src = './images/remove.png' class ='del' href ='#' onClick='recp("+element.contract_id+")'/>"
+
                         ]
                     );
 
@@ -47,7 +50,7 @@ $(document).ready(function () {
    
     function loadTableSchema() {
         gridData = new google.visualization.DataTable();
-		gridData.addColumn('string', 'S.No.');
+        gridData.addColumn('string', 'S.No.');
         gridData.addColumn('string', 'Contract Name');
         gridData.addColumn('string', 'Contract Type');
         gridData.addColumn('string', 'Start Date');
@@ -62,14 +65,15 @@ $(document).ready(function () {
 
     function drawTable() {
         var table = new google.visualization.Table(document.getElementById('table_div'));
-        table.draw(gridData, { width: '100%', height: '100%', allowHtml: true, cssClassNames: { headerRow: 'grid_headerRow', tableRow: 'grid_tableRow', headerCell: 'grid_headerCell', tableCell: 'grid_tableCell' } });
+        table.draw(gridData, {width: '100%', height: '100%', allowHtml: true, cssClassNames: { headerRow: 'grid_headerRow', tableRow: 'grid_tableRow', headerCell: 'grid_headerCell', tableCell: 'grid_tableCell' } });
     };
 
 });
 
 function recp(id){
         $.ajax({
-        url: "../back/api/contract/delete.php",
+        url: "./../back/api/contract/delete.php",
+
             type: "post",
             data: {id:id},
             success: function (data) {

@@ -35,13 +35,15 @@ $(document).ready(function () {
 
     var queryStringObject = getUrlVars();
     $.ajax({
-        url: "../back/api/contract/read.php?id=" + queryStringObject['id'],
+
+        url: "./../back/api/contract/read.php?id=" + queryStringObject['id'],
         type: "get",
         data: {},
         success: function (data) {
             contractDetail = JSON.parse(data);
             $.ajax({
-                url: "../back/api/service/get.php",
+
+                url: "./../back/api/service/get.php",
                 type: "get",
                 data: {},
                 success: function (data) {

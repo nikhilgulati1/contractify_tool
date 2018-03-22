@@ -21,6 +21,7 @@
     $contract_start_date = filter_var($_POST['contract_start_date'], FILTER_SANITIZE_STRING);
     $contract_type = filter_var($_POST['contract_type'], FILTER_SANITIZE_STRING);
     $contract_scope = ($_POST['scope']);
+    $legal = ($_POST['legal']);
     
 
 
@@ -49,6 +50,13 @@
 
     if($result_2 == 1) {
         $contract_id = mysqli_insert_id($conn);
+        $size = count($legal);
+        for($i=0;$i<$size;$i++){
+            $query1 = "INSERT INTO `dd_legal_mapping` (`map_id`,`contract_id`,`legal_id`) VALUES (NULL, '".$contract_id."','".$legal[$i]['id']."');";
+            $res = mysqli_query($conn,$query1);
+            //print_r($res);
+
+        }
 
         $size = count($contract_scope);
         $arr = array();
@@ -78,6 +86,9 @@
         
         $query6 = "SELECT a.*,b.service_name as parent FROM dd_service_list a INNER JOIN dd_service_list b ON a.id = b.parent_id INNER JOIN (SELECT `parent_id`,`service_name` FROM dd_service_list INNER JOIN dd_service_mapping ON dd_service_list.id = dd_service_mapping.service_list_id WHERE `contract_id` = 1) as ABC ON b.service_name = ABC.service_name";
         $value2 = mysqli_query($conn,$query6);
+
+        $query7 = "SELECT `name` FROM dd_legal INNER JOIN dd_legal_mapping ON dd_legal.id=dd_legal_mapping.legal_id WHERE `contract_id`= '".$contract_id."'";
+        $value3 = mysqli_query($conn,$query7);
         //print_r($value2);
         
         // $service = array();
@@ -156,17 +167,12 @@
         $pdf-> MultiCell(150,5,"-Applicable taxes additional(Currently GST @ 18%)",0,'L');
         $pdf-> Ln(10);
         $pdf -> SetFont('Arial','', 7);
-        $pdf-> Write(5,"By signing this estimate client is agreeing to:
+        while ($row = mysqli_fetch_assoc($value3)){
+            $pdf-> MultiCell(150,4,"- ".$row['name'],0,'L');
+            $pdf-> Ln(2);
+        }
 
-1.   To pay Dignitas Digital the amounts shown in this estimate in consideration of and for the services performed and/or purchases made on Client's behalf under this estimate agreement within 10 days of date of issue on the invoice.  If Dignitas Digital is required to retain the services of an attorney to collect any unpaid invoice (after serving three written or emailed notices), Client agrees to reimburse Dignitas Digital for its costs of collection. Payment to be made in the name of the Agency. In case of any dispute relating to the payment, terms and conditions or any other kind, jurisdiction of Court in Delhi will be applicable.
-2.  To indemnify Dignitas Digital for all third party purchases (media, photography, printing, software modules etc.)  authorized by Client's signature under this agreement.  In the case of project cancellation this means Client is responsible for all costs and liabilities (including time, cancellation fees and any media \"short rates\") incurred up until Client cancels (unless other cancellation terms have been agreed to in writing) with the understanding that such cancellation costs will not exceed the amount(s) shown on this estimate.
-3.  The price mentioned in this quote is in Indian Rupees.
-4.  The client will pay for any gift items/sweepstakes awards/giveaways that may be used for promotion on social media channels
-5.  The pricing mentioned in this quote is bulk pricing based on the project. The pricing is not for any individual components, but is based on milestones as mentioned.
-6.  To allow Dignitas Digital to legally use client’s logo and name on dignitasdigital.com stating the project, if desired.
-7.  To assume all responsibility for the accuracy of any and all information and materials supplied by Client to Dignitas Digital, including information about their ownership, and to indemnify and defend Dignitas Digital from all claims and damages resulting from Dignitas Digital's use of such materials in Client's projects.  Dignitas Digital will, in turn, do the same for Client in regard to any other information and materials Dignitas Digital provides as part of this project.
-8.  Estimate terms may only be modified by replacing this estimate with a new estimate.
-");
+
 
         $filename= "dd_c".$contract_id.".pdf"; 
 
@@ -178,7 +184,8 @@
 
         echo $filename;
 
-    } else {
+     } 
+     else {
         die("Error in inserting client.");
     }
     

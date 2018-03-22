@@ -169,8 +169,10 @@ input[type=text], select, textarea {
     margin-right: 15px;
 }*/
 
+
 #table_div table thead tr{background-color:#ccc; height:40px;} 
 .nopad{padding:0;}
 #table_div table{text-align:center;}
 #table_div table tbody tr td{padding-top:10px; padding-bottom:10px;}
 #table_div table tbody tr td:first-child{font-weight:bold;}
+
