@@ -1,6 +1,7 @@
 var contractDetail = null;
-var serviceList = null;
+var allServiceList = null;
 var contractList = null;
+var legalList = null;
 
 $(document).ready(function () {
 
@@ -29,49 +30,75 @@ $(document).ready(function () {
         isOpen_2 = !isOpen_2;
     });
 
-    var tempArray = [];
+    var tempArrayObjects = [];
+    var tempArrayids = [];
+    var subServiceList = [];
 
     var queryStringObject = getUrlVars();
 
     $.ajax({
-        url: read+"?id=" + queryStringObject['id'],
+        url: read + "?id=" + queryStringObject['id'],
         type: "get",
         data: {},
         success: function (data) {
             contractDetail = JSON.parse(data);
-            console.log(contractDetail);
             $.ajax({
                 url: get_service,
                 type: "get",
                 data: {},
                 success: function (data1) {
-                    serviceList = JSON.parse(data1);
-                    console.log(serviceList);
-                    serviceList.forEach(service => {
+                    allServiceList = JSON.parse(data1);
+                    $.ajax({
+                        url: get_legal,
+                        type: "get",
+                        data: {},
+                        success: function (data2) {
 
-                        if(service.parent_id == null || service.parent_id === 'null') {
-                            if (tempArray.indexOf(service.id) < 0) {
-                                tempArray.push(service.id);
-                                $("#scope_list").append('<li><label for="master_' + service.id + '"> ' + service.service_name + '</label><ul id="sub_list_' + service.id + '"></ul></li >');
-                            }
-                        } else {
-                            var isChecked = "";
-                            var currPrice = 0;
-                            if (contractDetail.sub_services.indexOf((""+service.id)) >= 0) {
-                                isChecked = "checked ";
-                                currPrice = contractDetail.sub_services[contractDetail.sub_services.indexOf((""+service.id))];
-                                console.log(currPrice);
-                            }
+                            legalList = JSON.parse(data2);
 
-                            $("#sub_list_" + service.parent_id).append('<li><label><input type="checkbox" ' + isChecked + 'class="subOption" data-master-id="' + service.parent_id + '" value="' + service.id + '" name="sub_' + service.id + '"/><label>'+service.service_name+'</label>&nbsp;</div>&nbsp;&nbsp;&nbsp;&nbsp;<div class = "price"><input id ="price_'+service.id+'" type="number" value="'+service.price+'"/></div>&nbsp;&nbsp;&nbsp;&nbsp;<div class = "comm"><input id = "comment_'+service.id+'" value ="'+service.comment+'"/></div></li>');
+                            legalList.forEach(legal => {
+                                var isPresent = contractDetail.legal_ids.indexOf(("" + legal.id));
+                                var isChecked = "";
+                                if (isPresent >= 0) {
+                                    isChecked = "checked ";
+                                }
+                                $("#legal").append('<li><input type="checkbox" ' + isChecked + 'legal-id="' + legal.id + '" name="legal" /> ' + legal.name + ' </li>');
+                            });
 
+                            allServiceList.forEach(service => {
+
+                                if (service.parent_id == null || service.parent_id === 'null') {
+                                    if (tempArrayids.indexOf(service.id) < 0) {
+                                        tempArrayids.push(service.id);
+                                        tempArrayObjects.push(service);
+                                        $("#scope_list").append('<li><label for="master_' + service.id + '"> ' + service.service_name + '</label><ul id="sub_list_' + service.id + '"></ul></li >');
+                                    }
+                                } else {
+                                    var isChecked = "";
+                                    var isPresent = contractDetail.sub_services_ids.indexOf(("" + service.id));
+                                    var currPrice = service.service_price;
+                                    var currComment = "";
+                                    if (isPresent >= 0) {
+                                        isChecked = "checked ";
+                                        currPrice = contractDetail.sub_services[isPresent].price;
+                                        currComment = contractDetail.sub_services[isPresent].comment;
+                                    }
+
+                                    $("#sub_list_" + service.parent_id).append('<li><div class = "check"><input type="checkbox" ' + isChecked + 'class="subOption" data-master-id="' + service.parent_id + '" value="' + service.id + '" name="sub_' + service.parent_id + '"/><label>' + service.service_name + '</label>&nbsp;</div>&nbsp;&nbsp;&nbsp;&nbsp;<div class = "price"><input id ="price_' + service.id + '" type="number" value="' + currPrice + '"/></div>&nbsp;&nbsp;&nbsp;&nbsp;<div class = "comm"><textarea id = "comment_' + service.id + '" type="text" placeholder="Enter Comments">' + currComment + '</textarea></div></li>');
+
+                                }
+
+                            });
+
+                            $('.contract_name_head').html('Update - ' + contractDetail.contract_name);
+                            var d = new Date(0);
+                            d.setUTCSeconds(contractDetail.last_modified);
+                            $('.contract_last_mod span').html(d);
+                            populateClientFields(contractDetail);
+                            populateContractFields(contractDetail);
                         }
-                            
                     });
-                    $('.contract_name_head').html('Update - ' + contractDetail.contract_name);
-                    populateClientFields(contractDetail);
-                    populateContractFields(contractDetail);
-                 }
+                }
             });
         }
     });
@@ -92,22 +119,26 @@ $(document).ready(function () {
         event.preventDefault();
 
         var dataFromForm = objectifyForm($("#create_contract1").serializeArray());
+
         var myCheckboxes_scope = [];
         var myCheckboxes_legal = [];
-        tempArray.forEach(masterServiceID => {
+
+        tempArrayids.forEach(masterServiceID => {
             $.each($("input[name='sub_" + masterServiceID + "']:checked"), function () {
                 var t = {
                     'parent_id': $(this).attr('data-master-id'),
                     'id': $(this).val(),
-                    'price': $('#price_'+ $(this).val() +'').val(),
-                    'comment': $('#comment_'+ $(this).val() +'').val()
+                    'price': $('#price_' + $(this).val() + '').val(),
+                    'comment': $('#comment_' + $(this).val() + '').val()
                 };
                 myCheckboxes_scope.push(t);
             });
         });
-        $.each($("input[name ='legal']:checked"), function() {
-            var s ={
-                'id': $(this).attr('legal-id')};
+
+        $.each($("input[name ='legal']:checked"), function () {
+            var s = {
+                'id': $(this).attr('legal-id')
+            };
             myCheckboxes_legal.push(s);
         });
 
@@ -115,21 +146,22 @@ $(document).ready(function () {
         var q = "scope";
         dataFromForm[q] = myCheckboxes_scope;
 
+        var t = "contract_id";
+        dataFromForm[t] = queryStringObject['id'];
+
         var m = "legal";
         dataFromForm[m] = myCheckboxes_legal;
 
-
-        dataFromForm[s] =getUrlVars()['id'];
+        console.log(dataFromForm);
 
         $.ajax({
             url: update_contract,
             type: "post",
             data: dataFromForm,
             success: function (data) {
-                $("#downpdf_link").attr("href", "http://localhost/contractify_tool/back/generated/contracts/" + data);
+                $("#downpdf_link").attr("href", "http://localhost/contractify/back/generated/contracts/" + data);
                 $('.success-alert').show();
                 $("html, body").animate({ scrollTop: 0 }, "slow");
-                console.log(data);
             }
         });
 

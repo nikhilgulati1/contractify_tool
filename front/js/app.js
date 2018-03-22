@@ -6,7 +6,7 @@ $(document).ready(function () {
     var gridData = null;
 
     function startWork() {
-        
+
         $.ajax({
             url: read_all,
             type: "get",
@@ -14,7 +14,6 @@ $(document).ready(function () {
             success: function (data) {
                 var con_type = null;
                 var parsed_data = JSON.parse(data);
-                console.log(parsed_data);
                 parsed_data.forEach(element => {
                     if (element.contract_type == 1) {
                         con_type = "Digital Marketing";
@@ -26,7 +25,7 @@ $(document).ready(function () {
 
                     gridData.addRow(
 
-                        [   
+                        [
                             element.contract_id,
                             element.contract_name,
                             con_type,
@@ -36,7 +35,7 @@ $(document).ready(function () {
                             element.contract_status,
 
 
-                            "<a  class ='update' href='./view_detail.html?id=" + element.contract_id + "'><img src= './images/udate-icon.png'/></a><a  class = 'view' href = './read.html?id=" + element.contract_id + "'><img src= './images/view.png'/></a><a class='download' href='./../back/generated/contracts/dd_c" + element.contract_id + ".pdf'><img src= './images/pdf-download.png'/></a><a class ='del' href ='#' onClick='recp("+element.contract_id+")'><img src = './images/remove.png'/></a>"
+                            "<a  class ='update' href='./view_detail.html?id=" + element.contract_id + "'><img src= './images/udate-icon.png'/></a><a  class = 'view' href = './read.html?id=" + element.contract_id + "'><img src= './images/view.png'/></a><a class='download' href='./../back/generated/contracts/dd_c" + element.contract_id + ".pdf'><img src= './images/pdf-download.png'/></a><a class ='del' href ='#' onClick='recp(" + element.contract_id + ")'><img src = './images/remove.png'/></a>"
 
                         ]
                     );
@@ -45,9 +44,9 @@ $(document).ready(function () {
                 drawTable();
             }
         });
-     
+
     }
-   
+
     function loadTableSchema() {
         gridData = new google.visualization.DataTable();
         gridData.addColumn('string', 'S.No.');
@@ -65,23 +64,20 @@ $(document).ready(function () {
 
     function drawTable() {
         var table = new google.visualization.Table(document.getElementById('table_div'));
-        table.draw(gridData, {width: '100%', height: '100%', allowHtml: true, cssClassNames: { headerRow: 'grid_headerRow', tableRow: 'grid_tableRow', headerCell: 'grid_headerCell', tableCell: 'grid_tableCell' } });
+        table.draw(gridData, { width: '100%', height: '100%', allowHtml: true, cssClassNames: { headerRow: 'grid_headerRow', tableRow: 'grid_tableRow', headerCell: 'grid_headerCell', tableCell: 'grid_tableCell' } });
     };
 
 });
 
-function recp(id){
-        $.ajax({
+function recp(id) {
+    $.ajax({
         url: delete_contract,
+        type: "post",
+        data: { id: id },
+        success: function (data) {
+            window.location.reload(true);
+        }
+    });
 
-            type: "post",
-            data: {id:id},
-            success: function (data) {
-                $('.del').click(function() {
-                    window.location.reload(true);
-                });
-            }
-        });    
-    
-    }
+}
 
