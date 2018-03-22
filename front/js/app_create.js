@@ -36,7 +36,7 @@ $(document).ready(function () {
     });
     
     $.ajax({
-        url: "../back/api/client/get.php",
+        url: get_client,
         type: "get",
         data: {},
         success: function (data) {
@@ -51,7 +51,7 @@ $(document).ready(function () {
     var tempArrayids = [];
     var subServiceList = [];
     $.ajax({
-        url: "../back/api/service/get.php",
+        url: get_service,
         type: "get",
         data: {},
         success: function (data) {
@@ -80,7 +80,7 @@ $(document).ready(function () {
     });
 
     $.ajax({
-        url: "./../back/api/service/get_legal.php",
+        url: get_legal,
         type: "get",
         data: {},
         success: function (data) {
@@ -135,7 +135,7 @@ $(document).ready(function () {
         //console.log(dataFromForm);
 
         $.ajax({
-            url: "../back/api/contract/create.php",
+            url: create_contract,
             type: "post",
             data: dataFromForm,
             success: function (data) {

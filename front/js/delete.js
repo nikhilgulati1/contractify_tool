@@ -8,7 +8,7 @@ $(document).ready(function () {
     function startWork() {
         $.ajax({
 
-            url: "./../back/api/contract/delete.php",
+            url: delete_contract,
             type: "get",
             data: {},
             success: function (data) {

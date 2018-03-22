@@ -8,7 +8,7 @@ $(document).ready(function () {
     function startWork() {
         
         $.ajax({
-            url: "../back/api/contract/read_all.php",
+            url: read_all,
             type: "get",
             data: {},
             success: function (data) {
@@ -72,7 +72,7 @@ $(document).ready(function () {
 
 function recp(id){
         $.ajax({
-        url: "./../back/api/contract/delete.php",
+        url: delete_contract,
 
             type: "post",
             data: {id:id},

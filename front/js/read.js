@@ -36,14 +36,14 @@ $(document).ready(function () {
     var queryStringObject = getUrlVars();
     $.ajax({
 
-        url: "./../back/api/contract/read.php?id=" + queryStringObject['id'],
+        url: read +"?id=" + queryStringObject['id'],
         type: "get",
         data: {},
         success: function (data) {
             contractDetail = JSON.parse(data);
             $.ajax({
 
-                url: "./../back/api/service/get.php",
+                url: get_service,
                 type: "get",
                 data: {},
                 success: function (data) {
