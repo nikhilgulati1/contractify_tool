@@ -178,3 +178,5 @@ input[type=text], select, textarea {
 .comm textarea{margin-top:0;}
 .check label{padding-left:5px;} 
 .seobox ul li{margin-bottom:30px;}
+.update, .view, .download, .del{ padding:0 5px;}
+.update:hover, .view:hover, .download:hover, .del:hover{opacity: 0.7;}
