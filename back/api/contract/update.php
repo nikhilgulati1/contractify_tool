@@ -39,38 +39,46 @@
         die("Error in updating client.");
     }
 
-    else {
+else {
           $size = count($contract_scope);
           $arr = array();
 
-          mysqli_query($conn,"DELETE FROM `dd_contract_scope` WHERE `contract_id` = ".$contract_id);
-          mysqli_query($conn,"DELETE FROM `dd_contract_service` WHERE `con_id` = ".$contract_id);
+          mysqli_query($conn,"DELETE FROM `dd_service_mapping` WHERE `contract_id` = ".$contract_id);
 
           for($i=0;$i<$size;$i++) {
 
                 
-                $query3 = "INSERT INTO `dd_contract_scope` (`scope_id`,`contract_id`, `sub_services_id`) VALUES (NULL ,'".$contract_id."','".$contract_scope[$i]['sub_service_id']."');";
+                $query3 = "INSERT INTO `dd_service_mapping` (`map_id`,`contract_id`, `service_list_id`,`price`,`comment`) VALUES (NULL ,'".$contract_id."','".$contract_scope[$i]['id']."','".$contract_scope[$i]['price']."','".$contract_scope[$i]['comment']."');";
                 $result = mysqli_query($conn,$query3);
                 
-                    if(! in_array($contract_scope[$i]['master_id'], $arr)) {
+                    // if(! in_array($contract_scope[$i]['master_id'], $arr)) {
 
-                        array_push($arr,$contract_scope[$i]['master_id']);
-                        $query4 = "INSERT INTO `dd_contract_service` (`master_serv_contract_id`, `con_id`, `master_id`) VALUES (NULL ,'".$contract_id."','".$contract_scope[$i]['master_id']."');"; 
-                        mysqli_query($conn,$query4);
-                    }
+                    //     array_push($arr,$contract_scope[$i]['master_id']);
+                    //     $query4 = "INSERT INTO `dd_contract_service` (`master_serv_contract_id`, `con_id`, `master_id`) VALUES (NULL ,'".$contract_id."','".$contract_scope[$i]['master_id']."');"; 
+                    //     mysqli_query($conn,$query4);
+                    // }
 
                 
 
            }
-        } 
+        
 
-        $query4 = "SELECT  `master_service_price`, `master_service_name`  FROM `dd_contract_service` INNER JOIN `dd_master_service` ON dd_contract_service.master_id =dd_master_service.master_service_id WHERE `con_id` = '".$contract_id."'";
-           $value = mysqli_query($conn,$query4);
+        $query4 = "SELECT SUM(price) as `price` FROM dd_service_mapping INNER JOIN dd_service_list ON dd_service_mapping.service_list_id = dd_service_list.id WHERE `contract_id` ='".$contract_id."' GROUP BY `parent_id` ";
+        $value =  mysqli_query($conn,$query4);
               
             
-           $query5 =  "SELECT dd_sub_service.scope_name FROM `dd_contract_scope` INNER JOIN `dd_sub_service` ON dd_contract_scope.sub_services_id = dd_sub_service.sub_service_id INNER JOIN `dd_master_service` ON dd_sub_service.master_id =dd_master_service.master_service_id WHERE `contract_id` = '".$contract_id."'";
-           $value1 = mysqli_query($conn,$query5);
-    
+        $query5 = "SELECT `service_list_id`, `service_name` FROM dd_service_mapping INNER JOIN dd_service_list ON dd_service_mapping.service_list_id = dd_service_list.id  WHERE `contract_id` = '".$contract_id."'";
+        $value1 =  mysqli_query($conn,$query5);
+        
+        $query6 = "SELECT a.*,b.service_name as parent FROM dd_service_list a INNER JOIN dd_service_list b ON a.id = b.parent_id INNER JOIN (SELECT `parent_id`,`service_name` FROM dd_service_list INNER JOIN dd_service_mapping ON dd_service_list.id = dd_service_mapping.service_list_id WHERE `contract_id` = '".$contract_id."') as ABC ON b.service_name = ABC.service_name";
+        $value2 = mysqli_query($conn,$query6);
+
+
+        $query7 = "SELECT `name` FROM dd_legal INNER JOIN dd_legal_mapping ON dd_legal.id=dd_legal_mapping.legal_id WHERE `contract_id`= '".$contract_id."'";
+        $value3 = mysqli_query($conn,$query7);
+
+
+
 
         $pdf = new FPDF();
 
@@ -94,17 +102,30 @@
         $pdf-> Write(10,"CONTRACT SCOPE");
         $pdf -> SetFont('Arial','', 10);
         $pdf-> Ln(10);
-        while ($row1 = mysqli_fetch_assoc($value1)){
+        while ($row = mysqli_fetch_assoc($value1)){
             
-            $pdf-> MultiCell(150,5,"-".$row1['scope_name'],0,'L');
+            if($row['service_name'] == "On Page"){
+                $pdf-> MultiCell(150,4,"-".$row['service_name'],0,'L');
+                $pdf-> MultiCell(150,4,"   . Recommendations for Improving on-page SEO",0,'L');
+                $pdf-> MultiCell(150,4,"   . Keyword Research & Targeting",0,'L');
+                $pdf-> MultiCell(150,4,"   . HTML/Code Update Recommendations",0,'L');
+                $pdf-> MultiCell(150,4,"   . Content Writing & Optimization Recommendations",0,'L');
+                $pdf-> MultiCell(150,4,"   . Optimized URL Structure Recommendations",0,'L');
+                $pdf-> MultiCell(150,4,"   . Index submissions, as applicable",0,'L');
+
+            }
+            else
+                $pdf-> MultiCell(150,5,"-".$row['service_name'],0,'L');
         }
         $pdf -> SetFont('Arial','B', 12);
         $pdf-> Write(10,"PRICING");
         $pdf-> Ln(10);
         $pdf -> SetFont('Arial','', 10);
-        while ($row = mysqli_fetch_assoc($value)){
-            $pdf-> Cell(150,5,"-".$row['master_service_name'],0,0,'L');
-            $pdf-> MultiCell(150,5,"INR ".$row['master_service_price']." excluse of GST",0,'L');
+        while (($row = mysqli_fetch_assoc($value2)) && ($row1 = mysqli_fetch_assoc($value))){
+
+            $pdf-> Cell(150,5,"-".$row['service_name'],0,0,'L');
+            $pdf-> MultiCell(150,5,"INR ".$row1['price']." exclusive of GST",0,'L');
+
         }
         $pdf-> MultiCell(150,5,"-Applicable taxes additional(Currently GST @ 18%)",0,'L');
         $pdf-> Ln(10);
@@ -130,7 +151,9 @@
         $pdf->Output($fileNL,'F');
 
         echo $filename;
-
+}else{
+        die("Error in inserting client.");
+    }
     
     
 

@@ -73,7 +73,7 @@ $(document).ready(function () {
             });
 
             subServiceList.forEach(subService => {
-                $("#sub_list_" + subService.parent_id).append('<li><input type="checkbox" class="subOption" data-master-id="' + subService.parent_id + '" value="' + subService.id + '" name="sub_' + subService.parent_id + '">&nbsp;<label>'+subService.service_name+'</label>&nbsp;&nbsp;&nbsp;&nbsp;<input id ="price_'+subService.id+'" type="number" value="'+subService.service_price+'"/>&nbsp;&nbsp;&nbsp;&nbsp;<input id = "comment_'+subService.id+'" type="text" placeholder="Enter Comments"/></li>');
+                $("#sub_list_" + subService.parent_id).append('<li><div class = "check"><input type="checkbox" class="subOption" data-master-id="' + subService.parent_id + '" value="' + subService.id + '" name="sub_' + subService.parent_id + '"></div>&nbsp;<label>'+subService.service_name+'</label>&nbsp;&nbsp;&nbsp;&nbsp;<div class = "price"><input id ="price_'+subService.id+'" type="number" value="'+subService.service_price+'"/></div>&nbsp;&nbsp;&nbsp;&nbsp;<div class = "comm"><input id = "comment_'+subService.id+'" type="text" placeholder="Enter Comments"/></div></li>');
                 //console.log(subService);
             });
         }
@@ -129,8 +129,8 @@ $(document).ready(function () {
         var q = "scope";
         dataFromForm[q] = myCheckboxes_scope;
 
-        var t = "legal";
-        dataFromForm[t] = myCheckboxes_legal;
+        var m = "legal";
+        dataFromForm[m] = myCheckboxes_legal;
 
         //console.log(dataFromForm);
 

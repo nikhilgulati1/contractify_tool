@@ -1,4 +1,4 @@
-ar contractDetail = null;
+var contractDetail = null;
 var subServiceList = null;
 var contractList = null;
 
@@ -38,6 +38,7 @@ $(document).ready(function () {
         type: "get",
         data: {},
         success: function (data) {
+            console.log(data);
             contractDetail = JSON.parse(data);
             $.ajax({
                 url: get_service,
@@ -47,17 +48,17 @@ $(document).ready(function () {
                     subServiceList = JSON.parse(data);
                     subServiceList.forEach(subService => {
 
-                        if (tempArray.indexOf(subService.master_id) < 0) {
-                            tempArray.push(subService.master_id);
-                            $("#scope_list").append('<li><label for="master_' + subService.master_id + '"> ' + subService.master_service_name + '</label><ul id="sub_list_' + subService.master_id + '"></ul></li >');
+                        if (tempArray.indexOf(subService.id) < 0) {
+                            tempArray.push(subService.id);
+                            $("#scope_list").append('<li><label for="master_' + subService.id + '"> ' + subService.service_name + '</label><ul id="sub_list_' + subService.id + '"></ul></li >');
                         }
 
                         var isChecked = "";
-                        if (contractDetail.sub_services.indexOf(subService.sub_service_id) >= 0) {
+                        if (contractDetail.sub_services.indexOf(subService.parent_id) >= 0) {
                             isChecked = "checked";
                         }
 
-                        $("#sub_list_" + subService.master_id).append('<li><label><input type="checkbox" ' + isChecked + ' class="subOption" data-master-id="' + subService.master_id + '" value="' + subService.sub_service_id + '" name="master_' + subService.master_id + '">' + subService.scope_name + '</label></li>');
+                        $("#sub_list_" + subService.id).append('<li><label><input type="checkbox" ' + isChecked + ' class="subOption" data-master-id="' + subService.id + '" value="' + subService.parent_id + '" name="master_' + subService.id + '">' + subService.service_name + '</label></li>');
                             
                     });
                     $('.contract_name_head').html('Update - ' + contractDetail.contract_name);
@@ -84,20 +85,36 @@ $(document).ready(function () {
         event.preventDefault();
 
         var dataFromForm = objectifyForm($("#create_contract1").serializeArray());
-        var myCheckboxes = [];
+        var myCheckboxes_scope = [];
+        var myCheckboxes_legal = [];
         tempArray.forEach(masterServiceID => {
-            $.each($("input[name='master_" + masterServiceID + "']:checked"), function () {
+            $.each($("input[name='sub_" + masterServiceID + "']:checked"), function () {
                 var t = {
-                    'master_id': $(this).attr('data-master-id'),
-                    'sub_service_id': $(this).val()
+                    'parent_id': $(this).attr('data-master-id'),
+                    'id': $(this).val(),
+                    'price': $('#price_'+ $(this).val() +'').val(),
+                    'comment': $('#comment_'+ $(this).val() +'').val()
                 };
-                myCheckboxes.push(t);
+                myCheckboxes_scope.push(t);
             });
         });
+        $.each($("input[name ='legal']:checked"), function() {
+            var s ={
+                'id': $(this).attr('legal-id')};
+            myCheckboxes_legal.push(s);
+        });
+
 
         var q = "scope";
-        var s = "contract_id";
-        dataFromForm[q] = myCheckboxes;
+        dataFromForm[q] = myCheckboxes_scope;
+
+        var m = "legal";
+        dataFromForm[m] = myCheckboxes_legal;
+
+
+
+
+
         dataFromForm[s] =getUrlVars()['id'];
 
         $.ajax({

@@ -9,7 +9,7 @@
     // $query2 = "SELECT * FROM `dd_contract_service` INNER JOIN `dd_master_service` ON dd_contract_service.master_id =dd_master_service.master_service_id WHERE `con_id` = '".$id."'";
     // $result2 = mysqli_fetch_assoc(mysqli_query($conn,$query2));
 
-    $query3 =  "SELECT `sub_service_id` FROM `dd_contract_scope` INNER JOIN `dd_sub_service` ON dd_contract_scope.sub_services_id = dd_sub_service.sub_service_id INNER JOIN `dd_master_service` ON dd_sub_service.master_id =dd_master_service.master_service_id WHERE `contract_id` = '".$id."'";
+    $query3 =  "SELECT a.*,b.service_name as parent FROM dd_service_list a INNER JOIN dd_service_list b ON a.id = b.parent_id INNER JOIN (SELECT `parent_id`,`service_name` FROM dd_service_list INNER JOIN dd_service_mapping ON dd_service_list.id = dd_service_mapping.service_list_id WHERE `contract_id` = '".$id."') as ABC ON b.service_name = ABC.service_name";
     $result3 = mysqli_query($conn,$query3);
 
     $sub_services = array();
