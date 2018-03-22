@@ -174,3 +174,8 @@ input[type=text], select, textarea {
 #table_div table tbody tr td:first-child{font-weight:bold;}
 .create select{height:45px;line-height: 45px;}
 .create select option{padding-left:0; margin-left:0;}
+.seobox ul li .check, .seobox ul li .price, .seobox ul li .comm{width:32%;display:inline-block;vertical-align: top;}
+.comm textarea{margin-top:0;}
+.check label{padding-left:5px;} 
+.seobox ul li{margin-bottom:30px;}
+.update, .view, .download, .del{ padding:0 5px;}
