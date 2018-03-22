@@ -13,7 +13,7 @@
     //$client_gstn = filter_var($_POST['client_gstn'], FILTER_SANITIZE_STRING);
     $client_name = filter_var($_POST['client_name'], FILTER_SANITIZE_STRING);
     $client_pan = filter_var($_POST['client_pan'], FILTER_SANITIZE_STRING);
-    $client_payment_terms = filter_var($_POST['client_payment_terms'], FILTER_SANITIZE_STRING);
+    //$client_payment_terms = filter_var($_POST['client_payment_terms'], FILTER_SANITIZE_STRING);
     $client_spoc = filter_var($_POST['client_spoc'], FILTER_SANITIZE_STRING);
     $contract_description = filter_var($_POST['contract_description'], FILTER_SANITIZE_STRING);
     $contract_end_date = filter_var($_POST['contract_end_date'], FILTER_SANITIZE_STRING);
@@ -22,6 +22,7 @@
     $contract_type = filter_var($_POST['contract_type'], FILTER_SANITIZE_STRING);
     $contract_scope = ($_POST['scope']);
     $legal = ($_POST['legal']);
+    $days = ($_POST['days']);
     
 
 
@@ -31,9 +32,10 @@
         $client_id = $_POST['client_id'];
     } else {
         
-        $query = "INSERT INTO `dd_client` ( `client_id`, `client_name`, `client_spoc`, `client_email_address`, `client_contact_no`, `client_pan`, `client_gstn`,`client_billing_address`,`client_payment_terms`, `client_recurring` ) VALUES (NULL, '".$client_name."', '".$client_spoc."', '".$client_email_address."', '".$client_contact_no."', '".$client_pan."', 'ABCDE4567Q','".$client_billing_address."', '".$client_payment_terms."','0');";
+        $query = "INSERT INTO `dd_client` ( `client_id`, `client_name`, `client_spoc`, `client_email_address`, `client_contact_no`, `client_pan`, `client_gstn`,`client_billing_address`,`client_payment_terms`, `client_recurring` ) VALUES (NULL, '".$client_name."', '".$client_spoc."', '".$client_email_address."', '".$client_contact_no."', '".$client_pan."', 'ABCDE4567Q','".$client_billing_address."', '".$days."','0');";
 
         $result_1 = mysqli_query($conn,$query);
+        print_r($result_1);
         
         if($result_1 == 1) {
             $client_id = mysqli_insert_id($conn);
@@ -182,7 +184,7 @@
 
         $pdf->Output($fileNL,'F');
 
-        echo $filename;
+        //echo $filename;
 
      } 
      else {

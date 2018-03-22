@@ -12,7 +12,7 @@ $(document).ready(function () {
         todayBtn: 1,
         autoclose: 1,
         todayHighlight: 1,
-        format: 'yyyy-mm-dd hh:ii'
+        format: 'yyyy-mm-dd'
     });
 
     var isOpen_1 = false;
@@ -30,6 +30,24 @@ $(document).ready(function () {
         isOpen_2 = !isOpen_2;
     });
 
+    $("#contract_start_date").datetimepicker({
+        dateFormat: 'dd/mm/yy',
+        changeMonth: true,
+        changeYear: true,
+        maxDate: '0',
+        onClose: function( selectedDate ) {
+        $( "#contract_end_date" ).datetimepicker( "option", "minDate", selectedDate );
+        }
+    });
+    $("#contract_end_date").datetimepicker({
+        dateFormat: 'dd/mm/yy',
+        changeMonth: true,
+        changeYear: true,
+        maxDate: '0',
+        onClose: function( selectedDate ) {
+        $( "#contract_end_date" ).datetimepicker( "option", "maxDate", selectedDate );
+        }
+    });
     $('#existing_client_list').on('change',function(){
         var selected = $('#existing_client_list').find(":selected").attr('data-client-id');
         updateExistingClient(selected);
@@ -96,7 +114,14 @@ $(document).ready(function () {
 
         }
     });
-
+    var daysObject = getdays();
+    console.log(daysObject);
+    function getdays() {
+        
+        var hashes = $('#client_payment_terms').slice("+")[1];
+        
+        return hashes;
+    }
 
 
     $("#create_contract").submit(function (event) {
@@ -133,6 +158,9 @@ $(document).ready(function () {
 
         var m = "legal";
         dataFromForm[m] = myCheckboxes_legal;
+
+        var u = "days";
+        dataFromForm [u] = daysObject;
 
         //console.log(dataFromForm);
 
