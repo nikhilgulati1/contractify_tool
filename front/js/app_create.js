@@ -73,7 +73,9 @@ $(document).ready(function () {
             });
 
             subServiceList.forEach(subService => {
+
                 $("#sub_list_" + subService.parent_id).append('<li><div class = "check"><input type="checkbox" class="subOption" data-master-id="' + subService.parent_id + '" value="' + subService.id + '" name="sub_' + subService.parent_id + '"/><label>'+subService.service_name+'</label>&nbsp;</div>&nbsp;&nbsp;&nbsp;&nbsp;<div class = "price"><input id ="price_'+subService.id+'" type="number" value="'+subService.service_price+'"/></div>&nbsp;&nbsp;&nbsp;&nbsp;<div class = "comm"><textarea id = "comment_'+subService.id+'" type="text" placeholder="Enter Comments"/></textarea></div></li>');
+
                 //console.log(subService);
             });
         }

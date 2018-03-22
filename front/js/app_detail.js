@@ -58,7 +58,7 @@ $(document).ready(function () {
                             isChecked = "checked";
                         }
 
-                        $("#sub_list_" + subService.id).append('<li><label><input type="checkbox" ' + isChecked + ' class="subOption" data-master-id="' + subService.id + '" value="' + subService.parent_id + '" name="master_' + subService.id + '">' + subService.service_name + '</label></li>');
+                        $("#sub_list_" + subService.id).append('<li><label><input type="checkbox" ' + isChecked + 'class="subOption" data-master-id="' + subService.parent_id + '" value="' + subService.id + '" name="sub_' + subService.parent_id + '"/><label>'+subService.service_name+'</label>&nbsp;</div>&nbsp;&nbsp;&nbsp;&nbsp;<div class = "price"><input id ="price_'+subService.id+'" type="number" value="'+subService.service_price+'"/></div>&nbsp;&nbsp;&nbsp;&nbsp;<div class = "comm"><input id = "comment_'+subService.id+'" type="text" /></div></li>');
                             
                     });
                     $('.contract_name_head').html('Update - ' + contractDetail.contract_name);
@@ -110,9 +110,6 @@ $(document).ready(function () {
 
         var m = "legal";
         dataFromForm[m] = myCheckboxes_legal;
-
-
-
 
 
         dataFromForm[s] =getUrlVars()['id'];
