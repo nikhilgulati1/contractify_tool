@@ -1,5 +1,5 @@
 var contractDetail = null;
-var subServiceList = null;
+var serviceList = null;
 var contractList = null;
 
 $(document).ready(function () {
@@ -38,33 +38,40 @@ $(document).ready(function () {
         type: "get",
         data: {},
         success: function (data) {
-            console.log(data);
             contractDetail = JSON.parse(data);
+            console.log(contractDetail);
             $.ajax({
                 url: get_service,
                 type: "get",
                 data: {},
-                success: function (data) {
-                    subServiceList = JSON.parse(data);
-                    subServiceList.forEach(subService => {
+                success: function (data1) {
+                    serviceList = JSON.parse(data1);
+                    console.log(serviceList);
+                    serviceList.forEach(service => {
 
-                        if (tempArray.indexOf(subService.id) < 0) {
-                            tempArray.push(subService.id);
-                            $("#scope_list").append('<li><label for="master_' + subService.id + '"> ' + subService.service_name + '</label><ul id="sub_list_' + subService.id + '"></ul></li >');
+                        if(service.parent_id == null || service.parent_id === 'null') {
+                            if (tempArray.indexOf(service.id) < 0) {
+                                tempArray.push(service.id);
+                                $("#scope_list").append('<li><label for="master_' + service.id + '"> ' + service.service_name + '</label><ul id="sub_list_' + service.id + '"></ul></li >');
+                            }
+                        } else {
+                            var isChecked = "";
+                            var currPrice = 0;
+                            if (contractDetail.sub_services.indexOf((""+service.id)) >= 0) {
+                                isChecked = "checked ";
+                                currPrice = contractDetail.sub_services[contractDetail.sub_services.indexOf((""+service.id))];
+                                console.log(currPrice);
+                            }
+
+                            $("#sub_list_" + service.parent_id).append('<li><label><input type="checkbox" ' + isChecked + 'class="subOption" data-master-id="' + service.parent_id + '" value="' + service.id + '" name="sub_' + service.id + '"/><label>'+service.service_name+'</label>&nbsp;</div>&nbsp;&nbsp;&nbsp;&nbsp;<div class = "price"><input id ="price_'+service.id+'" type="number" value="'+service.price+'"/></div>&nbsp;&nbsp;&nbsp;&nbsp;<div class = "comm"><input id = "comment_'+service.id+'" value ="'+service.comment+'"/></div></li>');
+
                         }
-
-                        var isChecked = "";
-                        if (contractDetail.sub_services.indexOf(subService.parent_id) >= 0) {
-                            isChecked = "checked";
-                        }
-
-                        $("#sub_list_" + subService.id).append('<li><label><input type="checkbox" ' + isChecked + 'class="subOption" data-master-id="' + subService.parent_id + '" value="' + subService.id + '" name="sub_' + subService.parent_id + '"/><label>'+subService.service_name+'</label>&nbsp;</div>&nbsp;&nbsp;&nbsp;&nbsp;<div class = "price"><input id ="price_'+subService.id+'" type="number" value="'+subService.service_price+'"/></div>&nbsp;&nbsp;&nbsp;&nbsp;<div class = "comm"><input id = "comment_'+subService.id+'" type="text" /></div></li>');
                             
                     });
                     $('.contract_name_head').html('Update - ' + contractDetail.contract_name);
                     populateClientFields(contractDetail);
                     populateContractFields(contractDetail);
-                }
+                 }
             });
         }
     });
