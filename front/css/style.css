@@ -8,7 +8,7 @@ input[type=text],
 select,
 textarea {
     width: 100%;
-    padding: 12px;
+    padding:7px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
@@ -37,13 +37,11 @@ input[type=submit]:hover {
 }
 
 .nav-item.client-pill {
-    margin: 0% 2%;
-    border: 1px solid #37123C;
-    padding: 1% 4%;
-    background: #37123C;
-    border-radius: 10px;
+    margin:0;
+    border-bottom: 1px solid #eaeaea;
+    padding:10px;
     cursor: pointer;
-    color: #fff;
+    color: #000;
 }
 
 #list {
@@ -98,15 +96,14 @@ input[type=submit]:hover {
 }
 
 .form-sec {
-    padding: 6%;
-    margin: 0%;
-    background-color: #A99F96;
+    padding:20px;
+    margin:0;
 }
 
 input[type=text], select, textarea {
-    background-color: #00000036;
-    color: white;
-    border: 0px solid #ccc;
+    background-color: #fff;
+    color: #444;
+    border:1px solid #ccc;
     outline-color: #fff;
 }
 
@@ -136,7 +133,7 @@ input[type=text], select, textarea {
 #scope_list {
    
     margin: 0 auto;
-    border: 1px solid #999;
+    border: 1px solid #eaeaea;
     padding: 15px;
 }
 
@@ -175,4 +172,5 @@ input[type=text], select, textarea {
 #table_div table{text-align:center;}
 #table_div table tbody tr td{padding-top:10px; padding-bottom:10px;}
 #table_div table tbody tr td:first-child{font-weight:bold;}
-
+.create select{height:45px;line-height: 45px;}
+.create select option{padding-left:0; margin-left:0;}
