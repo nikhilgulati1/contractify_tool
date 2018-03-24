@@ -157,6 +157,9 @@ input[type=text], select, textarea {
     width: 75%;
     text-align: center;
 }
+#legal {
+    list-style: none;
+}
 
 
 /************************/

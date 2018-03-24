@@ -53,10 +53,11 @@ $(document).ready(function () {
                         type: "get",
                         data: {},
                         success: function (data2) {
-
+                            console.log(data2);
                             legalList = JSON.parse(data2);
 
                             legalList.forEach(legal => {
+
                                 var isPresent = contractDetail.legal_ids.indexOf(("" + legal.id));
                                 var isChecked = "";
                                 if (isPresent >= 0) {
@@ -159,7 +160,7 @@ $(document).ready(function () {
             type: "post",
             data: dataFromForm,
             success: function (data) {
-                $("#downpdf_link").attr("href", "http://localhost/contractify/back/generated/contracts/" + data);
+                $("#downpdf_link").attr("href", "http://localhost/contractify_tool/back/generated/contracts/" + data);
                 $('.success-alert').show();
                 $("html, body").animate({ scrollTop: 0 }, "slow");
             }

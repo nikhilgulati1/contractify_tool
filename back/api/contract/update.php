@@ -83,9 +83,14 @@
 
     $pdf -> AddPage();
     $pdf -> SetFont('Arial','B', 12);
+    $pdf -> SetTextColor(187, 0, 0);
+
     $pdf -> Cell(150,10,"Dignitas Digital",1,1,'C');
     
-    $pdf-> Cell(150,10,"Client Name: ".$client_name,1,1);
+    $pdf-> Cell(150,10,"Client Name:",1,0,'L');
+    $pdf -> SetTextColor(0, 0, 0);
+    $pdf-> Cell(150,10," ".$client_name,0,1,'C');
+
     $pdf-> Cell(150,10,"Client SPOC: ".$client_spoc,1,1);
     if($contract_type == 1){
         $pdf-> Cell(150,10,"Contract Type: Digital Marketing",1,1);
@@ -128,17 +133,14 @@
     $pdf-> MultiCell(150,5,"-Applicable taxes additional(Currently GST @ 18%)",0,'L');
     $pdf-> Ln(10);
     $pdf -> SetFont('Arial','', 7);
-    $pdf-> Write(5,"By signing this estimate client is agreeing to:
+    $pdf-> Write(5,"By signing this estimate client is agreeing to:",1);
+    $pdf-> Ln(8);
 
-        1.   To pay Dignitas Digital the amounts shown in this estimate in consideration of and for the services performed and/or purchases made on Client's behalf under this estimate agreement within 10 days of date of issue on the invoice.  If Dignitas Digital is required to retain the services of an attorney to collect any unpaid invoice (after serving three written or emailed notices), Client agrees to reimburse Dignitas Digital for its costs of collection. Payment to be made in the name of the Agency. In case of any dispute relating to the payment, terms and conditions or any other kind, jurisdiction of Court in Delhi will be applicable.
-        2.  To indemnify Dignitas Digital for all third party purchases (media, photography, printing, software modules etc.)  authorized by Client's signature under this agreement.  In the case of project cancellation this means Client is responsible for all costs and liabilities (including time, cancellation fees and any media \"short rates\") incurred up until Client cancels (unless other cancellation terms have been agreed to in writing) with the understanding that such cancellation costs will not exceed the amount(s) shown on this estimate.
-        3.  The price mentioned in this quote is in Indian Rupees.
-        4.  The client will pay for any gift items/sweepstakes awards/giveaways that may be used for promotion on social media channels
-        5.  The pricing mentioned in this quote is bulk pricing based on the project. The pricing is not for any individual components, but is based on milestones as mentioned.
-        6.  To allow Dignitas Digital to legally use client’s logo and name on dignitasdigital.com stating the project, if desired.
-        7.  To assume all responsibility for the accuracy of any and all information and materials supplied by Client to Dignitas Digital, including information about their ownership, and to indemnify and defend Dignitas Digital from all claims and damages resulting from Dignitas Digital's use of such materials in Client's projects.  Dignitas Digital will, in turn, do the same for Client in regard to any other information and materials Dignitas Digital provides as part of this project.
-        8.  Estimate terms may only be modified by replacing this estimate with a new estimate.
-        ");
+
+       while ($row = mysqli_fetch_assoc($value3)){
+            $pdf-> MultiCell(150,4,"- ".$row['name'],0,'L');
+            $pdf-> Ln(2);
+        }
 
     $filename= "dd_c".$contract_id.".pdf"; 
 

@@ -30,24 +30,24 @@ $(document).ready(function () {
         isOpen_2 = !isOpen_2;
     });
 
-    $("#contract_start_date").datetimepicker({
-        dateFormat: 'dd/mm/yy',
-        changeMonth: true,
-        changeYear: true,
-        maxDate: '0',
-        onClose: function( selectedDate ) {
-        $( "#contract_end_date" ).datetimepicker( "option", "minDate", selectedDate );
-        }
-    });
-    $("#contract_end_date").datetimepicker({
-        dateFormat: 'dd/mm/yy',
-        changeMonth: true,
-        changeYear: true,
-        maxDate: '0',
-        onClose: function( selectedDate ) {
-        $( "#contract_end_date" ).datetimepicker( "option", "maxDate", selectedDate );
-        }
-    });
+    // $("#contract_start_date").datetimepicker({
+    //     dateFormat: 'dd/mm/yy',
+    //     changeMonth: true,
+    //     changeYear: true,
+    //     maxDate: '0',
+    //     onClose: function( selectedDate ) {
+    //     $( "#contract_end_date" ).datetimepicker( "option", "minDate", selectedDate );
+    //     }
+    // });
+    // $("#contract_end_date").datetimepicker({
+    //     dateFormat: 'dd/mm/yy',
+    //     changeMonth: true,
+    //     changeYear: true,
+    //     maxDate: '0',
+    //     onClose: function( selectedDate ) {
+    //     $( "#contract_end_date" ).datetimepicker( "option", "maxDate", selectedDate );
+    //     }
+    // });
 
     $('#existing_client_list').on('change',function(){
         var selected = $('#existing_client_list').find(":selected").attr('data-client-id');
@@ -60,7 +60,9 @@ $(document).ready(function () {
         data: {},
         success: function (data) {
             clientList = JSON.parse(data);
+            $("#existing_client_list").append('<option class="nav-item client-pill">Select</option>');
             clientList.forEach(client => {
+                
                 $("#existing_client_list").append('<option class="nav-item client-pill"  data-client-id="' + client.client_id + '">' + client.client_name + '</option>');
             });
         }
@@ -115,21 +117,15 @@ $(document).ready(function () {
 
         }
     });
-    var daysObject = getdays();
-    console.log(daysObject);
-    function getdays() {
-        
-        var hashes = $('#client_payment_terms').slice("+")[1];
-        
-        return hashes;
-    }
-
+    
 
     $("#create_contract").submit(function (event) {
+
 
         event.preventDefault();
 
         var dataFromForm = objectifyForm($("#create_contract").serializeArray());
+        //console.log(dataFromForm.contract_start_date]);
 
         var myCheckboxes_scope = [];
         var myCheckboxes_legal = [];
@@ -161,9 +157,7 @@ $(document).ready(function () {
         var m = "legal";
         dataFromForm[m] = myCheckboxes_legal;
 
-        var u = "days";
-        dataFromForm [u] = daysObject;
-
+    
         //console.log(dataFromForm);
 
         $.ajax({
@@ -172,7 +166,7 @@ $(document).ready(function () {
             data: dataFromForm,
             success: function (data) {
 
-                $("#downpdf_link").attr("href", "http://localhost/contractify/back/generated/contracts/" + data);
+                $("#downpdf_link").attr("href", "http://localhost/contractify_tool/back/generated/contracts/" + data);
                 $('.success-alert').show();
                 $("html, body").animate({ scrollTop: 0 }, "slow");
 

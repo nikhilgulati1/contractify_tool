@@ -13,7 +13,7 @@
     //$client_gstn = filter_var($_POST['client_gstn'], FILTER_SANITIZE_STRING);
     $client_name = filter_var($_POST['client_name'], FILTER_SANITIZE_STRING);
     $client_pan = filter_var($_POST['client_pan'], FILTER_SANITIZE_STRING);
-    //$client_payment_terms = filter_var($_POST['client_payment_terms'], FILTER_SANITIZE_STRING);
+    $client_payment_terms = filter_var($_POST['client_payment_terms'], FILTER_SANITIZE_STRING);
     $client_spoc = filter_var($_POST['client_spoc'], FILTER_SANITIZE_STRING);
     $contract_description = filter_var($_POST['contract_description'], FILTER_SANITIZE_STRING);
     $contract_end_date = filter_var($_POST['contract_end_date'], FILTER_SANITIZE_STRING);
@@ -22,7 +22,7 @@
     $contract_type = filter_var($_POST['contract_type'], FILTER_SANITIZE_STRING);
     $contract_scope = ($_POST['scope']);
     $legal = ($_POST['legal']);
-    $days = ($_POST['days']);
+   
     
 
 
@@ -32,7 +32,7 @@
         $client_id = $_POST['client_id'];
     } else {
         
-        $query = "INSERT INTO `dd_client` ( `client_id`, `client_name`, `client_spoc`, `client_email_address`, `client_contact_no`, `client_pan`, `client_gstn`,`client_billing_address`,`client_payment_terms`, `client_recurring` ) VALUES (NULL, '".$client_name."', '".$client_spoc."', '".$client_email_address."', '".$client_contact_no."', '".$client_pan."', 'ABCDE4567Q','".$client_billing_address."', '".$days."','0');";
+        $query = "INSERT INTO `dd_client` ( `client_id`, `client_name`, `client_spoc`, `client_email_address`, `client_contact_no`, `client_pan`, `client_gstn`,`client_billing_address`,`client_payment_terms`, `client_recurring` ) VALUES (NULL, '".$client_name."', '".$client_spoc."', '".$client_email_address."', '".$client_contact_no."', '".$client_pan."', 'ABCDE4567Q','".$client_billing_address."', '".$days."','".$client_payment_terms."');";
 
         $result_1 = mysqli_query($conn,$query);
         print_r($result_1);
@@ -47,7 +47,7 @@
     $query_2 = "INSERT INTO `dd_contract_main` (`contract_id`, `client_id`, `contract_name`, `contract_start_date`, `contract_end_date`, `contract_description`, `contract_type`,`contract_status`, `last_modified`) VALUES (NULL, '".$client_id."', '".$contract_name."', '".$contract_start_date."', '".$contract_end_date."', '".$contract_description."', '".$contract_type."', 'Started', ".time().");";
 
     $result_2 = mysqli_query($conn,$query_2);
-
+    print_r($result_2);
     $contract_id = null;
 
     if($result_2 == 1) {
@@ -118,6 +118,8 @@
 
         $pdf -> AddPage();
         $pdf -> SetFont('Arial','B', 12);
+        $pdf -> SetTextColor(187,0,0);
+
         $pdf -> Cell(150,10,"Dignitas Digital",1,1,'C');
         
         $pdf-> Cell(150,10,"Client Name: ".$client_name,1,1);
@@ -169,6 +171,8 @@
         $pdf-> MultiCell(150,5,"-Applicable taxes additional(Currently GST @ 18%)",0,'L');
         $pdf-> Ln(10);
         $pdf -> SetFont('Arial','', 7);
+        $pdf-> Write(5,"By signing this estimate client is agreeing to:");
+        $pdf-> Ln(8);
         while ($row = mysqli_fetch_assoc($value3)){
             $pdf-> MultiCell(150,4,"- ".$row['name'],0,'L');
             $pdf-> Ln(2);
@@ -184,9 +188,9 @@
 
         $pdf->Output($fileNL,'F');
 
-        //echo $filename;
+        echo $filename;
 
-     } 
+    } 
      else {
         die("Error in inserting client.");
     }
