@@ -15,7 +15,9 @@
 	<div class="container-fluid create">
 		<div class="row heading">
 			<div class="col-sm-10">
-				<div class="logo"><img src="images/logo.png" /></div>
+				<div class="logo">
+					<img src="images/logo.png" />
+				</div>
 			</div>
 			<div class="col-sm-2 ">
 				<a id="link_1" href="index.html" class="btn btn-primary pull-right" role="button" aria-pressed="true">View All</a>
@@ -56,25 +58,25 @@
 
 						<p>or add new: </p>
 						<label for="client_name">Client Name</label>
-						<input type="text" id="client_name" name="client_name">
+						<input type="text" id="client_name" name="client_name" required>
 						<br>
 						<label for="client_spoc">Client SPOC</label>
-						<input type="text" id="client_spoc" name="client_spoc">
+						<input type="text" id="client_spoc" name="client_spoc" required>
 						<br>
 						<label for="client_contact_no">Client Contact </label>
-						<input type="text" id="client_contact_no" name="client_contact_no">
+						<input type="text" id="client_contact_no" name="client_contact_no" required>
 						<br>
 						<label for="client_pan">Client PAN</label>
-						<input type="text" id="client_pan" name="client_pan">
+						<input type="text" id="client_pan" name="client_pan" required>
 						<br>
 						<label for="client_billing_address">Client Billing Address</label>
-						<input type="text" id="client_billing_address" name="client_billing_address">
+						<input type="text" id="client_billing_address" name="client_billing_address" required>
 						<br>
 						<label for="client_payment_terms">Client Payment Terms (enter the number of days only)</label>
-						<input type="text" id="client_payment_terms" name="client_payment_terms">
+						<input type="text" id="client_payment_terms" name="client_payment_terms" required>
 						<br>
 						<label for="client_email_address">Client Email id</label>
-						<input type="text" id="client_email_address" name="client_email_address">
+						<input type="text" id="client_email_address" name="client_email_address" required>
 						<br>
 						<!-- <label for="client_gstn">Client GSTN</label>
 						<input type="file" name="fileToUpload" id="client_gstn"> -->
@@ -95,15 +97,15 @@
 						<br />
 
 						<label for="contract_name">Contract Name</label>
-						<input type="text" id="contract_name" name="contract_name">
+						<input type="text" id="contract_name" name="contract_name" required>
 						<br>
 						<label for="contract_start_date">Contract Start Date</label>
-						<input readonly size="16" type="text" data-date="" data-link-format="yyyy-mm-dd" class="form_datetime control" required
-						 name="contract_start_date" id="contract_start_date">
+						<input readonly size="16" type="text" data-date="" data-link-format="yyyy-mm-dd" class="form_datetime control" required name="contract_start_date"
+						 id="contract_start_date">
 						<br>
 						<label for="contract_end_date">Contract End Date</label>
-						<input readonly size="16" type="text" data-date="" data-link-format="yyyy-mm-dd" class="form_datetime control" required
-						 name="contract_end_date" id="contract_end_date">
+						<input readonly size="16" type="text" data-date="" data-link-format="yyyy-mm-dd" class="form_datetime control" required name="contract_end_date"
+						 id="contract_end_date">
 						<br>
 						<label for="contract_description">Contract Description</label>
 						<input type="text" id="contract_description" name="contract_description">

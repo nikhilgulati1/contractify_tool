@@ -1,7 +1,7 @@
 <?php
 	$user_name = "root";
 	$pw = "";
-	$database = "contract_db";
+	$database = "contractify_db";
 	$server = "localhost";
 	$conn = new mysqli($server,$user_name,$pw,$database);
 	if($conn->connect_error){
