@@ -23,6 +23,8 @@
 				<a id="link_1" href="index.html" class="btn btn-primary pull-right" role="button" aria-pressed="true">View All</a>
 			</div>
 		</div>
+
+		<div class="main-container">
 		<div class="row sub-heading">
 			<div class="col-sm-12">
 				<h2>Create a new Contract</h2>
@@ -45,19 +47,25 @@
 		<form id="create_contract" enctype="multipart/form-data">
 			<div class="row">
 				<div class="col-sm-12">
-					<div class="form-sec">
+					<div class="form-sec entclint">
 
 						<h3>Enter the Client Details</h3>
-						<br />
 
+<div class="chosbox">
 						<p>Choose from Existing Client: </p>
 
 						<select id="existing_client_list" class="nav nav-pills">
 						</select>
-						<br />
+					</div>
 
-						<p>or add new: </p>
+					<div class="addnewbox">
+
+						<p>Or Add New: </p>
+
+						<ul>
+						<li>	
 						<label for="client_name">Client Name</label>
+
 						<input type="text" id="client_name" name="client_name" required>
 						<br>
 						<label for="client_spoc">Client SPOC</label>
@@ -78,11 +86,14 @@
 						<label for="client_email_address">Client Email id</label>
 						<input type="text" id="client_email_address" name="client_email_address" required>
 						<br>
+
 						<!-- <label for="client_gstn">Client GSTN</label>
 						<input type="file" name="fileToUpload" id="client_gstn"> -->
 						<input type="hidden" id="client_id" name="client_id" value="">
 						<br>
 						<br>
+
+					</div>
 
 					</div>
 
@@ -92,11 +103,14 @@
 				<div class="col-sm-12">
 
 					<div class="form-sec">
+						<div class="addnewbox">
 
 						<h3>Contract Details</h3>
-						<br />
 
+                        <ul>
+                        <li>	
 						<label for="contract_name">Contract Name</label>
+
 						<input type="text" id="contract_name" name="contract_name" required>
 						<br>
 						<label for="contract_start_date">Contract Start Date</label>
@@ -106,19 +120,24 @@
 						<label for="contract_end_date">Contract End Date</label>
 						<input readonly size="16" type="text" data-date="" data-link-format="yyyy-mm-dd" class="form_datetime control" required name="contract_end_date"
 						 id="contract_end_date">
+						</li>
 						<br>
+						<li>
 						<label for="contract_description">Contract Description</label>
 						<input type="text" id="contract_description" name="contract_description">
-						<br>
+					    </li>
+					    <br>
+						<li>
 						<label for="contract_type">Contract Type</label>
 						<select id="contract_type" name="contract_type">
 							<option value="1">Digital Marketing</option>
 							<option value="2">Techincal</option>
 							<option value="3">Both</option>
 						</select>
-						<br>
-						<br>
+					    </li>
 
+</ul>
+</div>
 					</div>
 				</div>
 			</div>
@@ -147,24 +166,18 @@
 					<br>
 					<input type="submit" id="submit" value="Create" class="btn btn-primary">
 					<br>
+					<br>
+					<br>
 				</div>
 			</div>
 
 
 
-
+</form>
+	</div>
 
 	</div>
 
-
-	</div>
-	</form>
-	</div>
-
-	<br />
-	<br />
-	<br />
-	<br />
 
 	<!-- Include JQuery - A JS library to make life easier -->
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
