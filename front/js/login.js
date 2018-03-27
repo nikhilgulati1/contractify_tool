@@ -1,8 +1,8 @@
 $(document).ready(function () {
-	$("#login").submit(function (event) {
+	$(".login").submit(function (event) {
 
 		event.preventDefault();
-		var dataFromLogin = objectifyForm($("#login").serializeArray());
+		var dataFromLogin = objectifyForm($(".login").serializeArray());
 		$.ajax({
 			url: login,
 			type: "post",

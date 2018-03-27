@@ -117,23 +117,70 @@
         $pdf -> AddPage();
         $pdf -> SetFont('Arial','B', 12);
         $pdf -> SetTextColor(187,0,0);
+    
+        $pdf -> Image('../../../front/images/DDlogo.png',5, $pdf->GetXY()+5,50);
+        $pdf-> SetX(45);
+
 
         $pdf -> Cell(150,10,"Dignitas Digital",1,1,'C');
+        $pdf-> SetX(45);
         
-        $pdf-> Cell(150,10,"Client Name: ".$client_name,1,1);
-        $pdf-> Cell(150,10,"Client SPOC: ".$client_spoc,1,1);
+        $pdf-> Cell(150,10,"Client Name:  ",1,0);
+        //$pdf-> SetXY(35,20);
+        $pdf -> SetTextColor(0,0,0);
+        $pdf-> Text(75,26.5,$client_name);
+        $pdf->Ln();
+
+        $pdf -> SetTextColor(187,0,0);
+        
+        $pdf-> SetX(45);
+        $pdf-> Cell(150,10,"Client SPOC: ",1,0);
+
+        $pdf -> SetTextColor(0,0,0);
+        $pdf-> Text(75,36.5,$client_spoc);
+        $pdf->Ln();
+
+
         if($contract_type == 1){
-            $pdf-> Cell(150,10,"Contract Type: Digital Marketing",1,1);
+            $pdf -> SetTextColor(187,0,0);
+            $pdf-> SetX(45);
+            $pdf-> Cell(150,10,"Contract Type:",1,0);
+            $pdf -> SetTextColor(0,0,0);
+            $pdf-> Text(78,46.5,"Digital Marketing");
+            $pdf->Ln();
+
+
+
         }
         else if($contract_type == 2){
-            $pdf-> Cell(150,10,"Contract Type: Technical",1,1);
+            $pdf -> SetTextColor(187,0,0);
+            $pdf-> SetX(45);
+            $pdf-> Cell(150,10,"Contract Type: ",1,0);
+            $pdf -> SetTextColor(0,0,0);
+            $pdf-> Text(78,46.5,"Technical");
+            $pdf->Ln();
+
         }
         else {
-            $pdf-> Cell(150,10,"Contract Type: Digital Marketing and Technical",1,1);
-        }    
-        $pdf-> Cell(150,10,"Contract Start date: ".$contract_start_date,1,1);
-        $pdf-> Ln(5);
+            $pdf -> SetTextColor(187,0,0);
+            $pdf-> SetX(45);
+            $pdf-> Cell(150,10,"Contract Type: ",1,0);
+            $pdf -> SetTextColor(0,0,0);
+            $pdf-> Text(78,46.5,"Digital Marketing and Technical");
+            $pdf->Ln();
+        }  
+        $pdf -> SetTextColor(187,0,0);  
+        $pdf-> SetX(45);
+        $pdf-> Cell(150,10,"Contract Start date: ",1,0);
+        $pdf -> SetTextColor(0,0,0);
+        $pdf-> Text(90,56.5,$contract_start_date);
+
+
+
+        $pdf-> Ln(15);
+        $pdf -> SetTextColor(66,95,244);
         $pdf-> Write(10,"CONTRACT SCOPE");
+        $pdf -> SetTextColor(0,0,0);
         $pdf -> SetFont('Arial','', 10);
         $pdf-> Ln(10);
         while ($row = mysqli_fetch_assoc($value1)){
@@ -152,7 +199,9 @@
             
         }
         $pdf -> SetFont('Arial','B', 12);
+        $pdf -> SetTextColor(66,95,244);
         $pdf-> Write(10,"PRICING");
+        $pdf -> SetTextColor(0,0,0);
         $pdf-> Ln(10);
         $pdf -> SetFont('Arial','', 10);
         while (($row = mysqli_fetch_assoc($value2)) && ($row1 = mysqli_fetch_assoc($value))){
