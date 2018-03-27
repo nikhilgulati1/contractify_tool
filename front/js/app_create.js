@@ -49,7 +49,7 @@ $(document).ready(function () {
     //     }
     // });
 
-    $('#existing_client_list').on('change', function () {
+    $('#existing_client_list').on('change',function(){
         var selected = $('#existing_client_list').find(":selected").attr('data-client-id');
         updateExistingClient(selected);
     });
@@ -62,7 +62,7 @@ $(document).ready(function () {
             clientList = JSON.parse(data);
             $("#existing_client_list").append('<option class="nav-item client-pill">Select</option>');
             clientList.forEach(client => {
-
+                
                 $("#existing_client_list").append('<option class="nav-item client-pill"  data-client-id="' + client.client_id + '">' + client.client_name + '</option>');
             });
         }
@@ -117,7 +117,7 @@ $(document).ready(function () {
 
         }
     });
-
+    
 
     $("#create_contract").submit(function (event) {
 
@@ -157,31 +157,15 @@ $(document).ready(function () {
         var m = "legal";
         dataFromForm[m] = myCheckboxes_legal;
 
-
+    
         //console.log(dataFromForm);
-
-        var contract_start_date = $("#contract_start_date").datetimepicker('getDate');
-        var contract_end_date = $("#contract_end_date").datetimepicker('getDate');
-
-        var diff = contract_end_date - contract_start_date;
-        var days = diff / 1000 / 60 / 60 / 24;
-
-        if (days <= 0) {
-            alert('End Time must be greater than Start Time.');
-            return false;
-        }
-
-        if (myCheckboxes_scope.length == 0) {
-            alert('Atleast one scope must be selected.');
-            return false;
-        }
 
         $.ajax({
             url: create_contract,
             type: "post",
             data: dataFromForm,
             success: function (data) {
-
+                console.log(data);
                 $("#downpdf_link").attr("href", "http://localhost/contractify_tool/back/generated/contracts/" + data);
                 $('.success-alert').show();
                 $("html, body").animate({ scrollTop: 0 }, "slow");
