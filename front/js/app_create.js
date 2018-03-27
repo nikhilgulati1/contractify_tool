@@ -49,7 +49,7 @@ $(document).ready(function () {
     //     }
     // });
 
-    $('#existing_client_list').on('change',function(){
+    $('#existing_client_list').on('change', function () {
         var selected = $('#existing_client_list').find(":selected").attr('data-client-id');
         updateExistingClient(selected);
     });
@@ -62,7 +62,7 @@ $(document).ready(function () {
             clientList = JSON.parse(data);
             $("#existing_client_list").append('<option class="nav-item client-pill">Select</option>');
             clientList.forEach(client => {
-                
+
                 $("#existing_client_list").append('<option class="nav-item client-pill"  data-client-id="' + client.client_id + '">' + client.client_name + '</option>');
             });
         }
@@ -117,7 +117,25 @@ $(document).ready(function () {
 
         }
     });
-    
+
+    $("#client_gstn_upload").change(function (evt) {
+        var files = evt.target.files;
+        var file = files[0];
+
+        if (files && file) {
+            var reader = new FileReader();
+
+            reader.onload = function (readerEvt) {
+                var binaryString = readerEvt.target.result;
+                var q = btoa(binaryString);
+                $('#client_gstn').val(q);
+                $('#gstn_preview').attr('src', 'data:image/jpeg;base64,' + q);
+            };
+
+            reader.readAsBinaryString(file);
+        }
+    });
+
 
     $("#create_contract").submit(function (event) {
 
@@ -157,7 +175,7 @@ $(document).ready(function () {
         var m = "legal";
         dataFromForm[m] = myCheckboxes_legal;
 
-    
+
         //console.log(dataFromForm);
 
         $.ajax({
