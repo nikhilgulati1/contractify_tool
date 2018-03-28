@@ -121,122 +121,183 @@
 // Page header
             function Header()
             {
-        //         $this->SetFont('dejavusans', 'BI', 20, '', 'false');
-        //         $this->setTextShadow(array('enabled'=>true, 'depth_w'=>0.2, 'depth_h'=>0.2, 'color'=>array(196,196,196), 'opacity'=>1, 'blend_mode'=>'Normal'));
-        // // Move to the right
-        //         $this->Ln(5);
-        //         $this->Cell(60);
-        //         $this->Cell($w, $h=0, $txt='INCOME REPORT', $border=0, $ln=0, $align='', $fill=false, $link='', $stretch=0,
-        //         $ignore_min_height=false, $calign='T', $valign='M');
-        //         $this->Line (0, 13, 210, 13, $style=array());
-        // // Line break
-        //         $this->Ln(5);
+                global $client_name, $client_spoc, $contract_start_date;
+
+                $this->Image('../../../front/images/DDlogo.png',5,15,25);
+                $this-> SetX(45);
+
+                $this -> SetFont('Arial','B', 12);
+                $this -> SetTextColor(187,0,0);
+                $this -> Cell(150,10,"Scope of Work",0,1,'C');
+                $this-> SetX(45);
+
+                $this -> SetFont('Arial','B', 8);
+                $this-> Cell(150,10,"Client Name:  ",1,0);
+        //$this-> SetXY(35,20);
+                $this -> SetTextColor(0,0,0);
+                $this -> SetFont('Arial','', 8);
+                $this-> Text(72,26,$client_name);
+                $this->Ln();
+
+                $this -> SetTextColor(187,0,0);
+        
+                $this-> SetX(45);
+                $this -> SetFont('Arial','B', 8);
+                $this-> Cell(150,10,"Client SPOC: ",1,0);
+
+                $this -> SetTextColor(0,0,0);
+                $this -> SetFont('Arial','', 8);
+                $this-> Text(72,36,$client_spoc);
+                $this->Ln();
+
+
+                if($contract_type == 1){
+                    $this -> SetTextColor(187,0,0);
+                    $this-> SetX(45);
+                    $this -> SetFont('Arial','B', 8);
+                    $this-> Cell(150,10,"Contract Type:",1,0);
+                    $this -> SetTextColor(0,0,0);
+                    $this -> SetFont('Arial','', 8);
+                    $this-> Text(72,46,"Digital Marketing");
+                    $this->Ln();
+                }
+
+                else if($contract_type == 2){
+                    $this -> SetTextColor(187,0,0);
+                    $this-> SetX(45);
+                    $this -> SetFont('Arial','B', 8);
+                    $this-> Cell(150,10,"Contract Type: ",1,0);
+                    $this -> SetTextColor(0,0,0);
+                    $this -> SetFont('Arial','', 8);
+                    $this-> Text(72,46,"Technical");
+                    $this->Ln();
+
+                }
+                else {
+                    $this -> SetTextColor(187,0,0);
+                    $this-> SetX(45);
+                    $this -> SetFont('Arial','B', 8);
+                    $this-> Cell(150,10,"Contract Type: ",1,0);
+                    $this -> SetTextColor(0,0,0);
+                    $this -> SetFont('Arial','', 8);
+                    $this-> Text(72,46,"Digital Marketing and Technical");
+                    $this->Ln();
+                }  
+                $this -> SetTextColor(187,0,0);  
+                $this-> SetX(45);
+                $this -> SetFont('Arial','B', 8);
+                $this-> Cell(150,10,"Contract Start date:",1,0);
+                $this -> SetTextColor(0,0,0);
+                $this -> SetFont('Arial','', 8);
+                $this-> Text(78,56,$contract_start_date);
+                $this-> Ln(15);
+               
             }
 // Page footer
             public function Footer() {
         // Position at 15 mm from bottom
-                $this->SetY(-20);
+                $this->SetY(-15);
                 $this -> SetFont('Arial','', 6);
         // Set font
                 $this-> SetTextColor(187,0,0);
         // Page number
-                $this->Cell(0,10,'Dignitas Digtal Pvt Ltd                                                                                                  Digital Marketing | Web | Mobile Apps | Software ',0,1,'L');
-                $this-> Line(0,-15,170,-15);
+                $this->Cell(0,2,'Dignitas Digtal Pvt Ltd                                                                                              Digital Marketing | Web | Mobile Apps | Software ',0,1,'L');
+                $this-> Cell(0,2,'_______________________________________________________________________________________________________________',0,1);
 
-                $this->Cell(0,10,'1/4, Najafgarh Rd, Block 1, Tilak Nagar, New Delhi, Delhi 110018(regd.)             +91-11-45501210[phone]                www.dignitasdigital.com',0,1,'');
+                $this->Cell(0,4,'1/4, Najafgarh Rd, Block 1, Tilak Nagar, New Delhi, Delhi 110018(regd.)             +91-11-45501210[phone]                www.dignitasdigital.com',0,1,'');
             }
-            function Logo($x,$y){
+            // function Logo($x,$y){
                 
-                $this->Image('../../../front/images/DDlogo.png',$x,$y+10,20);
-            }
+            //     $this->Image('../../../front/images/DDlogo.png',$x,$y,25);
+            // }
 
         }
 
         $pdf = new PDF();
-        $x = $pdf->GetX();
-        $y = $pdf->GetY();
+        // $x = $pdf->GetX();
+        // $y = $pdf->GetY();
 
 
         $pdf -> AddPage();
         
-        $pdf->Logo($x,$y);
+        //$pdf->Logo($x,$y);
         
-        $pdf-> SetX(45);
+        // $pdf-> SetX(45);
 
-        $pdf -> SetFont('Arial','B', 12);
-        $pdf -> SetTextColor(187,0,0);
-        $pdf -> Cell(150,10,"Scope of Work",0,1,'C');
-        $pdf-> SetX(45);
+        // $pdf -> SetFont('Arial','B', 12);
+        // $pdf -> SetTextColor(187,0,0);
+        // $pdf -> Cell(150,10,"Scope of Work",0,1,'C');
+        // $pdf-> SetX(45);
 
-        $pdf -> SetFont('Arial','B', 8);
-        $pdf-> Cell(150,10,"Client Name:  ",1,0);
-        //$pdf-> SetXY(35,20);
-        $pdf -> SetTextColor(0,0,0);
-        $pdf -> SetFont('Arial','', 8);
-        $pdf-> Text(72,26,$client_name);
-        $pdf->Ln();
+        // $pdf -> SetFont('Arial','B', 8);
+        // $pdf-> Cell(150,10,"Client Name:  ",1,0);
+        // //$pdf-> SetXY(35,20);
+        // $pdf -> SetTextColor(0,0,0);
+        // $pdf -> SetFont('Arial','', 8);
+        // $pdf-> Text(72,26,$client_name);
+        // $pdf->Ln();
 
-        $pdf -> SetTextColor(187,0,0);
+        // $pdf -> SetTextColor(187,0,0);
         
-        $pdf-> SetX(45);
-        $pdf -> SetFont('Arial','B', 8);
-        $pdf-> Cell(150,10,"Client SPOC: ",1,0);
+        // $pdf-> SetX(45);
+        // $pdf -> SetFont('Arial','B', 8);
+        // $pdf-> Cell(150,10,"Client SPOC: ",1,0);
 
-        $pdf -> SetTextColor(0,0,0);
-        $pdf -> SetFont('Arial','', 8);
-        $pdf-> Text(72,36,$client_spoc);
-        $pdf->Ln();
-
-
-        if($contract_type == 1){
-            $pdf -> SetTextColor(187,0,0);
-            $pdf-> SetX(45);
-            $pdf -> SetFont('Arial','B', 8);
-            $pdf-> Cell(150,10,"Contract Type:",1,0);
-            $pdf -> SetTextColor(0,0,0);
-            $pdf -> SetFont('Arial','', 8);
-            $pdf-> Text(72,46,"Digital Marketing");
-            $pdf->Ln();
+        // $pdf -> SetTextColor(0,0,0);
+        // $pdf -> SetFont('Arial','', 8);
+        // $pdf-> Text(72,36,$client_spoc);
+        // $pdf->Ln();
 
 
-
-        }
-        else if($contract_type == 2){
-            $pdf -> SetTextColor(187,0,0);
-            $pdf-> SetX(45);
-            $pdf -> SetFont('Arial','B', 8);
-            $pdf-> Cell(150,10,"Contract Type: ",1,0);
-            $pdf -> SetTextColor(0,0,0);
-            $pdf -> SetFont('Arial','', 8);
-            $pdf-> Text(72,46,"Technical");
-            $pdf->Ln();
-
-        }
-        else {
-            $pdf -> SetTextColor(187,0,0);
-            $pdf-> SetX(45);
-            $pdf -> SetFont('Arial','B', 8);
-            $pdf-> Cell(150,10,"Contract Type: ",1,0);
-            $pdf -> SetTextColor(0,0,0);
-            $pdf -> SetFont('Arial','', 8);
-            $pdf-> Text(72,46,"Digital Marketing and Technical");
-            $pdf->Ln();
-        }  
-        $pdf -> SetTextColor(187,0,0);  
-        $pdf-> SetX(45);
-        $pdf -> SetFont('Arial','B', 8);
-        $pdf-> Cell(150,10,"Contract Start date: ",1,0);
-        $pdf -> SetTextColor(0,0,0);
-        $pdf -> SetFont('Arial','', 8);
-        $pdf-> Text(78,56,$contract_start_date);
+        // if($contract_type == 1){
+        //     $pdf -> SetTextColor(187,0,0);
+        //     $pdf-> SetX(45);
+        //     $pdf -> SetFont('Arial','B', 8);
+        //     $pdf-> Cell(150,10,"Contract Type:",1,0);
+        //     $pdf -> SetTextColor(0,0,0);
+        //     $pdf -> SetFont('Arial','', 8);
+        //     $pdf-> Text(72,46,"Digital Marketing");
+        //     $pdf->Ln();
 
 
 
-        $pdf-> Ln(15);
+        // }
+        // else if($contract_type == 2){
+        //     $pdf -> SetTextColor(187,0,0);
+        //     $pdf-> SetX(45);
+        //     $pdf -> SetFont('Arial','B', 8);
+        //     $pdf-> Cell(150,10,"Contract Type: ",1,0);
+        //     $pdf -> SetTextColor(0,0,0);
+        //     $pdf -> SetFont('Arial','', 8);
+        //     $pdf-> Text(72,46,"Technical");
+        //     $pdf->Ln();
+
+        // }
+        // else {
+        //     $pdf -> SetTextColor(187,0,0);
+        //     $pdf-> SetX(45);
+        //     $pdf -> SetFont('Arial','B', 8);
+        //     $pdf-> Cell(150,10,"Contract Type: ",1,0);
+        //     $pdf -> SetTextColor(0,0,0);
+        //     $pdf -> SetFont('Arial','', 8);
+        //     $pdf-> Text(72,46,"Digital Marketing and Technical");
+        //     $pdf->Ln();
+        // }  
+        // $pdf -> SetTextColor(187,0,0);  
+        // $pdf-> SetX(45);
+        // $pdf -> SetFont('Arial','B', 8);
+        // $pdf-> Cell(150,10,"Contract Start date: ",1,0);
+        // $pdf -> SetTextColor(0,0,0);
+        // $pdf -> SetFont('Arial','', 8);
+        // $pdf-> Text(78,56,$contract_start_date);
+
+
+
+        
 
         $pdf -> SetTextColor(0,0,0);
         
-        $pdf-> Ln(10);
+        //$pdf-> Ln(10);
 
         $count = 0;
         $flag = 0;
@@ -246,9 +307,10 @@
             
             if($row['service_name'] == "Search Engine Optimization"){
                 
-                $pdf -> SetFont('Arial','', 10);
+                $pdf -> SetFont('Arial','B', 10);
                 $pdf -> SetTextColor(66,95,244);
                 $pdf-> MultiCell(150,5,$row['service_name'],0,'L');
+                $pdf->Ln(3);
                 $pdf -> SetTextColor(0,0,0);
                 $pdf -> SetFont('Arial','B', 8);
                     if($row['parent'] == "On Page"){
@@ -268,17 +330,19 @@
                         $pdf-> MultiCell(150,4,"   -".$row['parent'],0,'L');
 
                     }
-            
+            $pdf->Ln(3);
             }
+            
              
             else if($row['service_name'] == "Social Media Management"){
                 $flag =1;
                 $check++;
                 $count++;
                     if($check == 1){
-                        $pdf -> SetFont('Arial','', 10);
+                        $pdf -> SetFont('Arial','B', 10);
                         $pdf -> SetTextColor(66,95,244);
                         $pdf-> MultiCell(150,5,$row['service_name'],0,'L');
+                        $pdf->Ln(3);
                     }
                 
                 
@@ -299,9 +363,9 @@
         $pdf-> MultiCell(150,4,"   -Up to 3-4 posts per week in total on all managed social networks, based on best practices",0,'L');
         $pdf-> MultiCell(150,4,"   -Creation of 15 days social media calendar social media calendars for all social media networks, as desired",0,'L');
         $pdf-> MultiCell(150,4,"   -Creating graphics/banners for social media pages",0,'L');
-        $pdf-> MultiCell(150,4,"   -Recommendation Social media integration with the brand'’'s website on multiple levels (for individual pages, products etc.), if applicable",0,'L');
+        $pdf-> MultiCell(180,4,"   -Recommendation Social media integration with the brand website on multiple levels (for individual pages, products etc.), if applicable",0,'L');
         $pdf-> MultiCell(150,4,"   -User comments monitoring, reporting and replying across all managed social media channels",0,'L');
-        $pdf-> MultiCell(150,4,"   -Facebook advertising '–' Only Boosting Posts",0,'L');
+        $pdf-> MultiCell(150,4,"   -Facebook advertising  Only Boosting Posts",0,'L');
         $pdf -> SetFont('Arial','B', 8);
         $pdf-> MultiCell(150,4,"    Note: 100% payment of media spends is required up front. Media budget is NOT a part of this quotation.",0,'L');
         $pdf -> SetFont('Arial','', 8);
@@ -310,14 +374,21 @@
         $pdf-> MultiCell(150,4,"   -Digital Marketing Consultation",0,'L');
         $pdf-> MultiCell(150,4,"   -Fortnightly Insights report",0,'L');
         }
-
+        $pdf->Ln(3);
        
         while ($row2 = mysqli_fetch_assoc($value5)){
             
-            $pdf -> SetFont('Arial','', 10);
-            $pdf -> SetTextColor(66,95,244);
+            
             if($row2['service_name'] == "Search Engine Marketing" || $row2['service_name'] == "Email Marketing" || $row2['service_name'] == "Landing Page" || $row1['service_name'] == "SMS campaigning"){
+                $pdf -> SetFont('Arial','B', 10);
+                $pdf -> SetTextColor(66,95,244);
                 $pdf-> MultiCell(150,5,$row2['service_name'],0,'L');
+                $pdf -> SetFont('Arial','', 8);
+                $pdf -> SetTextColor(0,0,0);
+                $pdf-> MultiCell(150,5,"  -".$row2['parent'],0,'L');
+                
+
+                $pdf->Ln(3);
             }
         }
 
@@ -339,38 +410,20 @@
 
         }
         $pdf-> MultiCell(150,5,"-Applicable taxes additional(Currently GST @ 18%)",0,'L');
-        // $pdf->SetY(-30);
-        // $pdf -> SetTextColor(187,0,0);
-        // $pdf->Cell(0,10,'Dignitas Digtal Pvt Ltd                                                                                                  Digital Marketing | Web | Mobile Apps | Software ',0,1,'L');
-        // $x = $pdf->GetX();
-        // $y = $pdf->GetY();
-        // $pdf-> Line($x,$y,170,$y);
-
-        // $pdf->Cell(0,10,'1/4, Najafgarh Rd, Block 1, Tilak Nagar, New Delhi, Delhi 110018(regd.)             +91-11-45501210[phone]                www.dignitasdigital.com',0,1,'');
-
-        
-        // $pdf->AddPage();
-        // $pdf -> SetFont('Arial','', 7);
-        // $x = $pdf->GetX();
-        // $y = $pdf->Gety();
-        // $pdf -> Image('../../../front/images/DDlogo.png',$x,$y,70);
+        $pdf->Ln(3);
+        $pdf -> SetFont('Arial','B', 10);
+        $pdf -> SetTextColor(66,95,244);
+        $pdf-> Write(10,"LEGAL");
+        $pdf-> Ln(7);
+        $pdf -> SetFont('Arial','', 7);
+        $pdf -> SetTextColor(0,0,0);
         $pdf-> Write(5,"By signing this estimate client is agreeing to:");
         $pdf-> Ln(8);
         while ($row = mysqli_fetch_assoc($value3)){
             $pdf-> MultiCell(150,4,"".$row['name'],0,'L');
             $pdf-> Ln(2);
         }
-        // $pdf->SetY(-15);
-        // $pdf -> SetTextColor(187,0,0);
-        // $pdf->Cell(0,10,'Dignitas Digtal Pvt Ltd                                                                                                  Digital Marketing | Web | Mobile Apps | Software ',0,1,'L');
-        // $x = $pdf->GetX();
-        // $y = $pdf->GetY();
-        // $pdf-> Line($x,$y,170,$y);
-
-        // $pdf->Cell(0,10,'1/4, Najafgarh Rd, Block 1, Tilak Nagar, New Delhi, Delhi 110018(regd.)             +91-11-45501210[phone]                www.dignitasdigital.com',0,1,'');
-
-
-
+        
 
         $filename= "dd_c".$contract_id.".pdf"; 
 
