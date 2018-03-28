@@ -37,7 +37,7 @@
 					<p>Contract has been successfully added.</p>
 					<hr>
 					<p class="mb-0">
-						<a id="downpdf_link" href = "#">Click here</a> to download the PDF.</p>
+						<a id="downpdf_link">Click here</a> to download the PDF.</p>
 				</div>
 			</div>
 			<div class="col-sm-2">
@@ -66,7 +66,7 @@
 						<li>	
 						<label for="client_name">Client Name</label>
 						<input type="text" id="client_name" name="client_name">
-					     </li>
+					    </li>
 						<li>
 						<label for="client_spoc">Client SPOC</label>
 						<input type="text" id="client_spoc" name="client_spoc">
@@ -79,6 +79,14 @@
 						<label for="client_pan">Client PAN</label>
 						<input type="text" id="client_pan" name="client_pan">
 						</li>
+						<li>
+                        <label for="client_GSTN">Client GSTN</label>
+                        
+                        <input type="file" id="client_gstn_upload">
+                        <input type="hidden" id="client_gstn" name="client_gstn">
+                        <img id="gstn_preview" src="" />
+                    	</li>
+                        <br>
 						<li>
 						<label for="client_billing_address">Client Billing Address</label>
 						<input type="text" id="client_billing_address" name="client_billing_address">

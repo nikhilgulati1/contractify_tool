@@ -10,7 +10,7 @@
     $client_email_address = filter_var($_POST['client_email_address'], FILTER_SANITIZE_STRING);
     $client_billing_address = filter_var($_POST['client_billing_address'], FILTER_SANITIZE_EMAIL);
     $client_contact_no = filter_var($_POST['client_contact_no'], FILTER_SANITIZE_STRING);
-    //$client_gstn = filter_var($_POST['client_gstn'], FILTER_SANITIZE_STRING);
+    $client_gstn = filter_var($_POST['client_gstn'], FILTER_SANITIZE_STRING);
     $client_name = filter_var($_POST['client_name'], FILTER_SANITIZE_STRING);
     $client_pan = filter_var($_POST['client_pan'], FILTER_SANITIZE_STRING);
     $client_payment_terms = filter_var($_POST['client_payment_terms'], FILTER_SANITIZE_STRING);
@@ -32,7 +32,7 @@
         $client_id = $_POST['client_id'];
     } else {
         
-        $query = "INSERT INTO `dd_client` ( `client_id`, `client_name`, `client_spoc`, `client_email_address`, `client_contact_no`, `client_pan`, `client_gstn`,`client_billing_address`,`client_payment_terms`, `client_recurring` ) VALUES (NULL, '".$client_name."', '".$client_spoc."', '".$client_email_address."', '".$client_contact_no."', '".$client_pan."', 'ABCDE4567Q','".$client_billing_address."', '".$client_payment_terms."','".$client_payment_terms."');";
+        $query = "INSERT INTO `dd_client` ( `client_id`, `client_name`, `client_spoc`, `client_email_address`, `client_contact_no`, `client_pan`, `client_gstn`,`client_billing_address`,`client_payment_terms`, `client_recurring` ) VALUES (NULL, '".$client_name."', '".$client_spoc."', '".$client_email_address."', '".$client_contact_no."', '".$client_pan."', '".$client_gstn."','".$client_billing_address."', '".$client_payment_terms."','".$client_payment_terms."');";
 
         $result_1 = mysqli_query($conn,$query);
         
