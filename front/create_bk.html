@@ -37,7 +37,7 @@
 					<p>Contract has been successfully added.</p>
 					<hr>
 					<p class="mb-0">
-						<a id="downpdf_link" href = "#">Click here</a> to download the PDF.</p>
+						<a id="downpdf_link" target="_blank" href="">Click here</a> to download the PDF.</p>
 				</div>
 			</div>
 			<div class="col-sm-2">
@@ -65,32 +65,28 @@
 						<ul>
 						<li>	
 						<label for="client_name">Client Name</label>
-						<input type="text" id="client_name" name="client_name">
-					     </li>
-						<li>
+
+						<input type="text" id="client_name" name="client_name" required>
+						<br>
 						<label for="client_spoc">Client SPOC</label>
-						<input type="text" id="client_spoc" name="client_spoc">
-						</li>
-						<li>
+						<input type="text" id="client_spoc" name="client_spoc" required>
+						<br>
 						<label for="client_contact_no">Client Contact </label>
-						<input type="text" id="client_contact_no" name="client_contact_no">
-						</li>
-						<li>
+						<input type="text" id="client_contact_no" name="client_contact_no" required>
+						<br>
 						<label for="client_pan">Client PAN</label>
-						<input type="text" id="client_pan" name="client_pan">
-						</li>
-						<li>
+						<input type="text" id="client_pan" name="client_pan" required>
+						<br>
 						<label for="client_billing_address">Client Billing Address</label>
-						<input type="text" id="client_billing_address" name="client_billing_address">
-						</li>
-						<li>
+						<input type="text" id="client_billing_address" name="client_billing_address" required>
+						<br>
 						<label for="client_payment_terms">Client Payment Terms (enter the number of days only)</label>
-						<input type="text" id="client_payment_terms" name="client_payment_terms">
-						</li>
-						<li>
+						<input type="text" id="client_payment_terms" name="client_payment_terms" required>
+						<br>
 						<label for="client_email_address">Client Email id</label>
-						<input type="text" id="client_email_address" name="client_email_address">
-						</li>
+						<input type="text" id="client_email_address" name="client_email_address" required>
+						<br>
+
 						<!-- <label for="client_gstn">Client GSTN</label>
 						<input type="file" name="fileToUpload" id="client_gstn"> -->
 						<input type="hidden" id="client_id" name="client_id" value="">
@@ -114,22 +110,23 @@
                         <ul>
                         <li>	
 						<label for="contract_name">Contract Name</label>
-						<input type="text" id="contract_name" name="contract_name">
-					    </li>
-					    <li>
+
+						<input type="text" id="contract_name" name="contract_name" required>
+						<br>
 						<label for="contract_start_date">Contract Start Date</label>
-						<input readonly size="16" type="text" data-date="" data-link-format="yyyy-mm-dd" class="form_datetime control" required
-						 name="contract_start_date" id="contract_start_date">
-						</li>
-						<li>
+						<input readonly size="16" type="text" data-date="" data-link-format="yyyy-mm-dd" class="form_datetime control" required name="contract_start_date"
+						 id="contract_start_date">
+						<br>
 						<label for="contract_end_date">Contract End Date</label>
-						<input readonly size="16" type="text" data-date="" data-link-format="yyyy-mm-dd" class="form_datetime control" required
-						 name="contract_end_date" id="contract_end_date">
+						<input readonly size="16" type="text" data-date="" data-link-format="yyyy-mm-dd" class="form_datetime control" required name="contract_end_date"
+						 id="contract_end_date">
 						</li>
+						<br>
 						<li>
 						<label for="contract_description">Contract Description</label>
 						<input type="text" id="contract_description" name="contract_description">
 					    </li>
+					    <br>
 						<li>
 						<label for="contract_type">Contract Type</label>
 						<select id="contract_type" name="contract_type">

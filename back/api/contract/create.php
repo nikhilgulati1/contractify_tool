@@ -420,7 +420,7 @@
         $pdf-> Write(5,"By signing this estimate client is agreeing to:");
         $pdf-> Ln(8);
         while ($row = mysqli_fetch_assoc($value3)){
-            $pdf-> MultiCell(150,4,"".$row['name'],0,'L');
+            $pdf-> MultiCell(150,4,"- ".$row['name'],0,'L');
             $pdf-> Ln(2);
         }
         

@@ -91,7 +91,7 @@ $(document).ready(function () {
 
                             });
 
-                            $('.contract_name_head').html('Update - ' + contractDetail.contract_name);
+                            $('.contract_name_head').html(contractDetail.contract_name);
                             var d = new Date(0);
                             d.setUTCSeconds(contractDetail.last_modified);
                             $('.contract_last_mod span').html(d);

@@ -6,10 +6,6 @@
     if(empty($_POST))
     die("Invalid Argumanets");
 
-    // echo "<pre>";
-    // print_r($_POST);
-    // echo "</pre>";
-    // die();
     
     $client_email_address = filter_var($_POST['client_email_address'], FILTER_SANITIZE_STRING);
     $client_billing_address = filter_var($_POST['client_billing_address'], FILTER_SANITIZE_EMAIL);
@@ -298,7 +294,7 @@
         $pdf-> Write(5,"By signing this estimate client is agreeing to:");
         $pdf-> Ln(8);
         while ($row = mysqli_fetch_assoc($value3)){
-            $pdf-> MultiCell(150,4,"".$row['name'],0,'L');
+            $pdf-> MultiCell(150,4,"- ".$row['name'],0,'L');
             $pdf-> Ln(2);
         }
 
