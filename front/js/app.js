@@ -21,7 +21,7 @@ $(document).ready(function () {
                     } else if (element.contract_type == 2) {
                         con_type = "Technical;"
                     } else {
-                        con_type = "Digital Marketing and Technical"
+                        con_type = "Digital Marketing and Technical";
                     }
 
                     gridData.addRow(
@@ -34,11 +34,12 @@ $(document).ready(function () {
                             element.contract_end_date,
                             element.client_email_address,
                             element.contract_status,
+                            "",
 
 
                             "<a  class ='update' href='./view_detail.html?id=" + element.contract_id + "'><img src= './images/udate-icon.png'/></a><a  class = 'view' href = './read.html?id=" + element.contract_id + "'><img src= './images/view.png'/></a><a class='download' href='./../back/generated/contracts/dd_c" + element.contract_id + ".pdf'><img src= './images/pdf-download.png'/></a><a class ='del' href ='#' onClick='recp(" + element.contract_id + ")'><img src = './images/remove.png'/></a>"
-
                         ]
+                        
                     );
 
                 });
@@ -57,6 +58,7 @@ $(document).ready(function () {
         gridData.addColumn('string', 'End Date');
         gridData.addColumn('string', 'Contact email');
         gridData.addColumn('string', 'Contract Status');
+        gridData.addColumn('string', 'Documents');
         gridData.addColumn('string', 'Action');
 
         startWork();

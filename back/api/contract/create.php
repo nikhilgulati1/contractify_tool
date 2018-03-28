@@ -88,6 +88,7 @@
         $value2 = mysqli_query($conn,$query6);
         $value5 = mysqli_query($conn,$query6);
         $value6 = mysqli_query($conn,$query6);
+        $value7 = mysqli_query($conn,$query6);
    
         $query8 = "SELECT a.*,b.service_name as parent FROM dd_service_list a INNER JOIN dd_service_list b ON a.id = b.parent_id INNER JOIN (SELECT `parent_id`,`service_name` FROM dd_service_list INNER JOIN dd_service_mapping ON dd_service_list.id = dd_service_mapping.service_list_id WHERE `contract_id` = '".$contract_id."' && `parent_id` = 2) as ABC ON b.service_name = ABC.service_name";
         $value4 = mysqli_query($conn,$query8);
@@ -121,7 +122,7 @@
 // Page header
             function Header()
             {
-                global $client_name, $client_spoc, $contract_start_date;
+                global $client_name, $client_spoc, $contract_start_date, $contract_type;
 
                 $this->Image('../../../front/images/DDlogo.png',5,15,25);
                 $this-> SetX(45);
@@ -214,91 +215,9 @@
         }
 
         $pdf = new PDF();
-        // $x = $pdf->GetX();
-        // $y = $pdf->GetY();
-
-
         $pdf -> AddPage();
-        
-        //$pdf->Logo($x,$y);
-        
-        // $pdf-> SetX(45);
-
-        // $pdf -> SetFont('Arial','B', 12);
-        // $pdf -> SetTextColor(187,0,0);
-        // $pdf -> Cell(150,10,"Scope of Work",0,1,'C');
-        // $pdf-> SetX(45);
-
-        // $pdf -> SetFont('Arial','B', 8);
-        // $pdf-> Cell(150,10,"Client Name:  ",1,0);
-        // //$pdf-> SetXY(35,20);
-        // $pdf -> SetTextColor(0,0,0);
-        // $pdf -> SetFont('Arial','', 8);
-        // $pdf-> Text(72,26,$client_name);
-        // $pdf->Ln();
-
-        // $pdf -> SetTextColor(187,0,0);
-        
-        // $pdf-> SetX(45);
-        // $pdf -> SetFont('Arial','B', 8);
-        // $pdf-> Cell(150,10,"Client SPOC: ",1,0);
-
-        // $pdf -> SetTextColor(0,0,0);
-        // $pdf -> SetFont('Arial','', 8);
-        // $pdf-> Text(72,36,$client_spoc);
-        // $pdf->Ln();
-
-
-        // if($contract_type == 1){
-        //     $pdf -> SetTextColor(187,0,0);
-        //     $pdf-> SetX(45);
-        //     $pdf -> SetFont('Arial','B', 8);
-        //     $pdf-> Cell(150,10,"Contract Type:",1,0);
-        //     $pdf -> SetTextColor(0,0,0);
-        //     $pdf -> SetFont('Arial','', 8);
-        //     $pdf-> Text(72,46,"Digital Marketing");
-        //     $pdf->Ln();
-
-
-
-        // }
-        // else if($contract_type == 2){
-        //     $pdf -> SetTextColor(187,0,0);
-        //     $pdf-> SetX(45);
-        //     $pdf -> SetFont('Arial','B', 8);
-        //     $pdf-> Cell(150,10,"Contract Type: ",1,0);
-        //     $pdf -> SetTextColor(0,0,0);
-        //     $pdf -> SetFont('Arial','', 8);
-        //     $pdf-> Text(72,46,"Technical");
-        //     $pdf->Ln();
-
-        // }
-        // else {
-        //     $pdf -> SetTextColor(187,0,0);
-        //     $pdf-> SetX(45);
-        //     $pdf -> SetFont('Arial','B', 8);
-        //     $pdf-> Cell(150,10,"Contract Type: ",1,0);
-        //     $pdf -> SetTextColor(0,0,0);
-        //     $pdf -> SetFont('Arial','', 8);
-        //     $pdf-> Text(72,46,"Digital Marketing and Technical");
-        //     $pdf->Ln();
-        // }  
-        // $pdf -> SetTextColor(187,0,0);  
-        // $pdf-> SetX(45);
-        // $pdf -> SetFont('Arial','B', 8);
-        // $pdf-> Cell(150,10,"Contract Start date: ",1,0);
-        // $pdf -> SetTextColor(0,0,0);
-        // $pdf -> SetFont('Arial','', 8);
-        // $pdf-> Text(78,56,$contract_start_date);
-
-
-
-        
-
         $pdf -> SetTextColor(0,0,0);
-        
-        //$pdf-> Ln(10);
-
+     
         $count = 0;
         $flag = 0;
         $check =0;
@@ -379,7 +298,7 @@
         while ($row2 = mysqli_fetch_assoc($value5)){
             
             
-            if($row2['service_name'] == "Search Engine Marketing" || $row2['service_name'] == "Email Marketing" || $row2['service_name'] == "Landing Page" || $row1['service_name'] == "SMS campaigning"){
+            if($row2['service_name'] == "Search Engine Marketing" || $row2['service_name'] == "Email Marketing" || $row2['service_name'] == "Landing Page" || $row2['service_name'] == "SMS campaigning"){
                 $pdf -> SetFont('Arial','B', 10);
                 $pdf -> SetTextColor(66,95,244);
                 $pdf-> MultiCell(150,5,$row2['service_name'],0,'L');
@@ -403,11 +322,24 @@
         $pdf -> SetTextColor(0,0,0);
         $pdf-> Ln(10);
         $pdf -> SetFont('Arial','',8);
-        while (($row2 = mysqli_fetch_assoc($value6)) && ($row3 = mysqli_fetch_assoc($value))){
-            //echo "hello";
-            $pdf-> Cell(150,5,"-".$row2['service_name'],0,0,'L');
-            $pdf-> MultiCell(150,5,"INR ".$row3['price']." exclusive of GST",0,'L');
+        $serv = array();
+        
+        while ($row2 = mysqli_fetch_assoc($value6)){
+            if(!in_array($row2['service_name'],$serv)){
+                array_push($serv, $row2['service_name']); 
+            }
+        }
+        $count = sizeof($serv);
+        print_r($serv);
+        for($i=0;$i<$count ;$i++){
+            while ($row4 = mysqli_fetch_assoc($value)){
+                $pdf-> Cell(150,5,"".$serv[$i],0,0,'L');
+                
+                $pdf-> MultiCell(150,5,"INR ".$row4['price']." exclusive of GST",0,'L');
+             
+           
 
+        }
         }
         $pdf-> MultiCell(150,5,"-Applicable taxes additional(Currently GST @ 18%)",0,'L');
         $pdf->Ln(3);
@@ -419,8 +351,8 @@
         $pdf -> SetTextColor(0,0,0);
         $pdf-> Write(5,"By signing this estimate client is agreeing to:");
         $pdf-> Ln(8);
-        while ($row = mysqli_fetch_assoc($value3)){
-            $pdf-> MultiCell(150,4,"- ".$row['name'],0,'L');
+        while ($row6 = mysqli_fetch_assoc($value3)){
+            $pdf-> MultiCell(150,4,"- ".$row6['name'],0,'L');
             $pdf-> Ln(2);
         }
         

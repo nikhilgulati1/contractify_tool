@@ -30,25 +30,6 @@ $(document).ready(function () {
         isOpen_2 = !isOpen_2;
     });
 
-    // $("#contract_start_date").datetimepicker({
-    //     dateFormat: 'dd/mm/yy',
-    //     changeMonth: true,
-    //     changeYear: true,
-    //     maxDate: '0',
-    //     onClose: function( selectedDate ) {
-    //     $( "#contract_end_date" ).datetimepicker( "option", "minDate", selectedDate );
-    //     }
-    // });
-    // $("#contract_end_date").datetimepicker({
-    //     dateFormat: 'dd/mm/yy',
-    //     changeMonth: true,
-    //     changeYear: true,
-    //     maxDate: '0',
-    //     onClose: function( selectedDate ) {
-    //     $( "#contract_end_date" ).datetimepicker( "option", "maxDate", selectedDate );
-    //     }
-    // });
-
     $('#existing_client_list').on('change', function () {
         var selected = $('#existing_client_list').find(":selected").attr('data-client-id');
         updateExistingClient(selected);
@@ -143,7 +124,6 @@ $(document).ready(function () {
         event.preventDefault();
 
         var dataFromForm = objectifyForm($("#create_contract").serializeArray());
-        //console.log(dataFromForm.contract_start_date]);
 
         var myCheckboxes_scope = [];
         var myCheckboxes_legal = [];
@@ -175,8 +155,22 @@ $(document).ready(function () {
         var m = "legal";
         dataFromForm[m] = myCheckboxes_legal;
 
+        var contract_start_date = $("#contract_start_date").datetimepicker('getDate');
+        var contract_end_date = $("#contract_end_date").datetimepicker('getDate');
+ 
+        var diff = contract_end_date - contract_start_date;
+        var days = diff / 1000 / 60 / 60 / 24;
 
-        //console.log(dataFromForm);
+        if (days <= 0) {
+             alert('End Time must be greater than Start Time.');
+             return false;
+        }
+
+        if (myCheckboxes_scope.length == 0) {
+             alert('Atleast one scope must be selected.');
+             return false;
+        }
+
 
         $.ajax({
             url: create_contract,
