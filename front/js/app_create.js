@@ -118,6 +118,24 @@ $(document).ready(function () {
         }
     });
 
+    $("#client_gstn_upload").change(function (evt) {
+        var files = evt.target.files;
+        var file = files[0];
+
+        if (files && file) {
+            var reader = new FileReader();
+
+            reader.onload = function (readerEvt) {
+                var binaryString = readerEvt.target.result;
+                var q = btoa(binaryString);
+                $('#client_gstn').val(q);
+                $('#gstn_preview').attr('src', 'data:image/jpeg;base64,' + q);
+            };
+
+            reader.readAsBinaryString(file);
+        }
+    });
+
 
     $("#create_contract").submit(function (event) {
 
@@ -160,29 +178,13 @@ $(document).ready(function () {
 
         //console.log(dataFromForm);
 
-        var contract_start_date = $("#contract_start_date").datetimepicker('getDate');
-        var contract_end_date = $("#contract_end_date").datetimepicker('getDate');
-
-        var diff = contract_end_date - contract_start_date;
-        var days = diff / 1000 / 60 / 60 / 24;
-
-        if (days <= 0) {
-            alert('End Time must be greater than Start Time.');
-            return false;
-        }
-
-        if (myCheckboxes_scope.length == 0) {
-            alert('Atleast one scope must be selected.');
-            return false;
-        }
-
         $.ajax({
             url: create_contract,
             type: "post",
             data: dataFromForm,
             success: function (data) {
-
-                $("#downpdf_link").attr("href", "http://localhost/contractify_tool/back/generated/contracts/" + data);
+                console.log(data);
+                $("#downpdf_link").attr("href", "./../back/generated/contracts/" + data);
                 $('.success-alert').show();
                 $("html, body").animate({ scrollTop: 0 }, "slow");
 
