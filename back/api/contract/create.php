@@ -323,24 +323,24 @@
         $pdf-> Ln(10);
         $pdf -> SetFont('Arial','',8);
         $serv = array();
-        
+        $serv['name'] = "";
         while ($row2 = mysqli_fetch_assoc($value6)){
-            if(!in_array($row2['service_name'],$serv)){
-                array_push($serv, $row2['service_name']); 
+            if(!in_array($row2['service_name'],$serv['name'])){
+                array_push($serv['name'], $row2['service_name']); 
             }
         }
-        $count = sizeof($serv);
-        print_r($serv);
-        for($i=0;$i<$count ;$i++){
+        //$count = sizeof($serv);
+        //print_r($serv);
+        
             while ($row4 = mysqli_fetch_assoc($value)){
-                $pdf-> Cell(150,5,"".$serv[$i],0,0,'L');
+                $pdf-> Cell(150,5,"".$serv['name'],0,0,'L');
                 
                 $pdf-> MultiCell(150,5,"INR ".$row4['price']." exclusive of GST",0,'L');
              
            
 
         }
-        }
+        
         $pdf-> MultiCell(150,5,"-Applicable taxes additional(Currently GST @ 18%)",0,'L');
         $pdf->Ln(3);
         $pdf -> SetFont('Arial','B', 10);
