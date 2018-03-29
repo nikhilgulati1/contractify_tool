@@ -174,7 +174,7 @@ $(document).ready(function () {
             type: "post",
             data: dataFromForm,
             success: function (data) {
-                $("#downpdf_link").attr("href", "http://localhost/contractify_tool/back/generated/contracts/" + data);
+                $("#downpdf_link").attr("href", "../../back/generated/contracts/" + data);
                 $('.success-alert').show();
                 $("html, body").animate({ scrollTop: 0 }, "slow");
             }
