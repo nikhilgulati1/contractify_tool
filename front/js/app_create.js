@@ -181,6 +181,7 @@ $(document).ready(function () {
                 $("#downpdf_link").attr("href", "./../back/generated/contracts/" + data);
                 $('.success-alert').show();
                 $("html, body").animate({ scrollTop: 0 }, "slow");
+                $("#create_contract").trigger('reset');
 
             }
         });

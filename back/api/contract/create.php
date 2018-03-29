@@ -89,9 +89,11 @@
         $value5 = mysqli_query($conn,$query6);
         $value6 = mysqli_query($conn,$query6);
         $value7 = mysqli_query($conn,$query6);
+        $value8 = mysqli_query($conn,$query6);
+        $value9 = mysqli_query($conn,$query6);
    
-        $query8 = "SELECT a.*,b.service_name as parent FROM dd_service_list a INNER JOIN dd_service_list b ON a.id = b.parent_id INNER JOIN (SELECT `parent_id`,`service_name` FROM dd_service_list INNER JOIN dd_service_mapping ON dd_service_list.id = dd_service_mapping.service_list_id WHERE `contract_id` = '".$contract_id."' && `parent_id` = 2) as ABC ON b.service_name = ABC.service_name";
-        $value4 = mysqli_query($conn,$query8);
+        // $query8 = "SELECT a.*,b.service_name as parent FROM dd_service_list a INNER JOIN dd_service_list b ON a.id = b.parent_id INNER JOIN (SELECT `parent_id`,`service_name` FROM dd_service_list INNER JOIN dd_service_mapping ON dd_service_list.id = dd_service_mapping.service_list_id WHERE `contract_id` = '".$contract_id."' && `parent_id` = 2) as ABC ON b.service_name = ABC.service_name";
+        // $value4 = mysqli_query($conn,$query8);
 
         $query7 = "SELECT `name` FROM dd_legal INNER JOIN dd_legal_mapping ON dd_legal.id=dd_legal_mapping.legal_id WHERE `contract_id`= '".$contract_id."'";
         $value3 = mysqli_query($conn,$query7);
@@ -202,10 +204,10 @@
         // Set font
                 $this-> SetTextColor(187,0,0);
         // Page number
-                $this->Cell(0,2,'Dignitas Digtal Pvt Ltd                                                                                              Digital Marketing | Web | Mobile Apps | Software ',0,1,'L');
-                $this-> Cell(0,2,'_______________________________________________________________________________________________________________',0,1);
+                $this->Cell(0,2,'  Dignitas Digtal Pvt Ltd                                                                                                                                                                                                        Digital Marketing | Web | Mobile Apps | Software ',0,1,'L');
+                $this-> Cell(0,2,'______________________________________________________________________________________________________________________________________________________________',0,1);
 
-                $this->Cell(0,4,'1/4, Najafgarh Rd, Block 1, Tilak Nagar, New Delhi, Delhi 110018(regd.)             +91-11-45501210[phone]                www.dignitasdigital.com',0,1,'');
+                $this->Cell(0,4,'  1/4, Najafgarh Rd, Block 1, Tilak Nagar, New Delhi, Delhi 110018(regd.)                                                                                                                +91-11-45501210[phone]         www.dignitasdigital.com',0,1,'');
             }
             // function Logo($x,$y){
                 
@@ -222,19 +224,30 @@
         $flag = 0;
         $check =0;
         $str ="";
+        $master = array();
         while ($row = mysqli_fetch_assoc($value2)){
-            
-            if($row['service_name'] == "Search Engine Optimization"){
+          if($row['service_name'] == "Search Engine Optimization"){
+            if(!in_array($row['service_name'],$master)){
+                    array_push($master, $row['service_name']); 
+            }
+            break;
+          }     
+        }  
+        $pdf -> SetFont('Arial','B', 10);
+        $pdf -> SetTextColor(66,95,244);
                 
-                $pdf -> SetFont('Arial','B', 10);
-                $pdf -> SetTextColor(66,95,244);
-                $pdf-> MultiCell(150,5,$row['service_name'],0,'L');
+        $pdf-> MultiCell(150,5,"".$master[0],0,'L');
+        while ($row8 = mysqli_fetch_assoc($value8)){ 
+            
+            if($row8['service_name'] == "Search Engine Optimization"){
+                
+               
                 $pdf->Ln(3);
                 $pdf -> SetTextColor(0,0,0);
                 $pdf -> SetFont('Arial','B', 8);
-                    if($row['parent'] == "On Page"){
+                    if($row8['parent'] == "On Page"){
 
-                        $pdf-> MultiCell(150,4,"   -".$row['parent'],0,'L');
+                        $pdf-> MultiCell(150,4,"   -".$row8['parent'],0,'L');
                         $pdf -> SetFont('Arial','', 8);
 
                         $pdf-> MultiCell(150,4,"       * Recommendations for Improving on-page SEO",0,'L');
@@ -246,33 +259,34 @@
                     }
                     else{
                         $pdf -> SetFont('Arial','B', 8);
-                        $pdf-> MultiCell(150,4,"   -".$row['parent'],0,'L');
+                        $pdf-> MultiCell(150,4,"   -".$row8['parent'],0,'L');
 
                     }
             $pdf->Ln(3);
             }
             
-             
-            else if($row['service_name'] == "Social Media Management"){
+        }    
+        while ($row9 = mysqli_fetch_assoc($value9)){    
+            if($row9['service_name'] == "Social Media Management"){
                 $flag =1;
                 $check++;
                 $count++;
                     if($check == 1){
                         $pdf -> SetFont('Arial','B', 10);
                         $pdf -> SetTextColor(66,95,244);
-                        $pdf-> MultiCell(150,5,$row['service_name'],0,'L');
+                        $pdf-> MultiCell(150,5,$row9['service_name'],0,'L');
                         $pdf->Ln(3);
                     }
                 
                 
                 if($count == 1)
-                    $str1 = $str.$row['parent'];
+                    $str1 = $str.$row9['parent'];
                     //$str1 = ",".$str;
                 else 
-                    $str1 = $str1.",".$row['parent'];
+                    $str1 = $str1.",".$row9['parent'];
             } 
+        }
             
-        }    
         if($flag == 1){
         $pdf -> SetFont('Arial','', 8);
         $pdf -> SetTextColor(0,0,0);
@@ -323,20 +337,20 @@
         $pdf-> Ln(10);
         $pdf -> SetFont('Arial','',8);
         $serv = array();
-        $serv['name'] = "";
+
         while ($row2 = mysqli_fetch_assoc($value6)){
-            if(!in_array($row2['service_name'],$serv['name'])){
-                array_push($serv['name'], $row2['service_name']); 
+            if(!in_array($row2['service_name'],$serv)){
+                array_push($serv, $row2['service_name']); 
             }
         }
         //$count = sizeof($serv);
         //print_r($serv);
-        
+            $i=0;
             while ($row4 = mysqli_fetch_assoc($value)){
-                $pdf-> Cell(150,5,"".$serv['name'],0,0,'L');
+                $pdf-> Cell(150,5,($i+1)." ".$serv[$i],0,0,'L');
                 
                 $pdf-> MultiCell(150,5,"INR ".$row4['price']." exclusive of GST",0,'L');
-             
+                $i++;
            
 
         }
@@ -351,8 +365,8 @@
         $pdf -> SetTextColor(0,0,0);
         $pdf-> Write(5,"By signing this estimate client is agreeing to:");
         $pdf-> Ln(8);
-        while ($row6 = mysqli_fetch_assoc($value3)){
-            $pdf-> MultiCell(150,4,"- ".$row6['name'],0,'L');
+        while ($row7 = mysqli_fetch_assoc($value3)){
+            $pdf-> MultiCell(150,4,"- ".$row7['name'],0,'L');
             $pdf-> Ln(2);
         }
         

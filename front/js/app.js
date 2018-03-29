@@ -37,7 +37,7 @@ $(document).ready(function () {
                             "",
 
 
-                            "<a  class ='update' href='./view_detail.html?id=" + element.contract_id + "'><img src= './images/udate-icon.png'/></a><a  class = 'view' href = './read.html?id=" + element.contract_id + "'><img src= './images/view.png'/></a><a class='download' href='./../back/generated/contracts/dd_c" + element.contract_id + ".pdf'><img src= './images/pdf-download.png'/></a><a class ='del' href ='#' onClick='recp(" + element.contract_id + ")'><img src = './images/remove.png'/></a>"
+                            "<a  class ='update' href='./view_detail.html?id=" + element.contract_id + "'><img src= './images/udate-icon.png ' title='update contract'/></a><a  class = 'view' href = './read.html?id=" + element.contract_id + "'><img src= './images/view.png' title='view contract'/></a><a class='download' href='./../back/generated/contracts/dd_c" + element.contract_id + ".pdf'><img src= './images/pdf-download.png' title='Download contract'/></a><a class ='del' href ='#' onClick='recp(" + element.contract_id + ")'><img src = './images/remove.png' title='delete contract'/></a>"
                         ]
                         
                     );

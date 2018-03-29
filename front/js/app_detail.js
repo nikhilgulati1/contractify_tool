@@ -169,6 +169,10 @@ $(document).ready(function () {
              return false;
         }
 
+
+        var res = window.confirm("Are you sure to update!");
+        console.log(res);
+        if(res){
         $.ajax({
             url: update_contract,
             type: "post",
@@ -179,6 +183,7 @@ $(document).ready(function () {
                 $("html, body").animate({ scrollTop: 0 }, "slow");
             }
         });
+        }
 
     });
 
