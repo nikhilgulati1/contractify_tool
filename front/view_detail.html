@@ -63,12 +63,18 @@
                         <input type="text" id="client_spoc" name="client_spoc">
                         </li>
                         <li>
-                        <label for="client_contact_no">Client Contact </label>
+                        <label for="client_contact_no">Client Contact Number</label>
                         <input type="text" id="client_contact_no" name="client_contact_no">
                         </li>
                         <li>
                         <label for="client_pan">Client PAN</label>
                         <input type="text" id="client_pan" name="client_pan">
+                        </li>
+                        <li>
+                        <label for="client_GSTN">Client GSTN</label>
+                        <input type="file" id="client_gstn_upload">
+                        <input type="hidden" id="client_gstn" name="client_gstn" required>
+                        <input type="hidden" id ="gstn_name" name="gstn_name">
                         </li>
                         <li>
                         <label for="client_billing_address">Client Billing Address</label>
@@ -102,7 +108,10 @@
 
                         <input type="text" id="contract_name" name="contract_name" required>
                         </li>
-                        
+                        <li>
+                        <label for="contract_description">Contract Description</label>
+                        <input type="text" id="contract_description" name="contract_description">
+                        </li>
                         <li>
                         <label for="contract_start_date">Contract Start Date</label>
                         <input readonly size="16" type="text" data-date="" data-link-format="yyyy-mm-dd hh:ii" class="form_datetime control" required
@@ -113,10 +122,7 @@
                         <input readonly size="16" type="text" data-date="" data-link-format="yyyy-mm-dd hh:ii" class="form_datetime control" required
                             name="contract_end_date" id="contract_end_date">
                         </li>
-                        <li>
-                        <label for="contract_description">Contract Description</label>
-                        <input type="text" id="contract_description" name="contract_description">
-                        </li>
+                        
                         <li>
                         <label for="contract_type">Contract Type</label>
                         <select id="contract_type" name="contract_type">
@@ -148,6 +154,9 @@
 
                     <br>
                     <input type="submit" id="submit" value="Update" class="btn btn-primary">
+                    <br>
+                    <br>
+                    <br>
                     <br>
 
                 </div>

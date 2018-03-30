@@ -140,6 +140,7 @@ function populateContractFields(contract_object) {                          // T
     $("#client_email_address").val(contract_object.client_email_address);
     $("#client_id").val(contract_object.client_id);
     $("#client_gstn").val(contract_object.client_gstn);
+    $("#client_gstn_name").val(contract_object.client_gstn_name);
     $("#contract_name").val(contract_object.contract_name);
     $("#contract_start_date").val(contract_object.contract_start_date);
     $("#contract_end_date").val(contract_object.contract_end_date);

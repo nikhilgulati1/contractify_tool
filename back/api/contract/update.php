@@ -1,6 +1,7 @@
 <?php
 
     include("../common/db.php");
+    //include("con_pdf.php");
     include("../common/fpdf/fpdf.php");
     
     if(empty($_POST))
@@ -8,10 +9,12 @@
 
     
     $client_email_address = filter_var($_POST['client_email_address'], FILTER_SANITIZE_STRING);
-    $client_billing_address = filter_var($_POST['client_billing_address'], FILTER_SANITIZE_EMAIL);
+    $client_billing_address = ($_POST['client_billing_address']);
     $client_contact_no = filter_var($_POST['client_contact_no'], FILTER_SANITIZE_STRING);
     $client_name = filter_var($_POST['client_name'], FILTER_SANITIZE_STRING);
     $client_pan = filter_var($_POST['client_pan'], FILTER_SANITIZE_STRING);
+    $client_gstn = filter_var($_POST['client_gstn'], FILTER_SANITIZE_STRING);
+    $client_gstn_name = filter_var($_POST['gstn_name'], FILTER_SANITIZE_STRING);
     $client_payment_terms = filter_var($_POST['client_payment_terms'], FILTER_SANITIZE_STRING);
     $client_spoc = filter_var($_POST['client_spoc'], FILTER_SANITIZE_STRING);
     $contract_description = filter_var($_POST['contract_description'], FILTER_SANITIZE_STRING);
@@ -24,7 +27,7 @@
     $client_id = filter_var($_POST['client_id'], FILTER_SANITIZE_STRING);
     $contract_id = filter_var($_POST['contract_id'], FILTER_SANITIZE_STRING);
    
-    $query = "UPDATE `dd_client` SET  `client_name` = '".$client_name."', `client_spoc` = '".$client_spoc."', `client_email_address` = '".$client_email_address."', `client_contact_no` = '".$client_contact_no."', `client_pan` = '".$client_pan."', `client_billing_address` = '".$client_billing_address."',`client_payment_terms` = '".$client_payment_terms."', `client_recurring` = '0'  WHERE `client_id` = ".$client_id;
+    $query = "UPDATE `dd_client` SET  `client_name` = '".$client_name."', `client_spoc` = '".$client_spoc."', `client_email_address` = '".$client_email_address."', `client_contact_no` = '".$client_contact_no."', `client_pan` = '".$client_pan."', `client_gstn` = '".$client_gstn."', '".$client_gstn_name."', `client_billing_address` = '".$client_billing_address."',`client_payment_terms` = '".$client_payment_terms."', `client_recurring` = '0'  WHERE `client_id` = ".$client_id;
     $result_1 = mysqli_query($conn,$query);
         
     if($result_1 != 1) {
@@ -79,10 +82,9 @@
     $query7 = "SELECT `name` FROM dd_legal INNER JOIN dd_legal_mapping ON dd_legal.id=dd_legal_mapping.legal_id WHERE `contract_id`= '".$contract_id."'";
     $value3 = mysqli_query($conn,$query7);
 
-
     class PDF extends FPDF
         {
-// Page header
+
             function Header()
             {
                 global $client_name, $client_spoc, $contract_start_date, $contract_type;
@@ -97,7 +99,6 @@
 
                 $this -> SetFont('Arial','B', 8);
                 $this-> Cell(150,10,"Client Name:  ",1,0);
-        //$this-> SetXY(35,20);
                 $this -> SetTextColor(0,0,0);
                 $this -> SetFont('Arial','', 8);
                 $this-> Text(72,26,$client_name);
@@ -170,13 +171,9 @@
 
                 $this->Cell(0,4,'  1/4, Najafgarh Rd, Block 1, Tilak Nagar, New Delhi, Delhi 110018(regd.)                                                                                                                +91-11-45501210[phone]         www.dignitasdigital.com',0,1,'');
             }
-            // function Logo($x,$y){
-                
-            //     $this->Image('../../../front/images/DDlogo.png',$x,$y,25);
-            // }
-
+           
         }
-
+        
         $pdf = new PDF();
         $pdf -> AddPage();
         $pdf -> SetTextColor(0,0,0);
@@ -287,7 +284,7 @@
         }
 
 
-         $pdf -> SetFont('Arial','B', 10);
+        $pdf -> SetFont('Arial','B', 10);
         $pdf -> SetTextColor(66,95,244);
         $pdf-> Write(10,"PRICING");
         $pdf -> SetTextColor(0,0,0);
@@ -337,5 +334,6 @@
     $pdf->Output($fileNL,'F');
 
     echo $filename;
+    
 
 ?>

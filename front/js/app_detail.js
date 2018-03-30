@@ -41,7 +41,9 @@ $(document).ready(function () {
         type: "get",
         data: {},
         success: function (data) {
+            //console.log(data);
             contractDetail = JSON.parse(data);
+            //console.log(contractDetail);
             $.ajax({
                 url: get_service,
                 type: "get",
@@ -53,7 +55,7 @@ $(document).ready(function () {
                         type: "get",
                         data: {},
                         success: function (data2) {
-                            console.log(data2);
+                            //console.log(data2);
                             legalList = JSON.parse(data2);
 
                             legalList.forEach(legal => {
@@ -114,6 +116,25 @@ $(document).ready(function () {
         }
         return vars;
     }
+    $("#client_gstn_upload").change(function (evt) {
+        var files = evt.target.files;
+        var file = files[0];
+        var fileName = file.name;
+        if (files && file) {
+            var reader = new FileReader();
+
+            reader.onload = function (readerEvt) {
+                var binaryString = readerEvt.target.result;
+                var q = btoa(binaryString);
+                $('#client_gstn').val(q);
+                $('#gstn_preview').attr('href','data:application/pdf;base64,' + q);
+                $('#gstn_name').attr(fileName);
+
+            };
+
+            reader.readAsBinaryString(file);
+        }
+    });
 
     $("#create_contract1").submit(function (event) {
 
@@ -170,7 +191,7 @@ $(document).ready(function () {
         }
 
 
-        var res = window.confirm("Are you sure to update!");
+        var res = window.confirm("Are you sure you want to update!");
         console.log(res);
         if(res){
         $.ajax({

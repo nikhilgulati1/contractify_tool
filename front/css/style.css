@@ -90,6 +90,12 @@ input[type=submit]:hover {
     background-color: #fff;
     border-color: #A10A63;
 }
+#link_0.btn-primary {
+    color: #A10A63;
+    background-color: #fff;
+    border-color: #A10A63;
+    margin-top: 28px;
+}
 
 .sub-heading {
     padding: 1% 0%;

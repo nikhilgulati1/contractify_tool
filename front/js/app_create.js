@@ -1,7 +1,7 @@
 var clientList = null;
 var serviceList = null;
 var legalList = null;
-
+var fileName = null;
 
 $(document).ready(function () {
 
@@ -102,7 +102,7 @@ $(document).ready(function () {
     $("#client_gstn_upload").change(function (evt) {
         var files = evt.target.files;
         var file = files[0];
-
+        fileName = file.name;
         if (files && file) {
             var reader = new FileReader();
 
@@ -110,7 +110,9 @@ $(document).ready(function () {
                 var binaryString = readerEvt.target.result;
                 var q = btoa(binaryString);
                 $('#client_gstn').val(q);
-                $('#gstn_preview').attr('src', 'data:image/jpeg;base64,' + q);
+                $('#gstn_preview').attr('href','data:application/pdf;base64,' + q);
+                $('#gstn_name').attr(fileName);
+
             };
 
             reader.readAsBinaryString(file);
@@ -171,14 +173,14 @@ $(document).ready(function () {
              return false;
         }
 
-
+        //console.log(dataFromForm);
         $.ajax({
             url: create_contract,
             type: "post",
             data: dataFromForm,
             success: function (data) {
                 console.log(data);
-                $("#downpdf_link").attr("href", "./../back/generated/contracts/" + data);
+                $("#downpdf_link").attr("href", "../../back/generated/contracts/" + data);
                 $('.success-alert').show();
                 $("html, body").animate({ scrollTop: 0 }, "slow");
                 $("#create_contract").trigger('reset');
