@@ -27,7 +27,7 @@
     $client_id = filter_var($_POST['client_id'], FILTER_SANITIZE_STRING);
     $contract_id = filter_var($_POST['contract_id'], FILTER_SANITIZE_STRING);
    
-    $query = "UPDATE `dd_client` SET  `client_name` = '".$client_name."', `client_spoc` = '".$client_spoc."', `client_email_address` = '".$client_email_address."', `client_contact_no` = '".$client_contact_no."', `client_pan` = '".$client_pan."', `client_gstn` = '".$client_gstn."', '".$client_gstn_name."', `client_billing_address` = '".$client_billing_address."',`client_payment_terms` = '".$client_payment_terms."', `client_recurring` = '0'  WHERE `client_id` = ".$client_id;
+    $query = "UPDATE `dd_client` SET  `client_name` = '".$client_name."', `client_spoc` = '".$client_spoc."', `client_email_address` = '".$client_email_address."', `client_contact_no` = '".$client_contact_no."', `client_pan` = '".$client_pan."', `client_gstn` = '".$client_gstn."', `client_gstn_name` = '".$client_gstn_name."', `client_billing_address` = '".$client_billing_address."',`client_payment_terms` = '".$client_payment_terms."', `client_recurring` = '0'  WHERE `client_id` = ".$client_id;
     $result_1 = mysqli_query($conn,$query);
         
     if($result_1 != 1) {
