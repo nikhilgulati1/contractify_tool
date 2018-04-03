@@ -2,7 +2,7 @@
 
     include("../common/db.php");
     
-    $query = "SELECT * FROM dd_service_list WHERE `is_check` = 1";
+    $query = "SELECT * FROM dd_service_list";
    
 	$query_res = mysqli_query($conn,$query);
 

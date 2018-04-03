@@ -33,9 +33,21 @@
 		<div class="main-container">
 			<div class="row sub-heading">
 				<div class="col-sm-12">
-					<h2>Choose all the services</h2>
+					<h2>Choose the services</h2>
 				</div>
 			</div>
+		</div>
+		<div class="row success-alert">
+				<div class="col-sm-10">
+					<div class="alert alert-success" role="alert">
+						<h4 class="alert-heading">Well done!</h4>
+						<p>The services are added.</p>
+						<hr>
+					</div>
+				</div>
+				<div class="col-sm-2">
+					<img class="img-fluid" src="images/tick.png" />
+				</div>
 		</div>
 		<form id="done_service">
 			<div class="row">

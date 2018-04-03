@@ -45,7 +45,7 @@ $(document).ready(function () {
             contractDetail = JSON.parse(data);
             //console.log(contractDetail);
             $.ajax({
-                url: get_service,
+                url: get_service_admin,
                 type: "get",
                 data: {},
                 success: function (data1) {
