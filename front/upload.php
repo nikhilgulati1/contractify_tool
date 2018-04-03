@@ -2,6 +2,14 @@
 <html>
 
 <head>
+     <?php 
+        
+        session_start();
+        if(! isset($_SESSION['logged_in'])){
+            
+            header("Location:login.html");
+        }
+    ?>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
@@ -18,7 +26,7 @@
                 <div class="logo"><img src="images/logo.png" /></div>
             </div>
             <div class="col-sm-2 ">
-                <a id="link_1" href="index.html" class="btn btn-primary pull-right" role="button" aria-pressed="true">View All</a>
+                <a id="link_1" href="index.php" class="btn btn-primary pull-right" role="button" aria-pressed="true">View All</a>
             </div>
         </div>
         

@@ -5,7 +5,7 @@ var legalList = null;
 
 $(document).ready(function () {
     $(".scope_list").attr('readonly', 'readonly');
-    
+
 
     $('.success-alert').hide();
 
@@ -84,7 +84,7 @@ $(document).ready(function () {
                                         currPrice = contractDetail.sub_services[isPresent].price;
                                         currComment = contractDetail.sub_services[isPresent].comment;
                                     }
-                                    
+
                                     $("#sub_list_" + service.parent_id).append('<li><div class = "check"><input type="checkbox" ' + isChecked + 'class="subOption" data-master-id="' + service.parent_id + '" value="' + service.id + '" name="sub_' + service.parent_id + '" /><label>' + service.service_name + '</label>&nbsp;</div>&nbsp;&nbsp;&nbsp;&nbsp;<div class = "price"><input id ="price_' + service.id + '" type="number" value="' + currPrice + '"readonly/></div>&nbsp;&nbsp;&nbsp;&nbsp;<div class = "comm"><textarea id = "comment_' + service.id + '" type="text" placeholder="Enter Comments" readonly>' + currComment + '</textarea></div></li>');
 
                                 }
@@ -127,7 +127,10 @@ function populateClientFields(client_object) {
     $("#client_payment_terms").val(client_object.client_payment_terms);
     $("#client_email_address").val(client_object.client_email_address);
     $("#client_id").val(client_object.client_id);
-    $("#client_gstn").val(client_object.client_gstn);
+
+    $('#gstn_preview').attr('href', 'data:application/pdf;base64,' + client_object.client_gstn);
+    $('#gstn_preview').attr('download', client_object.client_gstn_name);
+    $('#gstn_preview').html(client_object.client_gstn_name);
 }
 
 function populateContractFields(contract_object) {                          // To populate contract data...scopes also need to be added
@@ -145,16 +148,16 @@ function populateContractFields(contract_object) {                          // T
     $("#contract_start_date").val(contract_object.contract_start_date);
     $("#contract_end_date").val(contract_object.contract_end_date);
     $("#contract_description").val(contract_object.contract_description);
-    if(contract_object.contract_type ==1){
+    if (contract_object.contract_type == 1) {
         $("#contract_type").val("Digital Marketing");
     }
-    else if(contract_object.contract_type ==2){
-    $("#contract_type").val("Technical");
+    else if (contract_object.contract_type == 2) {
+        $("#contract_type").val("Technical");
     }
     else
-    $("#contract_type").val("Both");
+        $("#contract_type").val("Both");
 
-   
+
 }
 function objectifyForm(formArray) {
     var returnArray = {};

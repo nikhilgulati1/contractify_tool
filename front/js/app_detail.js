@@ -126,9 +126,11 @@ $(document).ready(function () {
             reader.onload = function (readerEvt) {
                 var binaryString = readerEvt.target.result;
                 var q = btoa(binaryString);
-                $('#client_gstn').val(q);
-                $('#gstn_preview').attr('href','data:application/pdf;base64,' + q);
-                $('#gstn_name').attr(fileName);
+                $("#client_gstn").val(q);
+                $("#gstn_name").val(fileName);
+                $('#gstn_preview').attr('href', 'data:application/pdf;base64,' + q);
+                $('#gstn_preview').attr('download', fileName);
+                $('#gstn_preview').html(fileName);
 
             };
 
@@ -176,34 +178,34 @@ $(document).ready(function () {
 
         var contract_start_date = $("#contract_start_date").datetimepicker('getDate');
         var contract_end_date = $("#contract_end_date").datetimepicker('getDate');
- 
+
         var diff = contract_end_date - contract_start_date;
         var days = diff / 1000 / 60 / 60 / 24;
 
         if (days <= 0) {
-             alert('End Time must be greater than Start Time.');
-             return false;
+            alert('End Time must be greater than Start Time.');
+            return false;
         }
 
         if (myCheckboxes_scope.length == 0) {
-             alert('Atleast one scope must be selected.');
-             return false;
+            alert('Atleast one scope must be selected.');
+            return false;
         }
 
 
         var res = window.confirm("Are you sure you want to update!");
         console.log(res);
-        if(res){
-        $.ajax({
-            url: update_contract,
-            type: "post",
-            data: dataFromForm,
-            success: function (data) {
-                $("#downpdf_link").attr("href", "../../back/generated/contracts/" + data);
-                $('.success-alert').show();
-                $("html, body").animate({ scrollTop: 0 }, "slow");
-            }
-        });
+        if (res) {
+            $.ajax({
+                url: update_contract,
+                type: "post",
+                data: dataFromForm,
+                success: function (data) {
+                    $("#downpdf_link").attr("href", "../../back/generated/contracts/" + data);
+                    $('.success-alert').show();
+                    $("html, body").animate({ scrollTop: 0 }, "slow");
+                }
+            });
         }
 
     });
@@ -236,6 +238,10 @@ function populateClientFields(client_object) {
     $("#client_email_address").val(client_object.client_email_address);
     $("#client_id").val(client_object.client_id);
     $("#client_gstn").val(client_object.client_gstn);
+    $("#gstn_name").val(client_object.client_gstn_name);
+    $('#gstn_preview').attr('href', 'data:application/pdf;base64,' + client_object.client_gstn);
+    $('#gstn_preview').attr('download', client_object.client_gstn_name);
+    $('#gstn_preview').html(client_object.client_gstn_name);
 }
 
 function populateContractFields(contract_object) {                          // To populate contract data...scopes also need to be added
@@ -250,7 +256,11 @@ function populateContractFields(contract_object) {                          // T
     $("#client_gstn").val(contract_object.client_gstn);
     $("#contract_name").val(contract_object.contract_name);
     $("#contract_start_date").val(contract_object.contract_start_date);
+    var parts1 = contract_object.contract_start_date.split('-');
+    $("#contract_start_date").datetimepicker("update", new Date(parts1[0], parts1[1] - 1, parts1[2]));
     $("#contract_end_date").val(contract_object.contract_end_date);
+    var parts2 = contract_object.contract_end_date.split('-');
+    $("#contract_end_date").datetimepicker("update", new Date(parts2[0], parts2[1] - 1, parts2[2]));
     $("#contract_description").val(contract_object.contract_description);
     $("#contract_type").val(contract_object.contract_type);
 

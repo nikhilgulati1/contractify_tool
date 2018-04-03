@@ -31,10 +31,9 @@
         $client_id = $_POST['client_id'];
     } else {
         
-        $query = "INSERT INTO `dd_client` ( `client_id`, `client_name`, `client_spoc`, `client_email_address`, `client_contact_no`, `client_pan`, `client_gstn`,`client_billing_address`,`client_payment_terms`, `client_recurring` ) VALUES (NULL, '".$client_name."', '".$client_spoc."', '".$client_email_address."', '".$client_contact_no."', '".$client_pan."', '".$client_gstn."', '".$client_gstn_name."', '".$client_billing_address."', '".$client_payment_terms."','".$client_payment_terms."','0');";
-
+        $query = "INSERT INTO `dd_client` ( `client_id`, `client_name`, `client_spoc`, `client_email_address`, `client_contact_no`, `client_pan`, `client_gstn`, `client_gstn_name`, `client_billing_address`,`client_payment_terms`, `client_recurring` ) VALUES (NULL, '".$client_name."', '".$client_spoc."', '".$client_email_address."', '".$client_contact_no."', '".$client_pan."', '".$client_gstn."', '".$client_gstn_name."', '".$client_billing_address."','".$client_payment_terms."','0');";
         $result_1 = mysqli_query($conn,$query);
-        print_r($result_1);
+
         
         if($result_1 == 1) {
             $client_id = mysqli_insert_id($conn);
@@ -214,7 +213,6 @@
                 
                 $pdf-> MultiCell(150,5,"".$master[0],0,'L');
         while ($row8 = mysqli_fetch_assoc($value8)){ 
-            print_r($row8);
             if($row8['service_name'] == "Search Engine Optimization"){
                 
                

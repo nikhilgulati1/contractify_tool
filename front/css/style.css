@@ -84,7 +84,18 @@ input[type=submit]:hover {
 .heading h1 {
     color: #fff;
 }
-
+#link_3.btn-primary {
+    color: #A10A63;
+    background-color: #fff;
+    border-color: #A10A63;
+    margin-top: 28px;
+}
+#link_2.btn-primary {
+    color: #A10A63;
+    background-color: #fff;
+    border-color: #A10A63;
+    margin-top: 28px;
+}
 #link_1.btn-primary {
     color: #A10A63;
     background-color: #fff;
