@@ -47,7 +47,7 @@ $(document).ready(function () {
                             "<select id = 'type' ><option value = '1'>" + element.contract_status + "</option></select>",
                             "<a id ='gstn_preview' download='" + element.client_gstn_name + "' href='data:application/pdf;base64," + element.client_gstn + "' >" + element.client_gstn_name + "</a>",
 
-                            "<a  class ='update' href='./update.php?id=" + element.contract_id + "'><img src= './images/udate-icon.png ' title='Update Contract'/></a><a  class = 'view' href = './read.php?id=" + element.contract_id + "'><img src= './images/view.png' title='View Contract'/></a><a download='dd_c" + element.contract_id + ".pdf' class='download' href='./../back/generated/contracts/dd_c" + element.contract_id + ".pdf'><img src= './images/pdf-download.png' title='Download Contract'/></a><a class ='del' href ='#' onClick='recp(" + element.contract_id + ")'><img src = './images/remove.png' title='Delete Contract'/></a>"
+                            "<a  class ='update' href='./update.php?id=" + element.contract_id + "'><img src= './images/udate-icon.png ' title='Update Contract'/></a><a  class = 'view' href = './read.phps?id=" + element.contract_id + "'><img src= './images/view.png' title='View Contract'/></a><a download='dd_c" + element.contract_id + ".pdf' class='download' href='./../back/generated/contracts/dd_c" + element.contract_id + ".pdf'><img src= './images/pdf-download.png' title='Download Contract'/></a><a class ='del' href ='#' onClick='recp(" + element.contract_id + ")'><img src = './images/remove.png' title='Delete Contract'/></a>"
                         ]
 
                     );
