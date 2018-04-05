@@ -194,7 +194,7 @@ $(document).ready(function () {
 
 
         var res = window.confirm("Are you sure you want to update!");
-        console.log(res);
+        //console.log(res);
         if (res) {
             $.ajax({
                 url: update_contract,

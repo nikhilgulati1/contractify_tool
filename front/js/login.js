@@ -9,12 +9,12 @@ $(document).ready(function () {
 			data: dataFromLogin,
 			success: function (data){
 				console.log(data);
-				if(data == '1'){
-   	 				 	window.location.href ="../front/select.php";
+				if(data == 1){
+   	 				 	window.location.href ="../front/index.php";
 
  				}
- 				else if(data == '0'){
- 						window.location.href ="../front/index.php";
+ 				else if(data == 0){
+ 						window.location.href ="../front/dashboard.php";
  				}
 
 				else{

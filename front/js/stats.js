@@ -5,11 +5,14 @@ $(document).ready(function () {
 		type: "get",
 		data: {},
 		success:function(data){
-			//var list = JSON.parse(data);
-			console.log(data);
-			// list.forEach(element => {
-			// 	$('#con').append(list.);
-			// });
+			var list = JSON.parse(data);
+			console.log(list);
+			
+				$('#con').html(list.total_contracts);
+				$('#cli').html(list.total_client);
+				$('#mas').html(list.total_master);
+
+			
 		}
 
 

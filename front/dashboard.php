@@ -1,12 +1,20 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
+    <?php 
+        
+        session_start();
+        if(! isset($_SESSION['logged_in'])){
+            
+            header("Location:login.html");
+        }
+    ?>
     <meta charset="utf-8" />
-    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+    <!-- <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png"> -->
     <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-    <title>Paper Dashboard by Creative Tim</title>
+  
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -20,7 +28,7 @@
 
     <!--  Paper Dashboard core CSS    -->
     <link href="assets/css/paper-dashboard.css" rel="stylesheet"/>
-
+    <link rel="stylesheet" href="css/style.css" />
 
     <!--  Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
@@ -31,6 +39,7 @@
 <body>
 
 <div class="wrapper">
+
     <div class="sidebar" data-background-color="white" data-active-color="danger">
 
     <!--
@@ -58,31 +67,31 @@
                 </li>
                 <li>
                     <a href="upload.php">
-                        <i class="ti-view-list-alt"></i>
+                        <i class="ti-cloud-up"></i>
                         <p>Upload</p>
                     </a>
                 </li>
                 <li>
                     <a href="services.php">
-                        <i class="ti-text"></i>
+                        <i class="ti-check-box"></i>
                         <p>Select Services</p>
                     </a>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="index.php">
                         <i class="ti-pencil-alt2"></i>
                         <p>View Grid</p>
                     </a>
-                </li>
-                <li>
+                </li> -->
+                <!-- <li>
                     <a href="maps.html">
                         <i class="ti-map"></i>
                         <p>Maps</p>
                     </a>
-                </li>
+                </li> -->
                 <li>
                     <a href="login.html">
-                        <i class="ti-bell"></i>
+                        <i class="ti-power-off"></i>
                         <p>Logout</p>
                     </a>
                 </li>
@@ -114,7 +123,7 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-3 col-sm-6">
+                    <div class="col-lg-4 col-sm-6">
                         <div class="card">
                             <div class="content">
                                 <div class="row">
@@ -126,20 +135,20 @@
                                     <div class="col-xs-7">
                                         <div class="numbers">
                                             <p>Total Contracts</p>
-                                            <p id = "con"></p>
+                                            <span id = "con"></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="footer">
+                                <!-- <div class="footer">
                                     <hr />
                                     <div class="stats">
                                         <i class="ti-reload"></i> Updated now
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-sm-6">
+                    <div class="col-lg-4 col-sm-6">
                         <div class="card">
                             <div class="content">
                                 <div class="row">
@@ -151,20 +160,20 @@
                                     <div class="col-xs-7">
                                         <div class="numbers">
                                             <p>Total clients</p>
-                                            <p id = "cli"></p>
+                                            <span id = "cli"></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="footer">
+                                <!-- <div class="footer">
                                     <hr />
                                     <div class="stats">
                                         <i class="ti-calendar"></i> Last day
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-sm-6">
+                    <div class="col-lg-4 col-sm-6">
                         <div class="card">
                             <div class="content">
                                 <div class="row">
@@ -180,16 +189,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="footer">
+                                <!-- <div class="footer">
                                     <hr />
                                     <div class="stats">
                                         <i class="ti-timer"></i> In the last hour
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-sm-6">
+                    <!-- <div class="col-lg-3 col-sm-6">
                         <div class="card">
                             <div class="content">
                                 <div class="row">
@@ -213,9 +222,16 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
-                <div class="row">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-12 nopad">
+                            <div id="table_div"></div>
+                        </div>
+                    </div>
+                </div>     
+                <!-- <div class="row">
 
                     <div class="col-md-12">
                         <div class="card">
@@ -285,10 +301,10 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
-        </div>
+    
 
 
         <footer class="footer">
@@ -314,7 +330,7 @@
                     </ul> -->
                 </nav>
                 <div class="copyright pull-right">
-                    &copy; <script>document.write(new Date().getFullYear())</script>, made with <i class="fa fa-heart heart"></i> by <a href="http://www.creative-tim.com">Creative Tim</a>
+                    &copy; <script>document.write(new Date().getFullYear())</script> by <a href="http://www.dignitasdigital.com/">Dignitas Digital</a>
                 </div>
             </div>
         </footer>
@@ -340,8 +356,11 @@
 
     <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
     <script src="assets/js/paper-dashboard.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="js/path.js"></script>
     <script src="js/stats.js"></script>
+    <script src="js/app.js"></script>
+
 
     <!-- <script type="text/javascript">
         $(document).ready(function(){

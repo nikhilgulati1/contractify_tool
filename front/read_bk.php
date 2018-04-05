@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div class="col-sm-2 ">
-                <a id="link_1" href="dashboard.php" class="btn btn-primary pull-right" role="button" aria-pressed="true">Back</a>
+                <a id="link_1" href="index.php" class="btn btn-primary pull-right" role="button" aria-pressed="true">View All</a>
             </div>
         </div>
     </div>

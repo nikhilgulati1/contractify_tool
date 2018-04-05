@@ -26,14 +26,21 @@
    
     
     $client_id = null;
+    $q = "SELECT `client_id` FROM dd_client WHERE `client_pan` = '".$client_pan."' ";
+    $r = mysqli_num_rows(mysqli_query($conn,$q));
 
+    
     if(!empty($_POST['client_id'])) {
         $client_id = $_POST['client_id'];
-    } else {
         
+
+    }
+
+    else {
+      if($r<1){  
         $query = "INSERT INTO `dd_client` ( `client_id`, `client_name`, `client_spoc`, `client_email_address`, `client_contact_no`, `client_pan`, `client_gstn`, `client_gstn_name`, `client_billing_address`,`client_payment_terms`, `client_recurring` ) VALUES (NULL, '".$client_name."', '".$client_spoc."', '".$client_email_address."', '".$client_contact_no."', '".$client_pan."', '".$client_gstn."', '".$client_gstn_name."', '".$client_billing_address."','".$client_payment_terms."','0');";
         $result_1 = mysqli_query($conn,$query);
-
+      }
         
         if($result_1 == 1) {
             $client_id = mysqli_insert_id($conn);
@@ -42,7 +49,7 @@
         }
     }
 
-    $query_2 = "INSERT INTO `dd_contract_main` (`contract_id`, `client_id`, `contract_name`, `contract_start_date`, `contract_end_date`, `contract_description`, `contract_type`,`contract_status`, `last_modified`) VALUES (NULL, '".$client_id."', '".$contract_name."', '".$contract_start_date."', '".$contract_end_date."', '".$contract_description."', '".$contract_type."', 'Proposal', ".time().");";
+    $query_2 = "INSERT INTO `dd_contract_main` (`contract_id`, `client_id`, `contract_name`, `contract_start_date`, `contract_end_date`, `contract_description`, `contract_type`,`contract_status`, `last_modified`) VALUES (NULL, '".$client_id."', '".$contract_name."', '".$contract_start_date."', '".$contract_end_date."', '".$contract_description."', '".$contract_type."', '0', ".time().");";
 
     $result_2 = mysqli_query($conn,$query_2);
 
@@ -300,7 +307,7 @@
         }
 
 
-         $pdf -> SetFont('Arial','B', 10);
+        $pdf -> SetFont('Arial','B', 10);
         $pdf -> SetTextColor(66,95,244);
         $pdf-> Write(10,"PRICING");
         $pdf -> SetTextColor(0,0,0);
@@ -327,6 +334,7 @@
         
         $pdf-> MultiCell(150,5,"-Applicable taxes additional(Currently GST @ 18%)",0,'L');
         $pdf->Ln(3);
+        $pdf -> AddPage();
         $pdf -> SetFont('Arial','B', 10);
         $pdf -> SetTextColor(66,95,244);
         $pdf-> Write(10,"LEGAL");

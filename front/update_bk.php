@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div class="col-sm-2 ">
-                <a id="link_1" href="dashboard.php" class="btn btn-primary pull-right" role="button" aria-pressed="true">Back</a>
+                <a id="link_1" href="index.php" class="btn btn-primary pull-right" role="button" aria-pressed="true">View All</a>
             </div>
         </div>
         <div class="main-container">
@@ -101,7 +101,7 @@
                                         <input type="text" id="client_email_address" name="client_email_address">
                                     </li>
                                     <!-- <label for="client_gstn">Client GSTN</label>
-                        <input type="file" name="fileToUpload" id="client_gstn"> -->
+						<input type="file" name="fileToUpload" id="client_gstn"> -->
                                     <input type="hidden" id="client_id" name="client_id" value="">
                                     <br>
                                     <br>

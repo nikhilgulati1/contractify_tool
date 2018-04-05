@@ -1,5 +1,6 @@
 $(document).ready(function () {
 
+    
     $('#link_2').click(function(){
         $.ajax({
             url: logout,
@@ -12,6 +13,7 @@ $(document).ready(function () {
         });
 
     });
+    
 
     google.charts.load('current', { 'packages': ['table'] });
     google.charts.setOnLoadCallback(loadTableSchema);
@@ -34,7 +36,27 @@ $(document).ready(function () {
                     } else {
                         con_type = "Digital Marketing and Technical";
                     }
+                    var temp = null;
+                    var con_stat = null;
+                    if(element.contract_status == 0){
+                        con_stat = "Proposal";
 
+                    }
+                    else if(element.contract_status == 1){
+                        con_stat = "Agreement";
+                    }
+                    else {
+                        con_stat = "Started";
+                    }
+                    var status_temp_array = ['Proposal', 'Agreement', 'Started'];
+                    for(var i = 0 ; i<3;i++){
+                        if(con_stat == status_temp_array[i] ){
+                            temp += '<option value="'+i+'" selected = "selected">'+status_temp_array[i]+'</option>';
+                            //console.log(temp);
+                        } else {
+                            temp += '<option value="'+i+'">'+status_temp_array[i]+'</option>';
+                        }
+                    }
                     gridData.addRow(
 
                         [
@@ -44,14 +66,16 @@ $(document).ready(function () {
                             element.contract_start_date,
                             element.contract_end_date,
                             element.client_email_address,
-                            "<select id = 'type' ><option value = '1'>" + element.contract_status + "</option></select>",
+                            "<select id = 'type' onchange = 'status(this, "+element.contract_id+")' >"+temp+"</select>",
                             "<a id ='gstn_preview' download='" + element.client_gstn_name + "' href='data:application/pdf;base64," + element.client_gstn + "' >" + element.client_gstn_name + "</a>",
 
-                            "<a  class ='update' href='./update.php?id=" + element.contract_id + "'><img src= './images/udate-icon.png ' title='Update Contract'/></a><a  class = 'view' href = './read.phps?id=" + element.contract_id + "'><img src= './images/view.png' title='View Contract'/></a><a download='dd_c" + element.contract_id + ".pdf' class='download' href='./../back/generated/contracts/dd_c" + element.contract_id + ".pdf'><img src= './images/pdf-download.png' title='Download Contract'/></a><a class ='del' href ='#' onClick='recp(" + element.contract_id + ")'><img src = './images/remove.png' title='Delete Contract'/></a>"
+                            "<a  class ='update' href='./update.php?id=" + element.contract_id + "'><img src= './images/udate-icon.png ' title='Update Contract'/></a><a  class = 'view' href = './read.php?id=" + element.contract_id + "'><img src= './images/view.png' title='View Contract'/></a><a download='dd_c" + element.contract_id + ".pdf' class='download' href='./../back/generated/contracts/dd_c" + element.contract_id + ".pdf'><img src= './images/pdf-download.png' title='Download Contract'/></a><a class ='del' href ='#' onClick='recp(" + element.contract_id + ")'><img src = './images/remove.png' title='Delete Contract'/></a>"
                         ]
 
                     );
 
+                   
+                   // console.log(element.contract_status);
                 });
                 drawTable();
             }
@@ -59,6 +83,8 @@ $(document).ready(function () {
 
     }
 
+
+   
     function loadTableSchema() {
         gridData = new google.visualization.DataTable();
         gridData.addColumn('string', 'S.No.');
@@ -78,9 +104,11 @@ $(document).ready(function () {
     function drawTable() {
         var table = new google.visualization.Table(document.getElementById('table_div'));
         table.draw(gridData, { width: '100%', height: '100%', allowHtml: true, cssClassNames: { headerRow: 'grid_headerRow', tableRow: 'grid_tableRow', headerCell: 'grid_headerCell', tableCell: 'grid_tableCell' } });
-    };
+    }
+    
 
 });
+
 
 function recp(id) {
     var res = window.confirm("Are you sure you want to delete!");
@@ -97,4 +125,26 @@ function recp(id) {
     }
 
 }
+function status(sel,id){
+    //var stat = sel.value;
+    var obj = {key1:sel.value, key2:id};
+    
 
+    //console.log(obj);
+
+        var res = window.confirm("Are you sure you want to change status");
+
+        if (res) {
+            $.ajax({
+                url: update_status,
+                type: "post",
+                data: obj,
+                success: function (data) {
+                    
+                }
+            });
+        }
+
+
+
+}

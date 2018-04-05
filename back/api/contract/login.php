@@ -1,6 +1,7 @@
 <?php 
     session_start();
     include("../common/db.php");
+    //print_r($_POST);
     if(isset($_POST["uname"], $_POST["pwd"])) 
     {     
     	//print_r($_POST);
@@ -24,6 +25,7 @@
             { 
                 $_SESSION["logged_in"] = true; 
                 $_SESSION["name"] = $username; 
+                //$_SESSION["type"] = 
             //header("location: ../../../front/index.html");
                 echo $row['type'];
             }

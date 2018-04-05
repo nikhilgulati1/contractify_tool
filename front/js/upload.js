@@ -25,7 +25,7 @@ $("#contract_upload").change(function (evt) {
         }
 });
 
-  $.ajax({
+    $.ajax({
 
             url: read_name,
             type: "get",
@@ -37,7 +37,7 @@ $("#contract_upload").change(function (evt) {
                     $(".list").append('<li>"'+service.file_name+'"</li>');
                 });
             }    
-        });        
+    });        
 
  $("#upload_contract").submit(function (event) {
  		event.preventDefault();
@@ -57,6 +57,19 @@ $("#contract_upload").change(function (evt) {
 
             }
         });
+        $.ajax({
+
+            url: read_name,
+            type: "get",
+            data: {},
+            success: function(data){
+                nameList = JSON.parse(data);
+                console.log(nameList);
+                nameList.forEach(service => {
+                    $(".list").append('<li>"'+service.file_name+'"</li>');
+                });
+            }    
+    });   
        
   });
 });

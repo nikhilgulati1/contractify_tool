@@ -206,7 +206,7 @@ input[type=text], input[type=file], select, textarea {
 .chosbox {padding-bottom: 50px;}
 .chosbox p{display: inline;padding-right:10px;}
 .chosbox select{display: inline;}
-.main-container{width:1200px; margin:0 auto;}
+.main-container{width:1000px; margin:0 auto;}
 .addnewbox p{font-weight: bold;}
 .addnewbox ul{margin: 0; padding:0; padding-top:40px;}
 .addnewbox ul li{display: inline-block;list-style: none; width:49%; margin-bottom: 30px;padding:0;padding-right: 30px;vertical-align: top;}
@@ -214,3 +214,20 @@ input[type=text], input[type=file], select, textarea {
 .seobox > ul li{background-color:#f5f5f5;padding:20px; margin-bottom: 30px;}
 .tick{display: inline-block;vertical-align: top;}
 .succs{display: inline-block; max-width: 80%;}
+
+.col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9{
+    position: relative;
+    min-height: 1px;
+    padding-right: 5px;
+    padding-left: 1px;
+}
+.nav {
+    /* display: -webkit-box; */
+    display:block;
+    /* display: flex; */
+    -ms-flex-wrap: block;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
