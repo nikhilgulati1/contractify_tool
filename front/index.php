@@ -9,7 +9,7 @@
             header("Location:login.html");
         }
     ?>
-
+    
     <title>Contractify</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
@@ -26,8 +26,8 @@
                 <div class="logo"><img src="images/logo.png" /></div>
             </div>
             <div class="col-sm-3">
-                <a id="link_0" href="upload.php" class="btn btn-primary align-middle" role="button" aria-pressed="true">Upload Contract</a>
-                <a id="link_1" href="create.php" class="btn btn-primary pull-right align-middle" role="button" aria-pressed="true">New Contract</a>
+                <a id="link_0" href="upload_bk.php" class="btn btn-primary align-middle" role="button" aria-pressed="true">Upload Contract</a>
+                <a id="link_1" href="create_bk.php" class="btn btn-primary pull-right align-middle" role="button" aria-pressed="true">New Contract</a>
                 <a id="link_2" href="login.html" class="btn btn-primary align-middle" role="button" aria-pressed="true">Logout</a>
             </div>
         </div>

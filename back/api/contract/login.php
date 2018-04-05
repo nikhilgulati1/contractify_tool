@@ -25,8 +25,7 @@
             { 
                 $_SESSION["logged_in"] = true; 
                 $_SESSION["name"] = $username; 
-                //$_SESSION["type"] = 
-            //header("location: ../../../front/index.html");
+    
                 echo $row['type'];
             }
             else

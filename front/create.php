@@ -70,7 +70,7 @@
                 	</li>
                 	<li>
                     	<a href="upload.php">
-                        	<i class="ti-cloud-upt"></i>
+                        	<i class="ti-cloud-up"></i>
                         	<p>Upload</p>
                    		</a>
                 	</li>
